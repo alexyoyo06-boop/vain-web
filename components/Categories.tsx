@@ -65,20 +65,20 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
         )}
 
         <div
-          className={`absolute inset-x-0 bottom-0 p-5 flex items-end justify-between ${
+          className={`absolute inset-x-0 bottom-0 p-4 md:p-5 flex items-end justify-between gap-3 ${
             it.image ? "text-bone" : ""
           }`}
         >
-          <div>
-            <p className={`text-sm ${it.image ? "text-bone/80" : "text-ink-soft/80"}`}>
+          <div className="min-w-0 flex-1">
+            <p className={`text-xs md:text-sm ${it.image ? "text-bone/80" : "text-ink-soft/80"}`}>
               {it.tag}
             </p>
-            <p className="font-display uppercase text-2xl md:text-3xl tracking-tighter leading-none mt-1">
+            <p className="font-display uppercase text-lg md:text-3xl tracking-tighter leading-none mt-1 break-words">
               {it.name}
             </p>
           </div>
-          <div className="size-10 rounded-full bg-ink text-bone flex items-center justify-center group-hover:bg-blood transition-colors">
-            <ArrowRight className="size-4" strokeWidth={2.25} />
+          <div className="shrink-0 size-9 md:size-10 rounded-full bg-bone/95 text-ink backdrop-blur flex items-center justify-center group-hover:bg-ink group-hover:text-bone transition-colors shadow-soft">
+            <ArrowRight className="size-3.5 md:size-4" strokeWidth={2.25} />
           </div>
         </div>
 
@@ -156,7 +156,7 @@ export default function Categories() {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
-        className="md:hidden overflow-x-auto no-scrollbar overscroll-x-contain"
+        className="md:hidden overflow-x-auto no-scrollbar overscroll-x-contain pb-3"
       >
         <div className="flex pl-4">
           {items.map((it, i) => (

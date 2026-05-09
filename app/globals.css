@@ -46,7 +46,8 @@ body {
 .animate-marquee-thirds,
 .animate-marquee-thirds-fast {
   will-change: transform;
-  backface-visibility: hidden;
+  contain: layout paint style;
+  transform: translateZ(0);
 }
 .animate-marquee {
   animation: marquee 20s linear infinite;
@@ -68,8 +69,18 @@ body {
 }
 
 /* Hide scrollbar */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar-track,
+.no-scrollbar::-webkit-scrollbar-thumb {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
 
 /* Soft shadow for cards / buttons */
 .shadow-soft {
