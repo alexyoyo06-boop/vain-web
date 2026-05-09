@@ -43,7 +43,7 @@ export default function HoodiesGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-3 gap-3 md:gap-6">
           {hoodies.map((h, i) => (
             <motion.div
               key={h.slug}
@@ -57,13 +57,13 @@ export default function HoodiesGrid() {
                 <motion.div
                   whileHover={{ y: -6 }}
                   whileTap={{ scale: 0.98 }}
-                  className="relative aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden shadow-soft mb-4"
+                  className="relative aspect-[3/4] rounded-2xl md:rounded-3xl bg-bone-dim overflow-hidden shadow-soft mb-2 md:mb-4"
                 >
                   <Image
                     src={h.image}
                     alt={h.name}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 33vw, 33vw"
                     className={`object-cover transition-opacity duration-500 ${
                       hovered === h.slug ? "opacity-0" : "opacity-100"
                     }`}
@@ -72,28 +72,28 @@ export default function HoodiesGrid() {
                     src={h.hoverImage}
                     alt={`${h.name} vestida`}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 33vw, 33vw"
                     className={`object-cover transition-opacity duration-500 ${
                       hovered === h.slug ? "opacity-100" : "opacity-0"
                     }`}
                   />
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-ink text-bone text-xs z-10">
+                  <span className="absolute top-2 left-2 md:top-4 md:left-4 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-ink text-bone text-[10px] md:text-xs z-10">
                     {h.drop}
                   </span>
-                  <div className="absolute bottom-4 right-4 size-11 rounded-full bg-bone/95 backdrop-blur flex items-center justify-center transition-all group-hover:bg-ink group-hover:text-bone z-10">
+                  <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 size-7 md:size-11 rounded-full bg-bone/95 backdrop-blur flex items-center justify-center transition-all group-hover:bg-ink group-hover:text-bone z-10 text-xs md:text-base">
                     →
                   </div>
                 </motion.div>
-                <div className="flex justify-between items-start">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-1 md:gap-0">
                   <div>
-                    <p className="font-display uppercase text-xl md:text-2xl tracking-tighter leading-tight">
+                    <p className="font-display uppercase text-sm md:text-2xl tracking-tighter leading-tight">
                       {h.name}
                     </p>
-                    <p className="text-sm text-ink-soft mt-1">{h.drop}</p>
+                    <p className="text-[11px] md:text-sm text-ink-soft mt-0.5 md:mt-1">{h.drop}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-lg">{h.price}</p>
-                    <p className="text-xs line-through text-ink-soft/50">
+                  <div className="md:text-right">
+                    <p className="text-sm md:text-lg">{h.price}</p>
+                    <p className="text-[10px] md:text-xs line-through text-ink-soft/50">
                       {h.oldPrice}
                     </p>
                   </div>

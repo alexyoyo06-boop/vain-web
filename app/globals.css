@@ -35,10 +35,16 @@ body {
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(-50%, 0, 0); }
 }
+@keyframes marquee-thirds {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-100% / 3), 0, 0); }
+}
 .animate-marquee,
 .animate-marquee-slow,
 .animate-marquee-fast,
-.animate-marquee-rev {
+.animate-marquee-rev,
+.animate-marquee-thirds,
+.animate-marquee-thirds-fast {
   will-change: transform;
   backface-visibility: hidden;
 }
@@ -49,10 +55,16 @@ body {
   animation: marquee 60s linear infinite;
 }
 .animate-marquee-fast {
-  animation: marquee 12s linear infinite;
+  animation: marquee 10s linear infinite;
 }
 .animate-marquee-rev {
   animation: marquee 30s linear infinite reverse;
+}
+.animate-marquee-thirds {
+  animation: marquee-thirds 28s linear infinite;
+}
+.animate-marquee-thirds-fast {
+  animation: marquee-thirds 14s linear infinite;
 }
 
 /* Hide scrollbar */
