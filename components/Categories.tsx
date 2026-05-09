@@ -96,21 +96,30 @@ export default function Categories() {
   const [paused, setPaused] = useState(false);
   const mobileScrollRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
+  const posRef = useRef(0);
 
   useEffect(() => {
     const el = mobileScrollRef.current;
     if (!el) return;
-    const id = setInterval(() => {
-      if (pausedRef.current) return;
-      const cardW = 246;
-      const max = el.scrollWidth - el.clientWidth;
-      if (el.scrollLeft >= max - 4) {
-        el.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        el.scrollBy({ left: cardW, behavior: "smooth" });
+    let raf = 0;
+    let last = performance.now();
+    const speed = 36; // px por segundo
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (!pausedRef.current) {
+        const setWidth = el.scrollWidth / 2;
+        if (setWidth > 0) {
+          posRef.current += speed * dt;
+          if (posRef.current >= setWidth) posRef.current -= setWidth;
+          el.scrollLeft = Math.round(posRef.current);
+        }
       }
-    }, 2800);
-    return () => clearInterval(id);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const handleTouchStart = () => {
@@ -118,8 +127,15 @@ export default function Categories() {
   };
   const handleTouchEnd = () => {
     setTimeout(() => {
+      const el = mobileScrollRef.current;
+      if (el) {
+        const setWidth = el.scrollWidth / 2;
+        let pos = el.scrollLeft;
+        if (setWidth > 0 && pos >= setWidth) pos -= setWidth;
+        posRef.current = pos;
+      }
       pausedRef.current = false;
-    }, 1800);
+    }, 700);
   };
 
   return (
@@ -134,17 +150,20 @@ export default function Categories() {
         </h2>
       </div>
 
-      {/* Mobile: deslizable con el dedo + auto-scroll que se pausa al tocar */}
+      {/* Mobile: scroll continuo infinito (auto + swipe). Sin snap para que fluya */}
       <div
         ref={mobileScrollRef}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
-        className="md:hidden overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-4 overscroll-x-contain"
+        className="md:hidden overflow-x-auto no-scrollbar overscroll-x-contain"
       >
-        <div className="flex pl-4 pr-4">
+        <div className="flex pl-4">
           {items.map((it, i) => (
-            <CategoryCard key={i} it={it} snap />
+            <CategoryCard key={`a-${i}`} it={it} />
+          ))}
+          {items.map((it, i) => (
+            <CategoryCard key={`b-${i}`} it={it} ariaHidden />
           ))}
         </div>
       </div>
