@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 type Item = {
   name: string;
@@ -76,8 +77,8 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
               {it.name}
             </p>
           </div>
-          <div className="size-10 rounded-full bg-ink text-bone flex items-center justify-center text-sm group-hover:bg-blood transition-colors">
-            →
+          <div className="size-10 rounded-full bg-ink text-bone flex items-center justify-center group-hover:bg-blood transition-colors">
+            <ArrowRight className="size-4" strokeWidth={2.25} />
           </div>
         </div>
 
@@ -93,6 +94,33 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
 
 export default function Categories() {
   const [paused, setPaused] = useState(false);
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const el = mobileScrollRef.current;
+    if (!el) return;
+    const id = setInterval(() => {
+      if (pausedRef.current) return;
+      const cardW = 246;
+      const max = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= max - 4) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: cardW, behavior: "smooth" });
+      }
+    }, 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const handleTouchStart = () => {
+    pausedRef.current = true;
+  };
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      pausedRef.current = false;
+    }, 1800);
+  };
 
   return (
     <section className="bg-bone py-12 md:py-16 overflow-hidden">
@@ -106,8 +134,14 @@ export default function Categories() {
         </h2>
       </div>
 
-      {/* Mobile: deslizable con el dedo, snap a cada card */}
-      <div className="md:hidden overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-4 overscroll-x-contain">
+      {/* Mobile: deslizable con el dedo + auto-scroll que se pausa al tocar */}
+      <div
+        ref={mobileScrollRef}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+        className="md:hidden overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-4 overscroll-x-contain"
+      >
         <div className="flex pl-4 pr-4">
           {items.map((it, i) => (
             <CategoryCard key={i} it={it} snap />

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { ArrowUpRight, X } from "lucide-react";
 
 const categories = [
   { name: "Hoodies", count: 1, href: "/hoodies" },
@@ -111,10 +112,10 @@ export default function Nav() {
               <motion.button
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setOpen(false)}
-                className="size-10 rounded-full bg-ink text-bone flex items-center justify-center text-lg hover:bg-blood transition-colors"
+                className="size-10 rounded-full bg-ink text-bone flex items-center justify-center hover:bg-blood transition-colors"
                 aria-label="Cerrar menú"
               >
-                ×
+                <X className="size-5" strokeWidth={2.25} />
               </motion.button>
             </div>
 
@@ -153,17 +154,19 @@ export default function Nav() {
                   href="https://www.instagram.com/v4in.shop/"
                   target="_blank"
                   rel="noreferrer"
-                  className="px-5 py-3 rounded-full bg-ink/5 hover:bg-ink hover:text-bone transition-colors text-sm"
+                  className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full bg-ink/5 hover:bg-ink hover:text-bone transition-colors text-sm"
                 >
-                  Instagram ↗
+                  Instagram
+                  <ArrowUpRight className="size-3.5" strokeWidth={2.25} />
                 </a>
                 <a
                   href="https://www.tiktok.com/@v4in.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="px-5 py-3 rounded-full bg-ink/5 hover:bg-ink hover:text-bone transition-colors text-sm"
+                  className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full bg-ink/5 hover:bg-ink hover:text-bone transition-colors text-sm"
                 >
-                  TikTok ↗
+                  TikTok
+                  <ArrowUpRight className="size-3.5" strokeWidth={2.25} />
                 </a>
                 <a
                   href="mailto:press@v4in.com"

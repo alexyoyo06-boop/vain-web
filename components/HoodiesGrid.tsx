@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const hoodies = [
   {
@@ -29,7 +30,8 @@ export default function HoodiesGrid() {
             href="/"
             className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-ink transition-colors"
           >
-            ← Volver
+            <ArrowLeft className="size-4" strokeWidth={2.25} />
+            Volver
           </Link>
           <h1
             className="font-display uppercase tracking-tighter leading-none mt-4"
@@ -80,8 +82,8 @@ export default function HoodiesGrid() {
                   <span className="absolute top-2 left-2 md:top-4 md:left-4 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-ink text-bone text-[10px] md:text-xs z-10">
                     {h.drop}
                   </span>
-                  <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 size-7 md:size-11 rounded-full bg-bone/95 backdrop-blur flex items-center justify-center transition-all group-hover:bg-ink group-hover:text-bone z-10 text-xs md:text-base">
-                    →
+                  <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 size-7 md:size-11 rounded-full bg-bone/95 backdrop-blur flex items-center justify-center transition-all group-hover:bg-ink group-hover:text-bone z-10">
+                    <ArrowRight className="size-3.5 md:size-4" strokeWidth={2.25} />
                   </div>
                 </motion.div>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-1 md:gap-0">

@@ -1,3 +1,20 @@
+import { ArrowUpRight, Asterisk } from "lucide-react";
+
+const renderPhrase = (key: string) => (
+  <span
+    key={key}
+    className="shrink-0 inline-flex items-center font-display uppercase tracking-tighter leading-none pr-8 md:pr-12"
+    style={{ fontSize: "clamp(4rem, 18vw, 18rem)" }}
+  >
+    VAIN
+    <Asterisk
+      className="ml-[0.15em] shrink-0"
+      style={{ width: "0.7em", height: "0.7em" }}
+      strokeWidth={1.5}
+    />
+  </span>
+);
+
 export default function Footer() {
   const half = Array.from({ length: 6 });
 
@@ -6,26 +23,10 @@ export default function Footer() {
       <div className="overflow-hidden py-2">
         <div className="flex animate-marquee-fast md:animate-marquee-slow whitespace-nowrap">
           <div className="flex shrink-0">
-            {half.map((_, i) => (
-              <span
-                key={`a-${i}`}
-                className="shrink-0 font-display uppercase tracking-tighter leading-none pr-8 md:pr-12"
-                style={{ fontSize: "clamp(4rem, 18vw, 18rem)" }}
-              >
-                VAIN ✱
-              </span>
-            ))}
+            {half.map((_, i) => renderPhrase(`a-${i}`))}
           </div>
           <div className="flex shrink-0" aria-hidden="true">
-            {half.map((_, i) => (
-              <span
-                key={`b-${i}`}
-                className="shrink-0 font-display uppercase tracking-tighter leading-none pr-8 md:pr-12"
-                style={{ fontSize: "clamp(4rem, 18vw, 18rem)" }}
-              >
-                VAIN ✱
-              </span>
-            ))}
+            {half.map((_, i) => renderPhrase(`b-${i}`))}
           </div>
         </div>
       </div>
@@ -57,27 +58,37 @@ export default function Footer() {
             href="https://www.instagram.com/v4in.shop/"
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-baseline gap-3 font-display uppercase tracking-tighter leading-none hover:text-bone transition-colors"
+            className="group inline-flex items-center gap-2 font-display uppercase tracking-tighter leading-none hover:text-bone transition-colors"
             style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)" }}
           >
             Instagram
-            <span aria-hidden className="text-xl transition-transform group-hover:translate-x-2">↗</span>
+            <ArrowUpRight
+              aria-hidden
+              className="shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+              style={{ width: "0.7em", height: "0.7em" }}
+              strokeWidth={2}
+            />
           </a>
           <a
             href="https://www.tiktok.com/@v4in.com"
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-baseline gap-3 font-display uppercase tracking-tighter leading-none hover:text-blood transition-colors"
+            className="group inline-flex items-center gap-2 font-display uppercase tracking-tighter leading-none hover:text-blood transition-colors"
             style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)" }}
           >
             TikTok
-            <span aria-hidden className="text-xl transition-transform group-hover:translate-x-2">↗</span>
+            <ArrowUpRight
+              aria-hidden
+              className="shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+              style={{ width: "0.7em", height: "0.7em" }}
+              strokeWidth={2}
+            />
           </a>
           <a
             href="mailto:press@v4in.com"
             className="text-bone/70 hover:text-bone underline underline-offset-4"
           >
-            Colabos / prensa → press@v4in.com
+            Colabos / prensa: press@v4in.com
           </a>
         </div>
       </div>

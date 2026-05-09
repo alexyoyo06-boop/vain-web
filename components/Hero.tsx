@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -64,7 +65,7 @@ export default function Hero() {
           >
             <span className="hidden sm:inline">Comprar Drop/01 — €39,99</span>
             <span className="sm:hidden">Comprar — €39,99</span>
-            <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+            <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
           </motion.a>
         </motion.div>
       </div>

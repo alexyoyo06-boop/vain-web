@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 
@@ -60,7 +61,8 @@ export default function ProductShowcase() {
                 </motion.div>
               ))}
               <span className="absolute top-4 right-4 z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ink/85 text-bone text-xs backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                Ver detalle →
+                Ver detalle
+                <ArrowRight className="size-3.5" strokeWidth={2.25} />
               </span>
             </Link>
 
@@ -69,14 +71,14 @@ export default function ProductShowcase() {
               aria-label="Foto anterior"
               className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-bone/90 hover:bg-ink hover:text-bone backdrop-blur flex items-center justify-center transition-colors"
             >
-              ←
+              <ArrowLeft className="size-4" strokeWidth={2.25} />
             </button>
             <button
               onClick={() => setActive((a) => (a + 1) % photos.length)}
               aria-label="Foto siguiente"
               className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-bone/90 hover:bg-ink hover:text-bone backdrop-blur flex items-center justify-center transition-colors"
             >
-              →
+              <ArrowRight className="size-4" strokeWidth={2.25} />
             </button>
 
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
@@ -171,9 +173,16 @@ export default function ProductShowcase() {
               animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-3"
             >
-              {added ? "✓ Añadido al carrito" : `Añadir al carrito · talla ${size}`}
-              {!added && (
-                <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+              {added ? (
+                <>
+                  <Check className="size-5" strokeWidth={2.25} />
+                  Añadido al carrito
+                </>
+              ) : (
+                <>
+                  Añadir al carrito · talla {size}
+                  <ArrowRight aria-hidden className="size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
+                </>
               )}
             </motion.span>
           </motion.button>
