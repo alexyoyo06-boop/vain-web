@@ -41,7 +41,7 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
       <Tag
         href={it.href}
         tabIndex={ariaHidden ? -1 : undefined}
-        className="group relative block w-[230px] md:w-[280px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
+        className="group relative block w-[230px] md:w-[280px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden"
       >
         {it.image ? (
           <Image

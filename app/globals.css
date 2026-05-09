@@ -46,8 +46,7 @@ body {
 .animate-marquee-thirds,
 .animate-marquee-thirds-fast {
   will-change: transform;
-  contain: layout paint style;
-  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .animate-marquee {
   animation: marquee 20s linear infinite;
