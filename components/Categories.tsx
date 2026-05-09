@@ -23,7 +23,71 @@ const items: Item[] = [
 
 export default function Categories() {
   const [paused, setPaused] = useState(false);
-  const loop = [...items, ...items];
+
+  const renderCard = (it: Item, i: number, ariaHidden: boolean) => {
+    const isInternal = it.href.startsWith("/");
+    const Tag: React.ElementType = isInternal ? Link : "a";
+    return (
+      <motion.div
+        key={`${it.name}-${i}`}
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -6 }}
+        className="shrink-0 pr-4 md:pr-5"
+        aria-hidden={ariaHidden || undefined}
+      >
+        <Tag
+          href={it.href}
+          tabIndex={ariaHidden ? -1 : undefined}
+          className="group relative block w-[230px] md:w-[280px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
+        >
+          {it.image ? (
+            <Image
+              src={it.image}
+              alt={it.name}
+              fill
+              sizes="280px"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 grid place-items-center text-ink/10 font-display uppercase tracking-tighter"
+              style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
+            >
+              {it.name.charAt(0)}
+            </div>
+          )}
+
+          {it.image && (
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/0 to-ink/0" />
+          )}
+
+          <div
+            className={`absolute inset-x-0 bottom-0 p-5 flex items-end justify-between ${
+              it.image ? "text-bone" : ""
+            }`}
+          >
+            <div>
+              <p className={`text-sm ${it.image ? "text-bone/80" : "text-ink-soft/80"}`}>
+                {it.tag}
+              </p>
+              <p className="font-display uppercase text-2xl md:text-3xl tracking-tighter leading-none mt-1">
+                {it.name}
+              </p>
+            </div>
+            <div className="size-10 rounded-full bg-ink text-bone flex items-center justify-center text-sm group-hover:bg-blood transition-colors">
+              →
+            </div>
+          </div>
+
+          {it.live && (
+            <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-ink text-bone text-xs">
+              Disponible
+            </span>
+          )}
+        </Tag>
+      </motion.div>
+    );
+  };
 
   return (
     <section className="bg-bone py-12 md:py-16 overflow-hidden">
@@ -44,71 +108,15 @@ export default function Categories() {
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="flex whitespace-nowrap animate-marquee-slow"
+          className="flex whitespace-nowrap animate-marquee md:animate-marquee-slow"
           style={{ animationPlayState: paused ? "paused" : "running" }}
         >
-          {loop.map((it, i) => {
-            const isInternal = it.href.startsWith("/");
-            const Tag: React.ElementType = isInternal ? Link : "a";
-            return (
-              <motion.div
-                key={`${it.name}-${i}`}
-                whileTap={{ scale: 0.97 }}
-                whileHover={{ y: -6 }}
-                className="shrink-0 pr-4 md:pr-5"
-              >
-                <Tag
-                  href={it.href}
-                  className="group relative block w-[230px] md:w-[280px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
-                >
-                  {it.image ? (
-                    <Image
-                      src={it.image}
-                      alt={it.name}
-                      fill
-                      sizes="280px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div
-                      className="absolute inset-0 grid place-items-center text-ink/10 font-display uppercase tracking-tighter"
-                      style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
-                    >
-                      {it.name.charAt(0)}
-                    </div>
-                  )}
-
-                  {it.image && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/0 to-ink/0" />
-                  )}
-
-                  <div
-                    className={`absolute inset-x-0 bottom-0 p-5 flex items-end justify-between ${
-                      it.image ? "text-bone" : ""
-                    }`}
-                  >
-                    <div>
-                      <p className={`text-sm ${it.image ? "text-bone/80" : "text-ink-soft/80"}`}>
-                        {it.tag}
-                      </p>
-                      <p className="font-display uppercase text-2xl md:text-3xl tracking-tighter leading-none mt-1">
-                        {it.name}
-                      </p>
-                    </div>
-                    <div className="size-10 rounded-full bg-ink text-bone flex items-center justify-center text-sm group-hover:bg-blood transition-colors">
-                      →
-                    </div>
-                  </div>
-
-                  {it.live && (
-                    <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-ink text-bone text-xs">
-                      Disponible
-                    </span>
-                  )}
-                </Tag>
-              </motion.div>
-            );
-          })}
+          <div className="flex shrink-0">
+            {items.map((it, i) => renderCard(it, i, false))}
+          </div>
+          <div className="flex shrink-0">
+            {items.map((it, i) => renderCard(it, i + items.length, true))}
+          </div>
         </div>
       </div>
     </section>

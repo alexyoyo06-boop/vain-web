@@ -1,19 +1,32 @@
 export default function Footer() {
-  const phrases = Array.from({ length: 12 });
+  const half = Array.from({ length: 6 });
 
   return (
     <footer className="bg-ink text-bone rounded-t-[40px] md:rounded-t-[64px] mt-8 overflow-hidden">
       <div className="overflow-hidden py-2">
         <div className="flex animate-marquee-fast md:animate-marquee-slow whitespace-nowrap">
-          {phrases.map((_, i) => (
-            <span
-              key={i}
-              className="shrink-0 font-display uppercase tracking-tighter leading-none pr-12"
-              style={{ fontSize: "clamp(6rem, 22vw, 18rem)" }}
-            >
-              VAIN ✱
-            </span>
-          ))}
+          <div className="flex shrink-0">
+            {half.map((_, i) => (
+              <span
+                key={`a-${i}`}
+                className="shrink-0 font-display uppercase tracking-tighter leading-none pr-8 md:pr-12"
+                style={{ fontSize: "clamp(4rem, 18vw, 18rem)" }}
+              >
+                VAIN ✱
+              </span>
+            ))}
+          </div>
+          <div className="flex shrink-0" aria-hidden="true">
+            {half.map((_, i) => (
+              <span
+                key={`b-${i}`}
+                className="shrink-0 font-display uppercase tracking-tighter leading-none pr-8 md:pr-12"
+                style={{ fontSize: "clamp(4rem, 18vw, 18rem)" }}
+              >
+                VAIN ✱
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
