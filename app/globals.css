@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bone: #f3efe6;
+  --color-bone-dim: #e8e2d2;
+  --color-ink: #0e0e0e;
+  --color-ink-soft: #2a2a2a;
+  --color-acid: #c2bfb4;
+  --color-blood: #d72415;
+  --color-haze: #8a8780;
+
+  --color-background: var(--color-bone);
+  --color-foreground: var(--color-ink);
+
+  --font-display: var(--font-display), "Archivo Black", "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-sans), "Inter", "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", "Courier New", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: var(--color-bone);
+  --foreground: var(--color-ink);
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+.animate-marquee-slow {
+  animation: marquee 60s linear infinite;
+}
+.animate-marquee-fast {
+  animation: marquee 18s linear infinite;
+}
+.animate-marquee-rev {
+  animation: marquee 30s linear infinite reverse;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Soft shadow for cards / buttons */
+.shadow-soft {
+  box-shadow: 0 1px 2px rgba(14,14,14,0.04), 0 12px 32px -12px rgba(14,14,14,0.18);
+}
+
+/* Hard outlined text — for hero only */
+.outline-text {
+  -webkit-text-stroke: 2px var(--color-ink);
+  color: transparent;
 }
