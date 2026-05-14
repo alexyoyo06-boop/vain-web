@@ -30,6 +30,30 @@ body {
   font-feature-settings: "ss01", "cv11";
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Evita que el header sticky tape el destino al saltar a un ancla #shop */
+[id] {
+  scroll-margin-top: 96px;
+}
+
+/* Focus visible accesible (solo teclado, no afecta a usuarios de ratón) */
+*:focus {
+  outline: none;
+}
+*:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Respeta usuarios con motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 /* Marquee */
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }

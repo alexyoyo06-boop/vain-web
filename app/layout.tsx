@@ -32,6 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
+      data-scroll-behavior="smooth"
       className={`${archivoBlack.variable} ${inter.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bone text-ink overflow-x-hidden selection:bg-ink/15 selection:text-ink">

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import MagneticButton from "./MagneticButton";
 
 export default function Hero() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -23,26 +24,32 @@ export default function Hero() {
       id="top"
       className="relative overflow-hidden bg-bone"
     >
-      <div className="relative px-4 sm:px-6 pt-3 md:pt-6 pb-8 md:pb-14">
+      <div className="relative px-4 sm:px-6 pt-3 md:pt-6 pb-4 md:pb-6">
         <motion.div
           initial={{ y: 60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
           className="relative mx-auto select-none"
           style={{
-            width: "min(80vw, 760px)",
+            width: "min(94vw, 1000px)",
             aspectRatio: "5 / 1.4",
             transform: `translate3d(${mouse.x * -8}px, ${mouse.y * -4}px, 0)`,
           }}
         >
-          <Image
-            src="/logo_index.png"
-            alt="VAIN"
-            fill
-            priority
-            sizes="(max-width: 768px) 80vw, 760px"
-            className="object-contain"
-          />
+<motion.div
+            className="absolute inset-0"
+            animate={{ scale: [1, 1.025, 1] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.0 }}
+          >
+            <Image
+              src="/logo_index.png"
+              alt="VAIN"
+              fill
+              priority
+              sizes="(max-width: 768px) 80vw, 760px"
+              className="object-contain"
+            />
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -57,16 +64,19 @@ export default function Hero() {
             Drops limitados, calidad real.
           </p>
 
+          <MagneticButton>
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.96 }}
             href="#shop"
-            className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-sm sm:text-base md:text-lg shadow-soft hover:bg-blood transition-colors"
+            className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-sm sm:text-base md:text-lg shadow-soft"
           >
             <span className="hidden sm:inline">Comprar Drop/01 — €39,99</span>
             <span className="sm:hidden">Comprar — €39,99</span>
             <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
           </motion.a>
+          </MagneticButton>
+
         </motion.div>
       </div>
     </section>

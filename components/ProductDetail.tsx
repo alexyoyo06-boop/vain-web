@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import FadeImage from "./FadeImage";
+import MagneticButton from "./MagneticButton";
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 
@@ -17,20 +18,32 @@ const photos = [
 ];
 
 const specs = [
-  ["Material", "100% Algodón orgánico"],
-  ["Gramaje", "480 gsm"],
-  ["Fit", "Oversize"],
-  ["Origen", "Made in Spain"],
+  ["Gramaje", "450 gsm"],
+  ["Material", "Mezcla de algodón"],
+  ["Fit", "Baggy cropped"],
+  ["Forro capucha", "Tela plaid"],
 ];
 
 export default function ProductDetail() {
   const [size, setSize] = useState("M");
   const [added, setAdded] = useState(false);
   const [active, setActive] = useState(0);
+  const touchStartX = useRef(0);
 
   const handleAdd = () => {
     setAdded(true);
     setTimeout(() => setAdded(false), 1400);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) setActive((a) => (a + 1) % photos.length);
+      else setActive((a) => (a - 1 + photos.length) % photos.length);
+    }
   };
 
   return (
@@ -51,7 +64,11 @@ export default function ProductDetail() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 relative"
           >
-            <div className="relative aspect-square rounded-3xl bg-bone-dim overflow-hidden shadow-soft">
+            <div
+              className="relative aspect-square rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               {photos.map((p, i) => (
                 <motion.div
                   key={p.src}
@@ -60,7 +77,7 @@ export default function ProductDetail() {
                   transition={{ duration: 0.4 }}
                   className="absolute inset-0"
                 >
-                  <Image
+                  <FadeImage
                     src={p.src}
                     alt={p.alt}
                     fill
@@ -74,14 +91,14 @@ export default function ProductDetail() {
               <button
                 onClick={() => setActive((a) => (a - 1 + photos.length) % photos.length)}
                 aria-label="Foto anterior"
-                className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 hover:bg-ink hover:text-bone backdrop-blur flex items-center justify-center transition-colors"
+                className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
               >
                 <ArrowLeft className="size-4" strokeWidth={2.25} />
               </button>
               <button
                 onClick={() => setActive((a) => (a + 1) % photos.length)}
                 aria-label="Foto siguiente"
-                className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 hover:bg-ink hover:text-bone backdrop-blur flex items-center justify-center transition-colors"
+                className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
               >
                 <ArrowRight className="size-4" strokeWidth={2.25} />
               </button>
@@ -110,23 +127,18 @@ export default function ProductDetail() {
                     i === active ? "ring-2 ring-ink" : "opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <Image src={p.src} alt={p.alt} fill sizes="80px" className="object-cover" />
+                  <FadeImage src={p.src} alt={p.alt} fill sizes="80px" className="object-cover" />
                 </motion.button>
               ))}
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-5 flex flex-col gap-5 lg:py-4"
-          >
-            <span className="text-sm text-ink-soft">Drop/01 — En stock</span>
+          <div className="lg:col-span-5 flex flex-col gap-4 lg:py-2">
+            <span className="text-sm text-ink-soft">Drop/01 — Edición limitada</span>
 
             <h1
-              className="font-display uppercase leading-[0.85] tracking-tighter"
-              style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)" }}
+              className="font-display text-ink uppercase"
+              style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)", lineHeight: 1, letterSpacing: "-0.05em" }}
             >
               Plaid Hoodie
             </h1>
@@ -137,9 +149,9 @@ export default function ProductDetail() {
             </div>
 
             <p className="text-ink-soft leading-relaxed max-w-md">
-              Hoodie pesado de 480gsm. Algodón orgánico cepillado, doble forro,
-              cordones tubulares, bordado tonal en pecho. Hecho para durar
-              cinco inviernos. Pensado para no pasar desapercibido.
+              Hoodie 450gsm en mezcla de algodón. Forro de tela plaid en la
+              capucha, bordados con detalle plaid y logo VAIN en el brazo
+              izquierdo. Puños y bajo elásticos. Fit baggy cropped.
             </p>
 
             <div className="flex flex-col gap-3 mt-2">
@@ -162,42 +174,39 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            <motion.button
-              onClick={handleAdd}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.97 }}
-              className={`group w-full inline-flex items-center justify-center gap-3 px-6 py-5 rounded-full text-lg shadow-soft transition-colors mt-3 ${
-                added ? "bg-bone-dim text-ink" : "bg-ink text-bone hover:bg-blood"
-              }`}
-            >
-              <motion.span
-                key={added ? "added" : "add"}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-3"
+            <MagneticButton className="w-full mt-3">
+              <motion.button
+                onClick={handleAdd}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.97 }}
+                className={`group w-full inline-flex items-center justify-center gap-3 px-6 py-5 rounded-full text-lg shadow-soft transition-colors ${
+                  added ? "bg-bone-dim text-ink" : "bg-ink text-bone"
+                }`}
               >
-                {added ? (
-                  <>
-                    <Check className="size-5" strokeWidth={2.25} />
-                    Añadido al carrito
-                  </>
-                ) : (
-                  <>
-                    Añadir al carrito · talla {size}
-                    <ArrowRight aria-hidden className="size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
-                  </>
-                )}
-              </motion.span>
-            </motion.button>
+                <motion.span
+                  key={added ? "added" : "add"}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="inline-flex items-center gap-3"
+                >
+                  {added ? (
+                    <>
+                      <Check className="size-5" strokeWidth={2.25} />
+                      Añadido al carrito
+                    </>
+                  ) : (
+                    <>
+                      Añadir al carrito · talla {size}
+                      <ArrowRight aria-hidden className="size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
+                    </>
+                  )}
+                </motion.span>
+              </motion.button>
+            </MagneticButton>
 
-            <a
-              href="https://v4in.com"
-              target="_blank"
-              rel="noreferrer"
-              className="text-center text-sm text-ink-soft/70 hover:text-ink underline underline-offset-4"
-            >
-              Ir al checkout en v4in.com
-            </a>
+            <p className="text-xs text-ink-soft/70 text-center">
+              Thagory mide 175 cm y lleva talla M.
+            </p>
 
             <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t border-ink/10">
               {specs.map(([k, v]) => (
@@ -215,34 +224,43 @@ export default function ProductDetail() {
                   +
                 </span>
               </summary>
-              <div className="mt-3 text-sm text-ink-soft leading-relaxed space-y-2">
-                <p>
-                  Sudadera con capucha de algodón orgánico cepillado por dentro
-                  para máximo confort y durabilidad.
-                </p>
-                <p>
-                  Cordones tubulares con remates metálicos. Bolsillo canguro
-                  reforzado. Bordado tonal &quot;V4IN&quot; en el pecho.
-                </p>
-                <p>
-                  Lavar a 30°. No usar lejía. No planchar el bordado.
-                </p>
-              </div>
+              <ul className="mt-3 text-sm text-ink-soft leading-relaxed space-y-1.5 list-disc pl-5">
+                <li>450 gsm — mezcla de algodón</li>
+                <li>Forro de tela plaid en la capucha</li>
+                <li>Logo bordado con detalle plaid</li>
+                <li>Bordado VAIN en el brazo izquierdo</li>
+                <li>Puños y bajo elásticos (ribbed)</li>
+                <li>Fit baggy cropped</li>
+                <li>Pieza pre-made — unidades limitadas</li>
+              </ul>
             </details>
 
             <details className="group border-t border-ink/10 pt-4">
               <summary className="flex items-center justify-between cursor-pointer list-none">
-                <span>Envío y devoluciones</span>
+                <span>Envíos</span>
                 <span className="size-8 rounded-full bg-ink/5 flex items-center justify-center transition-transform group-open:rotate-45">
                   +
                 </span>
               </summary>
               <div className="mt-3 text-sm text-ink-soft leading-relaxed space-y-2">
-                <p>Envío gratis en pedidos superiores a €40. 24-48h en península.</p>
-                <p>30 días para devoluciones gratis. Sin preguntas.</p>
+                <p>Una vez tu pedido esté listo:</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>España: 2–5 días laborables</li>
+                  <li>Europa: 6–9 días laborables</li>
+                </ul>
+                <p className="text-xs">
+                  Más detalles en{" "}
+                  <Link
+                    href="/policies/shipping-policy"
+                    className="underline underline-offset-4 hover:text-ink"
+                  >
+                    Política de envío
+                  </Link>
+                  .
+                </p>
               </div>
             </details>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

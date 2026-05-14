@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import RevealText from "./RevealText";
 
 const hoodies = [
   {
@@ -33,19 +34,21 @@ export default function HoodiesGrid() {
             <ArrowLeft className="size-4" strokeWidth={2.25} />
             Volver
           </Link>
-          <h1
-            className="font-display uppercase tracking-tighter leading-none mt-4"
-            style={{ fontSize: "clamp(2.5rem, 9vw, 7rem)" }}
-          >
-            Hoodies
-          </h1>
+          <RevealText delay={0.1}>
+            <h1
+              className="font-display uppercase tracking-tighter leading-none mt-4"
+              style={{ fontSize: "clamp(2.5rem, 9vw, 7rem)" }}
+            >
+              Hoodies
+            </h1>
+          </RevealText>
           <p className="text-ink-soft mt-3 text-base md:text-lg">
             {hoodies.length} pieza{hoodies.length === 1 ? "" : "s"} disponible
             {hoodies.length === 1 ? "" : "s"}
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
           {hoodies.map((h, i) => (
             <motion.div
               key={h.slug}
@@ -65,7 +68,7 @@ export default function HoodiesGrid() {
                     src={h.image}
                     alt={h.name}
                     fill
-                    sizes="(max-width: 768px) 33vw, 33vw"
+                    sizes="(max-width: 768px) 50vw, 33vw"
                     className={`object-cover transition-opacity duration-500 ${
                       hovered === h.slug ? "opacity-0" : "opacity-100"
                     }`}
@@ -74,7 +77,7 @@ export default function HoodiesGrid() {
                     src={h.hoverImage}
                     alt={`${h.name} vestida`}
                     fill
-                    sizes="(max-width: 768px) 33vw, 33vw"
+                    sizes="(max-width: 768px) 50vw, 33vw"
                     className={`object-cover transition-opacity duration-500 ${
                       hovered === h.slug ? "opacity-100" : "opacity-0"
                     }`}
