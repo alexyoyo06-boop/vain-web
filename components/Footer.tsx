@@ -32,6 +32,7 @@ export default function Footer() {
     if (!track || !group) return;
 
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const canHover = window.matchMedia("(hover: hover)").matches;
     let speed = 0;
     const computeSpeed = () => {
       const w = group.offsetWidth || 1;
@@ -55,7 +56,7 @@ export default function Footer() {
     const tick = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
-      const target = hoveredRef.current ? 4 : 1;
+      const target = canHover && hoveredRef.current ? 4 : 1;
       multiplier += (target - multiplier) * 0.06;
       x -= speed * multiplier * dt;
       const w = group.offsetWidth;
@@ -88,7 +89,7 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-bone rounded-t-[40px] md:rounded-t-[64px] mt-8 overflow-hidden">
       <div
-        className="overflow-hidden py-2 cursor-pointer"
+        className="overflow-hidden py-2 md:cursor-pointer"
         onMouseEnter={() => { hoveredRef.current = true; }}
         onMouseLeave={() => { hoveredRef.current = false; }}
       >

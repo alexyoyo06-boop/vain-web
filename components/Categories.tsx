@@ -31,13 +31,13 @@ type CardProps = {
 
 function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
   const inner = (
-    <div className={`group relative block w-[280px] md:w-[420px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden ${it.live ? "cursor-pointer" : "cursor-default"}`}>
+    <div className={`group relative block w-[120px] md:w-[420px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden ${it.live ? "cursor-pointer" : "cursor-default"}`}>
       {it.image ? (
         <FadeImage
           src={it.image}
           alt={it.name}
           fill
-          sizes="(max-width: 768px) 280px, 420px"
+          sizes="(max-width: 768px) 120px, 420px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
@@ -56,29 +56,29 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
       {/* Diagonal Coming Soon */}
       {it.comingSoon && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[35deg] w-[200%] py-4 bg-ink text-bone text-base uppercase tracking-[0.25em] text-center whitespace-nowrap opacity-75">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[35deg] w-[200%] py-2 md:py-4 bg-ink text-bone text-[10px] md:text-base uppercase tracking-[0.2em] md:tracking-[0.25em] text-center whitespace-nowrap opacity-75">
             Coming Soon · Coming Soon · Coming Soon · Coming Soon
           </div>
         </div>
       )}
 
       {it.live && (
-        <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-ink text-bone text-xs z-10">
+        <span className="absolute top-2 left-2 md:top-4 md:left-4 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-ink text-bone text-[10px] md:text-xs z-10">
           Disponible
         </span>
       )}
 
       {it.live && (
-        <div className="absolute top-4 right-4 size-9 md:size-10 rounded-full bg-bone/95 text-ink backdrop-blur flex items-center justify-center group-hover:bg-ink group-hover:text-bone transition-colors shadow-soft z-10">
-          <ArrowRight className="size-3.5 md:size-4" strokeWidth={2.25} />
+        <div className="absolute top-2 right-2 md:top-4 md:right-4 size-7 md:size-10 rounded-full bg-bone/95 text-ink backdrop-blur flex items-center justify-center group-hover:bg-ink group-hover:text-bone transition-colors shadow-soft z-10">
+          <ArrowRight className="size-3 md:size-4" strokeWidth={2.25} />
         </div>
       )}
 
-      <div className={`absolute inset-x-0 bottom-0 p-4 md:p-6 ${it.image ? "text-bone" : ""}`}>
-        <p className={`text-xs md:text-sm ${it.image ? "text-bone/80" : "text-ink-soft/60"}`}>
+      <div className={`absolute inset-x-0 bottom-0 p-3 md:p-6 ${it.image ? "text-bone" : ""}`}>
+        <p className={`text-[10px] md:text-sm ${it.image ? "text-bone/80" : "text-ink-soft/60"}`}>
           {it.tag}
         </p>
-        <p className={`font-display uppercase text-xl md:text-3xl tracking-tighter leading-none mt-1 ${it.comingSoon ? "opacity-40" : ""}`}>
+        <p className={`font-display uppercase text-sm md:text-3xl tracking-tighter leading-none mt-0.5 md:mt-1 ${it.comingSoon ? "opacity-40" : ""}`}>
           {it.name}
         </p>
       </div>
@@ -89,7 +89,7 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
     <motion.div
       whileTap={it.live ? { scale: 0.97 } : undefined}
       whileHover={it.live ? { y: -6 } : undefined}
-      className={`shrink-0 pr-4 md:pr-6 ${snap ? "snap-start" : ""}`}
+      className={`shrink-0 pr-3 md:pr-6 ${snap ? "snap-start" : ""}`}
       aria-hidden={ariaHidden || undefined}
     >
       {it.live ? (
