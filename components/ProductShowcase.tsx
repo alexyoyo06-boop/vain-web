@@ -71,7 +71,6 @@ export default function ProductShowcase() {
                     src={p.src}
                     alt={p.alt}
                     fill
-                    priority={i === 0}
                     sizes="(max-width: 1024px) 100vw, 60vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                   />

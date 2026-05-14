@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -31,13 +32,14 @@ type CardProps = {
 
 function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
   const inner = (
-    <div className={`group relative block w-[120px] md:w-[420px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden ${it.live ? "cursor-pointer" : "cursor-default"}`}>
+    <div className={`group relative block w-[150px] md:w-[420px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden ${it.live ? "cursor-pointer" : "cursor-default"}`}>
       {it.image ? (
-        <FadeImage
+        <Image
           src={it.image}
           alt={it.name}
           fill
-          sizes="(max-width: 768px) 120px, 420px"
+          loading="eager"
+          sizes="(max-width: 768px) 150px, 420px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
@@ -56,29 +58,29 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
       {/* Diagonal Coming Soon */}
       {it.comingSoon && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[35deg] w-[200%] py-2 md:py-4 bg-ink text-bone text-[10px] md:text-base uppercase tracking-[0.2em] md:tracking-[0.25em] text-center whitespace-nowrap opacity-75">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[35deg] w-[200%] py-2.5 md:py-4 bg-ink text-bone text-xs md:text-base uppercase tracking-[0.2em] md:tracking-[0.25em] text-center whitespace-nowrap opacity-75">
             Coming Soon · Coming Soon · Coming Soon · Coming Soon
           </div>
         </div>
       )}
 
       {it.live && (
-        <span className="absolute top-2 left-2 md:top-4 md:left-4 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-ink text-bone text-[10px] md:text-xs z-10">
+        <span className="absolute top-2.5 left-2.5 md:top-4 md:left-4 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-ink text-bone text-[10px] md:text-xs z-10">
           Disponible
         </span>
       )}
 
       {it.live && (
-        <div className="absolute top-2 right-2 md:top-4 md:right-4 size-7 md:size-10 rounded-full bg-bone/95 text-ink backdrop-blur flex items-center justify-center group-hover:bg-ink group-hover:text-bone transition-colors shadow-soft z-10">
-          <ArrowRight className="size-3 md:size-4" strokeWidth={2.25} />
+        <div className="absolute top-2.5 right-2.5 md:top-4 md:right-4 size-8 md:size-10 rounded-full bg-bone/95 text-ink backdrop-blur flex items-center justify-center group-hover:bg-ink group-hover:text-bone transition-colors shadow-soft z-10">
+          <ArrowRight className="size-3.5 md:size-4" strokeWidth={2.25} />
         </div>
       )}
 
-      <div className={`absolute inset-x-0 bottom-0 p-3 md:p-6 ${it.image ? "text-bone" : ""}`}>
-        <p className={`text-[10px] md:text-sm ${it.image ? "text-bone/80" : "text-ink-soft/60"}`}>
+      <div className={`absolute inset-x-0 bottom-0 p-3.5 md:p-6 ${it.image ? "text-bone" : ""}`}>
+        <p className={`text-[11px] md:text-sm ${it.image ? "text-bone/80" : "text-ink-soft/60"}`}>
           {it.tag}
         </p>
-        <p className={`font-display uppercase text-sm md:text-3xl tracking-tighter leading-none mt-0.5 md:mt-1 ${it.comingSoon ? "opacity-40" : ""}`}>
+        <p className={`font-display uppercase text-base md:text-3xl tracking-tighter leading-none mt-0.5 md:mt-1 ${it.comingSoon ? "opacity-40" : ""}`}>
           {it.name}
         </p>
       </div>
@@ -123,17 +125,21 @@ export default function Categories() {
     let touching = false;
     let resumeTimer: number | null = null;
 
-    const getSetWidth = () => el.scrollWidth / 3;
+    // 5 copias en el DOM → ancho de cada copia = total / 5
+    const getSetWidth = () => el.scrollWidth / 5;
 
-    // Wrap en ambos sentidos: el usuario siempre acaba dentro de la copia central
+    // Wrap: SOLO cuando NO se está tocando. Si lo hacemos durante el touch,
+    // iOS/Android atascan visualmente la pintura y se ve un parpadeo.
     const wrap = () => {
+      if (touching) return;
       const w = getSetWidth();
       if (w <= 0) return;
-      if (el.scrollLeft >= 2 * w) {
-        el.scrollLeft = el.scrollLeft - w;
+      // Mantener posición en el rango [1.5w, 3.5w] = centro con 2 copias de buffer a cada lado
+      if (el.scrollLeft >= 3.5 * w) {
+        el.scrollLeft = el.scrollLeft - 2 * w;
         posRef.current = el.scrollLeft;
-      } else if (el.scrollLeft < w) {
-        el.scrollLeft = el.scrollLeft + w;
+      } else if (el.scrollLeft < 1.5 * w) {
+        el.scrollLeft = el.scrollLeft + 2 * w;
         posRef.current = el.scrollLeft;
       }
     };
@@ -155,6 +161,7 @@ export default function Categories() {
       resumeTimer = window.setTimeout(() => {
         touching = false;
         posRef.current = el.scrollLeft;
+        wrap(); // Reposicionar limpiamente después del touch si hace falta
         resumeTimer = null;
       }, 1600);
     };
@@ -162,12 +169,12 @@ export default function Categories() {
     el.addEventListener("touchend", onTouchEnd, { passive: true });
     el.addEventListener("touchcancel", onTouchEnd, { passive: true });
 
-    // Arranca en la copia central para tener buffer en ambos sentidos
+    // Arranca en la copia central (copia 3 de 5) para tener buffer en ambos sentidos
     const init = () => {
       const w = getSetWidth();
       if (w > 0) {
-        el.scrollLeft = w;
-        posRef.current = w;
+        el.scrollLeft = 2 * w;
+        posRef.current = 2 * w;
       }
     };
     init();
@@ -263,21 +270,21 @@ export default function Categories() {
         </RevealText>
       </div>
 
-      {/* Mobile: scroll continuo infinito (auto + swipe). 3 copias + wrap en ambos sentidos */}
+      {/* Mobile: scroll continuo infinito (auto + swipe). 5 copias + wrap solo fuera del touch */}
       <div
         ref={mobileScrollRef}
         className="md:hidden overflow-x-auto no-scrollbar overscroll-x-contain pb-3"
       >
         <div className="flex pl-4">
-          {items.map((it, i) => (
-            <CategoryCard key={`a-${i}`} it={it} ariaHidden />
-          ))}
-          {items.map((it, i) => (
-            <CategoryCard key={`b-${i}`} it={it} />
-          ))}
-          {items.map((it, i) => (
-            <CategoryCard key={`c-${i}`} it={it} ariaHidden />
-          ))}
+          {(["a", "b", "c", "d", "e"] as const).map((label) =>
+            items.map((it, i) => (
+              <CategoryCard
+                key={`${label}-${i}`}
+                it={it}
+                ariaHidden={label !== "c"}
+              />
+            ))
+          )}
         </div>
       </div>
 

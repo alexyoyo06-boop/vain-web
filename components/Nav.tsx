@@ -73,7 +73,6 @@ export default function Nav() {
                 src="/logo_index.png"
                 alt="VAIN"
                 fill
-                priority
                 sizes="128px"
                 className="object-contain"
               />
