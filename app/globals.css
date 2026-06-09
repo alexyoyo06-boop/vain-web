@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bone: #f3efe6;
-  --color-bone-dim: #e8e2d2;
-  --color-ink: #0e0e0e;
-  --color-ink-soft: #2a2a2a;
-  --color-acid: #c2bfb4;
+  /* Paleta básica: blanco · gris · negro (rojo solo para estados de error) */
+  --color-bone: #fbfbfb;
+  --color-bone-dim: #efefef;
+  --color-ink: #0f0f0f;
+  --color-ink-soft: #3a3a3a;
+  --color-acid: #d4d4d4;
   --color-blood: #d72415;
-  --color-haze: #8a8780;
+  --color-haze: #8c8c8c;
 
   --color-background: var(--color-bone);
   --color-foreground: var(--color-ink);
@@ -91,6 +92,21 @@ html {
   animation: marquee-thirds 14s linear infinite;
 }
 
+/* Coin-flip spin para el logo monograma del top bar (gira sobre el eje Y,
+   como una moneda). Sin sombra — el PNG es la silueta limpia. */
+@keyframes coin-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+.animate-coin-spin {
+  animation: coin-spin 3.6s linear infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-coin-spin { animation: none; }
+}
+
 /* Hide scrollbar */
 .no-scrollbar {
   scrollbar-width: none;
@@ -115,3 +131,87 @@ html {
   -webkit-text-stroke: 2px var(--color-ink);
   color: transparent;
 }
+
+/* Rich text venido de Shopify (descriptionHtml).
+   Estilos prose-like para que <p>, <ul>, <strong>, <em>, <a> respeten
+   el sistema visual bone/ink sin meter @tailwindcss/typography. */
+.rich-text {
+  color: var(--color-ink-soft);
+  line-height: 1.65;
+  font-size: 0.975rem;
+}
+.rich-text > * + * {
+  margin-top: 0.85em;
+}
+.rich-text p {
+  margin: 0;
+}
+.rich-text strong,
+.rich-text b {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.rich-text em,
+.rich-text i {
+  font-style: italic;
+}
+.rich-text a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.rich-text a:hover {
+  text-decoration-thickness: 2px;
+}
+.rich-text ul,
+.rich-text ol {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  margin: 0;
+}
+.rich-text ul { list-style: disc; }
+.rich-text ol { list-style: decimal; }
+.rich-text li::marker {
+  color: var(--color-haze);
+}
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4 {
+  color: var(--color-ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.rich-text h1 { font-size: 1.4rem; }
+.rich-text h2 { font-size: 1.2rem; }
+.rich-text h3 { font-size: 1.05rem; }
+.rich-text h4 { font-size: 1rem; }
+.rich-text blockquote {
+  border-left: 2px solid var(--color-ink);
+  padding-left: 0.9rem;
+  color: var(--color-ink);
+  font-style: italic;
+}
+.rich-text hr {
+  border: 0;
+  border-top: 1px solid rgba(14, 14, 14, 0.1);
+  margin: 1.25em 0;
+}
+.rich-text code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(14, 14, 14, 0.05);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+.rich-text img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+.rich-text > :first-child { margin-top: 0; }
+.rich-text > :last-child { margin-bottom: 0; }

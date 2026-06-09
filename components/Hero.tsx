@@ -1,13 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
+import { formatPrice, productHref, type Product } from "@/lib/products";
+import { useT } from "@/lib/i18n/client";
 
-export default function Hero() {
+type Props = { product?: Product };
+
+export default function Hero({ product }: Props) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const t = useT();
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -19,64 +25,105 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
+  // Sin catálogo: portada mínima de marca para que la home nunca quede vacía.
+  if (!product) {
+    return (
+      <section id="top" className="relative overflow-hidden bg-bone">
+        <div className="px-4 sm:px-6 py-16 md:py-24 max-w-2xl mx-auto flex flex-col items-center gap-6 text-center">
+          <p className="text-lg md:text-2xl text-ink-soft leading-snug">
+            {t.hero.taglineLine1}
+            <br />
+            {t.hero.taglineLine2}
+          </p>
+          <MagneticButton>
+            <Link
+              href="/todo"
+              className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-sm sm:text-base md:text-lg shadow-soft"
+            >
+              {t.hero.buyFull}
+              <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
+            </Link>
+          </MagneticButton>
+        </div>
+      </section>
+    );
+  }
+
+  const href = productHref(product);
+
   return (
-    <section
-      id="top"
-      className="relative overflow-hidden bg-bone"
-    >
-      <div className="relative px-4 sm:px-6 pt-3 md:pt-6 pb-4 md:pb-6">
+    <section id="top" className="relative overflow-hidden bg-bone">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 px-4 sm:px-6 pt-3 md:pt-6 pb-6 md:pb-10 max-w-7xl mx-auto items-center">
+        {/* Foto del drop */}
         <motion.div
-          initial={{ y: 60, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-          className="relative mx-auto select-none"
-          style={{
-            width: "min(94vw, 1000px)",
-            aspectRatio: "5 / 1.4",
-            transform: `translate3d(${mouse.x * -8}px, ${mouse.y * -4}px, 0)`,
-          }}
+          className="lg:col-span-7"
         >
-<motion.div
-            className="absolute inset-0"
-            animate={{ scale: [1, 1.025, 1] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.0 }}
+          <Link
+            href={href}
+            aria-label={product.name}
+            className="group block relative aspect-[4/5] max-h-[60vh] sm:aspect-square sm:max-h-none lg:aspect-auto lg:h-[56vh] lg:max-h-[560px] lg:min-h-[400px] rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
+            style={{ transform: `translate3d(${mouse.x * -6}px, ${mouse.y * -4}px, 0)` }}
           >
-            <Image
-              src="/logo_index.png"
-              alt="VAIN"
+            <FadeImage
+              src={product.primaryImage}
+              alt={product.name}
               fill
               priority
-              sizes="(max-width: 768px) 80vw, 760px"
-              className="object-contain"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              className="object-cover [mix-blend-mode:multiply] transition-transform duration-700 group-hover:scale-[1.03]"
             />
-          </motion.div>
+            <span className="absolute top-4 left-4 inline-flex items-center px-4 py-2 rounded-full bg-ink text-bone text-xs uppercase tracking-wide">
+              {t.nav.newDrop}
+            </span>
+          </Link>
         </motion.div>
 
+        {/* Detalle */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="relative mt-6 md:mt-10 max-w-2xl mx-auto flex flex-col items-center gap-6 text-center"
+          transition={{ delay: 0.25, duration: 0.6 }}
+          className="lg:col-span-5 flex flex-col gap-4 md:gap-5 text-center lg:text-left items-center lg:items-start"
         >
-          <p className="text-lg md:text-2xl text-ink-soft leading-snug">
-            Streetwear hecho en España.
-            <br />
-            Drops limitados, calidad real.
-          </p>
+          <span className="text-sm text-ink-soft">
+            {product.drop} — {t.product.limitedEdition}
+          </span>
 
-          <MagneticButton>
-          <motion.a
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.96 }}
-            href="#shop"
-            className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-sm sm:text-base md:text-lg shadow-soft"
+          <h1
+            className="font-display text-ink uppercase leading-none tracking-tighter"
+            style={{ fontSize: "clamp(2.8rem, 7vw, 5rem)" }}
           >
-            <span className="hidden sm:inline">Comprar Drop/01 — €39,99</span>
-            <span className="sm:hidden">Comprar — €39,99</span>
-            <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
-          </motion.a>
-          </MagneticButton>
+            {product.name}
+          </h1>
 
+          <div className="flex items-baseline gap-3 justify-center lg:justify-start">
+            <span className="text-3xl md:text-4xl">{formatPrice(product.price)}</span>
+            {product.oldPrice && (
+              <span className="line-through text-ink-soft/50 text-lg">
+                {formatPrice(product.oldPrice)}
+              </span>
+            )}
+          </div>
+
+          {product.shortDescription && (
+            <p className="text-base md:text-lg text-ink-soft leading-snug max-w-md">
+              {product.shortDescription}
+            </p>
+          )}
+
+          <MagneticButton className="mt-2">
+            <Link
+              href={href}
+              className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-base md:text-lg shadow-soft"
+            >
+              <span className="hidden sm:inline">{t.hero.buyFull}</span>
+              <span className="sm:hidden">{t.hero.buyShort}</span>
+              <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
+            </Link>
+          </MagneticButton>
         </motion.div>
       </div>
     </section>

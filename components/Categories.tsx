@@ -1,12 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import FadeImage from "./FadeImage";
 import RevealText from "./RevealText";
+import { productHref, type Product } from "@/lib/products";
+import { useT } from "@/lib/i18n/client";
 
 type Item = {
   name: string;
@@ -17,13 +19,6 @@ type Item = {
   image?: string;
 };
 
-const items: Item[] = [
-  { name: "Plaid Hoodie", tag: "Drop/01", href: "/hoodies/plaid-hoodie", live: true, image: "/sudadera.webp" },
-  { name: "Tee 01", tag: "Drop/02", href: "#", comingSoon: true },
-  { name: "Tee 02", tag: "Drop/02", href: "#", comingSoon: true },
-  { name: "Pants 01", tag: "Drop/02", href: "#", comingSoon: true },
-];
-
 type CardProps = {
   it: Item;
   ariaHidden?: boolean;
@@ -31,8 +26,37 @@ type CardProps = {
 };
 
 function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const t = useT();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 200, damping: 22, mass: 0.5 });
+  const sy = useSpring(y, { stiffness: 200, damping: 22, mass: 0.5 });
+  // rotateY sigue eje X del cursor, rotateX invertido sobre Y (perspective natural)
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-9, 9]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [7, -7]);
+
+  const onMove = (e: React.MouseEvent) => {
+    if (!it.live) return;
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const onLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   const inner = (
-    <div className={`group relative block w-[150px] md:w-[420px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden ${it.live ? "cursor-pointer" : "cursor-default"}`}>
+    <motion.div
+      ref={cardRef}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={it.live ? { rotateX, rotateY, transformPerspective: 1000 } : undefined}
+      className={`group relative block w-[150px] md:w-[420px] aspect-[3/4] rounded-3xl bg-bone-dim overflow-hidden will-change-transform ${it.live ? "cursor-pointer" : "cursor-default"}`}
+    >
       {it.image ? (
         <Image
           src={it.image}
@@ -40,7 +64,7 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
           fill
           loading="eager"
           sizes="(max-width: 768px) 150px, 420px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover [mix-blend-mode:multiply] transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
         <div
@@ -59,14 +83,14 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
       {it.comingSoon && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[35deg] w-[200%] py-2.5 md:py-4 bg-ink text-bone text-xs md:text-base uppercase tracking-[0.2em] md:tracking-[0.25em] text-center whitespace-nowrap opacity-75">
-            Coming Soon · Coming Soon · Coming Soon · Coming Soon
+            {t.common.comingSoonLabel} · {t.common.comingSoonLabel} · {t.common.comingSoonLabel} · {t.common.comingSoonLabel}
           </div>
         </div>
       )}
 
       {it.live && (
         <span className="absolute top-2.5 left-2.5 md:top-4 md:left-4 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-ink text-bone text-[10px] md:text-xs z-10">
-          Disponible
+          {t.categories.available}
         </span>
       )}
 
@@ -84,7 +108,7 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
           {it.name}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
@@ -105,7 +129,23 @@ function CategoryCard({ it, ariaHidden = false, snap = false }: CardProps) {
   );
 }
 
-export default function Categories() {
+type Props = { products: Product[] };
+
+export default function Categories({ products }: Props) {
+  const t = useT();
+  // Items live: vienen de Shopify. Si Shopify no responde, lista vacía y
+  // el carrusel se llena solo con los placeholders "Coming Soon".
+  const liveItems: Item[] = products.map((p) => ({
+    name: p.name,
+    tag: p.drop,
+    href: productHref(p),
+    live: true,
+    image: p.primaryImage,
+  }));
+  // Solo productos reales (todos los drops, nuevos y viejos, mezclados).
+  // Sin placeholders "Coming Soon": ya hay catálogo de sobra.
+  const items: Item[] = liveItems;
+
   const mobileScrollRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(0);
 
@@ -259,13 +299,13 @@ export default function Categories() {
   return (
     <section id="categorias" className="bg-bone pt-6 pb-12 md:pt-8 md:pb-16 overflow-hidden">
       <div className="text-center mb-8 md:mb-10 px-4">
-        <p className="text-sm text-ink-soft mb-2">Comprar por categoría</p>
+        <p className="text-sm text-ink-soft mb-2">{t.categories.kicker}</p>
         <RevealText>
           <h2
             className="font-display uppercase tracking-tighter leading-none"
             style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
           >
-            Toda la colección
+            {t.categories.title}
           </h2>
         </RevealText>
       </div>
@@ -294,7 +334,7 @@ export default function Categories() {
         <div className="absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-bone to-transparent pointer-events-none" />
 
         <div
-          className="overflow-hidden"
+          className="overflow-x-clip py-2"
           onMouseEnter={() => { desktopPausedRef.current = true; }}
           onMouseLeave={() => { desktopPausedRef.current = false; }}
         >

@@ -3,36 +3,48 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
+import ShareButton from "./ShareButton";
+import { useCartUI } from "@/lib/cart-ui";
+import { formatPrice, productHref, type Product, type ProductSize } from "@/lib/products";
+import { tripletColor, tripletTitleColor } from "@/lib/triplet-theme";
+import { tpl, useT } from "@/lib/i18n/client";
 
-const sizes = ["XS", "S", "M", "L", "XL"];
+type Props = { product: Product };
 
-const photos = [
-  { src: "/sudadera.webp", alt: "Plaid Hoodie" },
-  { src: "/vistiendola.webp", alt: "Plaid Hoodie vestida" },
-  { src: "/capucha.webp", alt: "Detalle capucha" },
-  { src: "/bolsillo.webp", alt: "Detalle bolsillo" },
-  { src: "/suelo.jpg", alt: "Vista en el suelo" },
-];
-
-const specs = [
-  ["Gramaje", "450 gsm"],
-  ["Material", "Mezcla de algodón"],
-  ["Fit", "Baggy cropped"],
-  ["Forro capucha", "Tela plaid"],
-];
-
-export default function ProductDetail() {
-  const [size, setSize] = useState("M");
-  const [added, setAdded] = useState(false);
+export default function ProductDetail({ product }: Props) {
+  const t = useT();
+  // Por defecto: la talla del modelo si está disponible, si no la primera
+  // talla disponible, si no la primera del listado completo.
+  const availableSet = new Set(product.sizesAvailable);
+  const defaultSize: ProductSize =
+    product.modelSize && availableSet.has(product.modelSize)
+      ? product.modelSize
+      : product.sizesAvailable[0] ??
+        product.sizes[Math.floor(product.sizes.length / 2)] ??
+        product.sizes[0];
+  const [size, setSize] = useState<ProductSize>(defaultSize);
   const [active, setActive] = useState(0);
   const touchStartX = useRef(0);
+  const { addItem } = useCartUI();
+
+  const href = productHref(product);
+  // Acento de color SOLO para los pantalones de la cápsula triplet (rosa/gris/
+  // azul). Para el resto de productos es null → ficha normal en negro.
+  const accent = tripletColor(product.slug);
+  const titleColor = tripletTitleColor(product.slug);
 
   const handleAdd = () => {
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1400);
+    addItem({
+      productHandle: product.slug,
+      size,
+      name: product.name,
+      price: product.price,
+      image: product.primaryImage,
+      href,
+    });
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -41,228 +53,288 @@ export default function ProductDetail() {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const dx = e.changedTouches[0].clientX - touchStartX.current;
     if (Math.abs(dx) > 50) {
-      if (dx < 0) setActive((a) => (a + 1) % photos.length);
-      else setActive((a) => (a - 1 + photos.length) % photos.length);
+      if (dx < 0) setActive((a) => (a + 1) % product.photos.length);
+      else setActive((a) => (a - 1 + product.photos.length) % product.photos.length);
     }
   };
 
   return (
-    <section className="bg-bone py-8 md:py-12">
-      <div className="px-4 sm:px-6 max-w-7xl mx-auto">
-        <Link
-          href="/hoodies"
-          className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-ink transition-colors mb-6"
-        >
-          <ArrowLeft className="size-4" strokeWidth={2.25} />
-          Volver a Hoodies
-        </Link>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 relative"
-          >
-            <div
-              className="relative aspect-square rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
+    <>
+      <section className="bg-bone py-8 md:py-12">
+        <div className="px-4 sm:px-6 max-w-7xl mx-auto">
+          <div className="flex items-center justify-between gap-3 mb-6">
+            <Link
+              href="/todo"
+              className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-ink transition-colors"
             >
-              {photos.map((p, i) => (
-                <motion.div
-                  key={p.src}
-                  initial={false}
-                  animate={{ opacity: i === active ? 1 : 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute inset-0"
-                >
-                  <FadeImage
-                    src={p.src}
-                    alt={p.alt}
-                    fill
-                    priority={i === 0}
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="object-cover"
-                  />
-                </motion.div>
-              ))}
+              <ArrowLeft className="size-4" strokeWidth={2.25} />
+              {t.product.backToHoodies}
+            </Link>
+            <ShareButton
+              title={`${product.name} — VAIN`}
+              text={tpl(t.product.shareCheck, {
+                name: product.name,
+                price: formatPrice(product.price),
+              })}
+              url={href}
+            />
+          </div>
 
-              <button
-                onClick={() => setActive((a) => (a - 1 + photos.length) % photos.length)}
-                aria-label="Foto anterior"
-                className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-7 relative"
+            >
+              {/* Backlight de color difuminado detrás de la foto (solo triplets). */}
+              {accent && (
+                <div
+                  aria-hidden
+                  className="absolute -inset-6 -z-10 opacity-50"
+                  style={{
+                    background: `radial-gradient(circle at 50% 45%, ${accent}, transparent 65%)`,
+                    filter: "blur(42px)",
+                  }}
+                />
+              )}
+              <div
+                className="relative aspect-square rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
               >
-                <ArrowLeft className="size-4" strokeWidth={2.25} />
-              </button>
-              <button
-                onClick={() => setActive((a) => (a + 1) % photos.length)}
-                aria-label="Foto siguiente"
-                className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
-              >
-                <ArrowRight className="size-4" strokeWidth={2.25} />
-              </button>
-
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
-                {photos.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActive(i)}
-                    aria-label={`Ir a foto ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === active ? "w-8 bg-ink" : "w-1.5 bg-ink/30"
-                    }`}
-                  />
+                {product.photos.map((p, i) => (
+                  <motion.div
+                    key={p.src}
+                    initial={false}
+                    animate={{ opacity: i === active ? 1 : 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute inset-0"
+                  >
+                    <FadeImage
+                      src={p.src}
+                      alt={p.alt}
+                      fill
+                      priority={i === 0}
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover [mix-blend-mode:multiply]"
+                    />
+                  </motion.div>
                 ))}
-              </div>
-            </div>
 
-            <div className="hidden md:flex gap-3 mt-3">
-              {photos.map((p, i) => (
-                <motion.button
-                  key={p.src}
-                  onClick={() => setActive(i)}
-                  whileTap={{ scale: 0.94 }}
-                  className={`relative size-20 rounded-2xl overflow-hidden transition-all ${
-                    i === active ? "ring-2 ring-ink" : "opacity-60 hover:opacity-100"
-                  }`}
+                <button
+                  onClick={() =>
+                    setActive((a) => (a - 1 + product.photos.length) % product.photos.length)
+                  }
+                  aria-label={t.product.photoPrev}
+                  className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
                 >
-                  <FadeImage src={p.src} alt={p.alt} fill sizes="80px" className="object-cover" />
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+                  <ArrowLeft className="size-4" strokeWidth={2.25} />
+                </button>
+                <button
+                  onClick={() => setActive((a) => (a + 1) % product.photos.length)}
+                  aria-label={t.product.photoNext}
+                  className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <ArrowRight className="size-4" strokeWidth={2.25} />
+                </button>
 
-          <div className="lg:col-span-5 flex flex-col gap-4 lg:py-2">
-            <span className="text-sm text-ink-soft">Drop/01 — Edición limitada</span>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {product.photos.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActive(i)}
+                      aria-label={tpl(t.product.photoAria, { index: i + 1 })}
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === active ? "w-8" : "w-1.5 bg-ink/30"
+                      }`}
+                      style={
+                        i === active
+                          ? { backgroundColor: accent ?? "#0f0f0f" }
+                          : undefined
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
 
-            <h1
-              className="font-display text-ink uppercase"
-              style={{ fontSize: "clamp(2.6rem, 6vw, 4.5rem)", lineHeight: 1, letterSpacing: "-0.05em" }}
-            >
-              Plaid Hoodie
-            </h1>
-
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl md:text-4xl">€39,99</span>
-              <span className="line-through text-ink-soft/50 text-lg">€59,99</span>
-            </div>
-
-            <p className="text-ink-soft leading-relaxed max-w-md">
-              Hoodie 450gsm en mezcla de algodón. Forro de tela plaid en la
-              capucha, bordados con detalle plaid y logo VAIN en el brazo
-              izquierdo. Puños y bajo elásticos. Fit baggy cropped.
-            </p>
-
-            <div className="flex flex-col gap-3 mt-2">
-              <span className="text-sm text-ink-soft">Talla</span>
-              <div className="flex flex-wrap gap-2">
-                {sizes.map((s) => (
+              <div className="hidden md:flex gap-3 mt-3">
+                {product.photos.map((p, i) => (
                   <motion.button
-                    key={s}
-                    onClick={() => setSize(s)}
-                    whileTap={{ scale: 0.92 }}
-                    className={`min-w-[52px] px-4 py-3 rounded-full text-sm transition-all ${
-                      size === s
-                        ? "bg-ink text-bone"
-                        : "bg-ink/5 hover:bg-ink/10"
+                    key={p.src}
+                    onClick={() => setActive(i)}
+                    whileTap={{ scale: 0.94 }}
+                    className={`relative size-20 rounded-2xl overflow-hidden transition-all ${
+                      i === active ? "ring-2 ring-ink" : "opacity-60 hover:opacity-100"
                     }`}
                   >
-                    {s}
+                    <FadeImage
+                      src={p.src}
+                      alt={p.alt}
+                      fill
+                      sizes="80px"
+                      className="object-cover [mix-blend-mode:multiply]"
+                    />
                   </motion.button>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <MagneticButton className="w-full mt-3">
-              <motion.button
-                onClick={handleAdd}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.97 }}
-                className={`group w-full inline-flex items-center justify-center gap-3 px-6 py-5 rounded-full text-lg shadow-soft transition-colors ${
-                  added ? "bg-bone-dim text-ink" : "bg-ink text-bone"
-                }`}
+            <div className="lg:col-span-5 flex flex-col gap-4 lg:py-2">
+              <span className="text-sm text-ink-soft">
+                {product.drop} — {t.product.limitedEdition}
+              </span>
+
+              <h1
+                className={`font-display uppercase ${titleColor ? "" : "text-ink"}`}
+                style={{
+                  fontSize: "clamp(2.6rem, 6vw, 4.5rem)",
+                  lineHeight: 1,
+                  letterSpacing: "-0.05em",
+                  color: titleColor ?? undefined,
+                }}
               >
-                <motion.span
-                  key={added ? "added" : "add"}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="inline-flex items-center gap-3"
-                >
-                  {added ? (
-                    <>
-                      <Check className="size-5" strokeWidth={2.25} />
-                      Añadido al carrito
-                    </>
-                  ) : (
-                    <>
-                      Añadir al carrito · talla {size}
-                      <ArrowRight aria-hidden className="size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
-                    </>
-                  )}
-                </motion.span>
-              </motion.button>
-            </MagneticButton>
+                {product.name}
+              </h1>
+              {accent && (
+                <span
+                  aria-hidden
+                  className="block h-1.5 w-14 rounded-full -mt-1"
+                  style={{ backgroundColor: accent }}
+                />
+              )}
 
-            <p className="text-xs text-ink-soft/70 text-center">
-              Thagory mide 175 cm y lleva talla M.
-            </p>
-
-            <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t border-ink/10">
-              {specs.map(([k, v]) => (
-                <div key={k} className="flex flex-col">
-                  <span className="text-xs text-ink-soft">{k}</span>
-                  <span className="text-base mt-0.5">{v}</span>
-                </div>
-              ))}
-            </div>
-
-            <details className="group mt-3 border-t border-ink/10 pt-4">
-              <summary className="flex items-center justify-between cursor-pointer list-none">
-                <span>Detalles y materiales</span>
-                <span className="size-8 rounded-full bg-ink/5 flex items-center justify-center transition-transform group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <ul className="mt-3 text-sm text-ink-soft leading-relaxed space-y-1.5 list-disc pl-5">
-                <li>450 gsm — mezcla de algodón</li>
-                <li>Forro de tela plaid en la capucha</li>
-                <li>Logo bordado con detalle plaid</li>
-                <li>Bordado VAIN en el brazo izquierdo</li>
-                <li>Puños y bajo elásticos (ribbed)</li>
-                <li>Fit baggy cropped</li>
-                <li>Pieza pre-made — unidades limitadas</li>
-              </ul>
-            </details>
-
-            <details className="group border-t border-ink/10 pt-4">
-              <summary className="flex items-center justify-between cursor-pointer list-none">
-                <span>Envíos</span>
-                <span className="size-8 rounded-full bg-ink/5 flex items-center justify-center transition-transform group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <div className="mt-3 text-sm text-ink-soft leading-relaxed space-y-2">
-                <p>Una vez tu pedido esté listo:</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>España: 2–5 días laborables</li>
-                  <li>Europa: 6–9 días laborables</li>
-                </ul>
-                <p className="text-xs">
-                  Más detalles en{" "}
-                  <Link
-                    href="/policies/shipping-policy"
-                    className="underline underline-offset-4 hover:text-ink"
-                  >
-                    Política de envío
-                  </Link>
-                  .
-                </p>
+              <div className="flex items-baseline gap-3">
+                <span className="text-3xl md:text-4xl">{formatPrice(product.price)}</span>
+                {product.oldPrice && (
+                  <span className="line-through text-ink-soft/50 text-lg">
+                    {formatPrice(product.oldPrice)}
+                  </span>
+                )}
               </div>
-            </details>
+
+              <div
+                className="rich-text max-w-md"
+                dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+              />
+
+              <div className="flex flex-col gap-3 mt-2">
+                <span className="text-sm text-ink-soft">{t.product.size}</span>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((s) => {
+                    const isAvail = availableSet.has(s);
+                    const isSelected = size === s;
+                    return (
+                      <motion.button
+                        key={s}
+                        onClick={() => isAvail && setSize(s)}
+                        whileTap={isAvail ? { scale: 0.92 } : undefined}
+                        disabled={!isAvail}
+                        aria-disabled={!isAvail}
+                        title={isAvail ? undefined : t.product.outOfStock}
+                        className={`min-w-[52px] px-4 py-3 rounded-full text-sm transition-all ${
+                          isSelected
+                            ? "bg-ink text-bone"
+                            : isAvail
+                              ? "bg-ink/5 hover:bg-ink/10"
+                              : "bg-ink/[0.03] text-ink-soft/40 line-through cursor-not-allowed"
+                        }`}
+                      >
+                        {s}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+                {!availableSet.has(size) && (
+                  <p className="text-xs text-blood">{t.product.outOfStock}</p>
+                )}
+              </div>
+
+              <MagneticButton className="w-full mt-3">
+                <motion.button
+                  onClick={handleAdd}
+                  disabled={!availableSet.has(size)}
+                  whileHover={availableSet.has(size) ? { scale: 1.01 } : undefined}
+                  whileTap={availableSet.has(size) ? { scale: 0.97 } : undefined}
+                  className="group w-full inline-flex items-center justify-center gap-3 px-6 py-5 rounded-full text-lg shadow-soft bg-ink text-bone disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {availableSet.has(size)
+                    ? tpl(t.product.addToCartWithSize, { size })
+                    : t.product.outOfStock}
+                  {availableSet.has(size) && (
+                    <ArrowRight
+                      aria-hidden
+                      className="size-5 transition-transform group-hover:translate-x-1"
+                      strokeWidth={2.25}
+                    />
+                  )}
+                </motion.button>
+              </MagneticButton>
+
+              {product.modelHeight && product.modelSize && (
+                <p className="text-xs text-ink-soft/70 text-center">
+                  {tpl(t.product.modelInfo, {
+                    name: "Thagory",
+                    height: product.modelHeight,
+                    size: product.modelSize,
+                  })}
+                </p>
+              )}
+
+              {product.specs.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t border-ink/10">
+                  {product.specs.map((s) => (
+                    <div key={s.k} className="flex flex-col">
+                      <span className="text-xs text-ink-soft">{s.k}</span>
+                      <span className="text-base mt-0.5">{s.v}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <details className="group mt-3 border-t border-ink/10 pt-4">
+                <summary className="flex items-center justify-between cursor-pointer list-none">
+                  <span>{t.product.details}</span>
+                  <span className="size-8 rounded-full bg-ink/5 flex items-center justify-center transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <ul className="mt-3 text-sm text-ink-soft leading-relaxed space-y-1.5 list-disc pl-5">
+                  {product.details.map((d) => (
+                    <li key={d}>{d}</li>
+                  ))}
+                </ul>
+              </details>
+
+              <details className="group border-t border-ink/10 pt-4">
+                <summary className="flex items-center justify-between cursor-pointer list-none">
+                  <span>{t.product.shipping}</span>
+                  <span className="size-8 rounded-full bg-ink/5 flex items-center justify-center transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <div className="mt-3 text-sm text-ink-soft leading-relaxed space-y-2">
+                  <p>{t.product.shippingIntro}</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>{t.product.shippingSpain}</li>
+                    <li>{t.product.shippingEurope}</li>
+                  </ul>
+                  <p className="text-xs">
+                    {t.product.shippingMore}{" "}
+                    <Link
+                      href="/policies/shipping-policy"
+                      className="underline underline-offset-4 hover:text-ink"
+                    >
+                      {t.product.shippingPolicy}
+                    </Link>
+                    .
+                  </p>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

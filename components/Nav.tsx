@@ -2,21 +2,62 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, Lock, LogOut, ShoppingBag, User, X } from "lucide-react";
+import { useCartUI } from "@/lib/cart-ui";
+import { useMenuUI } from "@/lib/menu-ui";
+import { adminLogoutAction } from "@/app/actions/admin";
+import { tpl, useT } from "@/lib/i18n/client";
+import LangSwitcher from "./LangSwitcher";
 
-const categories = [
-  { name: "Hoodies", count: 1, href: "/hoodies" },
-  { name: "T-Shirts", count: 0, href: "#next-drop", soon: true },
-  { name: "Pants", count: 0, href: "#next-drop", soon: true },
-  { name: "Headwear", count: 0, href: "#next-drop", soon: true },
-  { name: "Archivo", count: 4, href: "#shop" },
-];
+type NavCollection = { handle: string; title: string };
 
-export default function Nav() {
+type NavProps = { collections?: NavCollection[]; isAdmin?: boolean };
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-4">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+    </svg>
+  );
+}
+
+function TikTokIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-4">
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+    </svg>
+  );
+}
+
+export default function Nav({ collections = [], isAdmin = false }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { isOpen: open, open: openMenu, close: closeMenu } = useMenuUI();
+  const { count } = useCartUI();
+  const t = useT();
+  const pathname = usePathname();
+
+  // En la home, click en el logo NO navega — hace scroll suave al top.
+  // Útil cuando el usuario ha bajado por la página y quiere volver a hero
+  // sin recargar la ruta (mantiene el state del cart, animaciones, etc).
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const fixedSections = [
+    { name: t.nav.newDrop, subtitle: t.nav.newDropSubtitle, href: "/nuevo-drop" },
+    { name: t.nav.all, subtitle: t.nav.allSubtitle, href: "/todo" },
+  ];
+  const archiveSection = {
+    name: t.nav.archive,
+    subtitle: t.nav.archiveSubtitle,
+    href: "/archivo",
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -25,70 +66,125 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  // Si el navegador guarda la página en bfcache con overflow:hidden,
-  // al volver con el botón atrás veríamos la página bloqueada / en blanco.
-  useEffect(() => {
-    const reset = () => {
-      document.body.style.overflow = "";
-    };
-    window.addEventListener("pagehide", reset);
-    return () => window.removeEventListener("pagehide", reset);
-  }, []);
-
   return (
     <>
       <header
+        data-sticky-header
         className={`sticky top-0 z-50 transition-all ${
           scrolled ? "bg-bone/80 backdrop-blur-lg" : "bg-bone"
         }`}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4">
-          <motion.button
-            whileTap={{ scale: 0.94 }}
-            onClick={() => setOpen(true)}
-            aria-label="Abrir menú"
-            className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-ink/5 hover:scale-105 transition-transform text-sm"
-          >
-            <span className="flex flex-col gap-1">
-              <span className="block w-4 h-px bg-current" />
-              <span className="block w-4 h-px bg-current" />
-            </span>
-            <span className="hidden sm:inline">Menú</span>
-          </motion.button>
+        <div className="relative flex items-center justify-between gap-2 px-3 sm:px-6 py-4">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              onClick={openMenu}
+              aria-label={t.nav.openMenu}
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-ink/5 hover:scale-105 transition-transform text-sm"
+            >
+              <span className="flex flex-col gap-1">
+                <span className="block w-4 h-px bg-current" />
+                <span className="block w-4 h-px bg-current" />
+              </span>
+              <span className="hidden sm:inline">{t.nav.menu}</span>
+            </motion.button>
+
+            <motion.a
+              whileTap={{ scale: 0.94 }}
+              href="https://account.v4in.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label={t.nav.myAccount}
+              className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-105 transition-all text-sm"
+            >
+              <User className="size-4" strokeWidth={2.25} />
+              <span className="hidden md:inline">{t.nav.myAccount}</span>
+            </motion.a>
+          </div>
 
           <Link
             href="/"
-            aria-label="VAIN — Inicio"
-            className="absolute left-1/2 -translate-x-1/2 select-none"
+            onClick={handleLogoClick}
+            aria-label={`VAIN — ${t.nav.home}`}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+            style={{ perspective: 600 }}
           >
-            <div className="relative w-24 md:w-32 h-7">
+            <motion.div className="relative size-9 md:size-11 animate-coin-spin">
               <Image
-                src="/logo_index.png"
+                src="/logo_mono.png"
                 alt="VAIN"
                 fill
-                sizes="128px"
+                priority
+                sizes="44px"
                 className="object-contain"
               />
-            </div>
+            </motion.div>
           </Link>
 
-          <motion.a
-            whileTap={{ scale: 0.94 }}
-            href="#shop"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ink text-bone hover:scale-105 transition-transform text-sm"
-          >
-            Carrito
-            <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-bone/20 text-xs">
-              0
-            </span>
-          </motion.a>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <LangSwitcher variant="menu" />
+
+            {isAdmin && (
+              <>
+                <motion.div whileTap={{ scale: 0.94 }} className="hidden sm:inline-flex">
+                  <Link
+                    href="/admin"
+                    aria-label={t.nav.adminPanel}
+                    title={t.nav.adminPanel}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-ink text-bone text-xs uppercase tracking-wider hover:scale-105 transition-transform"
+                  >
+                    <Lock className="size-3" strokeWidth={2.25} />
+                    <span className="hidden sm:inline">Admin</span>
+                  </Link>
+                </motion.div>
+                <Link
+                  href="/admin"
+                  aria-label={t.nav.adminPanel}
+                  title={t.nav.adminPanel}
+                  className="sm:hidden inline-flex items-center justify-center size-9 rounded-full bg-ink text-bone hover:scale-105 transition-transform"
+                >
+                  <Lock className="size-3.5" strokeWidth={2.25} />
+                </Link>
+                <form action={adminLogoutAction}>
+                  <motion.button
+                    whileTap={{ scale: 0.94 }}
+                    type="submit"
+                    aria-label={t.nav.logoutAdmin}
+                    title={t.nav.logoutAdmin}
+                    className="inline-flex items-center justify-center size-9 sm:size-10 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-105 transition-all text-ink-soft"
+                  >
+                    <LogOut className="size-3.5" strokeWidth={2.25} />
+                  </motion.button>
+                </form>
+              </>
+            )}
+
+            <motion.div whileTap={{ scale: 0.94 }}>
+              <Link
+                href="/cart"
+                aria-label={tpl(t.nav.viewCartAria, {
+                  count,
+                  label: count === 1 ? t.nav.item : t.nav.items,
+                })}
+                className="relative inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-ink text-bone hover:scale-105 transition-transform text-sm"
+              >
+                <ShoppingBag className="size-4 sm:hidden" strokeWidth={2.25} />
+                <span className="hidden sm:inline">{t.nav.cart}</span>
+                <AnimatePresence mode="popLayout">
+                  <motion.span
+                    key={count}
+                    initial={{ scale: 0.6, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.6, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 22 }}
+                    className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-bone/20 text-xs tabular-nums"
+                  >
+                    {count}
+                  </motion.span>
+                </AnimatePresence>
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </header>
 
@@ -99,102 +195,111 @@ export default function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[60] bg-bone"
+            className="fixed inset-0 z-[60] bg-bone overflow-y-auto overscroll-contain"
           >
-            <div className="flex items-center justify-between px-4 sm:px-6 py-4">
+            <div className="sticky top-0 z-10 bg-bone flex items-center justify-between px-4 sm:px-6 py-4">
               <Link
                 href="/"
-                onClick={() => setOpen(false)}
-                aria-label="VAIN — Inicio"
+                onClick={closeMenu}
+                aria-label={`VAIN — ${t.nav.home}`}
                 className="select-none"
+                style={{ perspective: 600 }}
               >
-                <div className="relative w-24 md:w-32 h-7">
+                <motion.div className="relative size-10 md:size-12 animate-coin-spin">
                   <Image
-                    src="/logo_index.png"
+                    src="/logo_mono.png"
                     alt="VAIN"
                     fill
-                    sizes="128px"
+                    sizes="48px"
                     className="object-contain"
                   />
-                </div>
+                </motion.div>
               </Link>
               <motion.button
                 whileTap={{ scale: 0.92 }}
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
                 className="size-10 rounded-full bg-ink text-bone flex items-center justify-center hover:scale-110 transition-transform"
-                aria-label="Cerrar menú"
+                aria-label={t.nav.closeMenu}
               >
                 <X className="size-5" strokeWidth={2.25} />
               </motion.button>
             </div>
 
-            <div className="px-4 sm:px-6 py-6 md:py-12 max-w-3xl mx-auto">
-              <p className="text-sm text-ink-soft/70 mb-6">Categorías</p>
+            <div className="px-4 sm:px-6 pt-6 md:pt-12 pb-28 max-w-3xl mx-auto">
+              <p className="text-sm text-ink-soft/70 mb-6">{t.nav.store}</p>
               <ul className="flex flex-col">
-                {categories.map((c, i) => {
-                  const isInternal = c.href.startsWith("/");
-                  const inner = (
-                    <>
+                {[
+                  ...fixedSections,
+                  ...collections.map((c) => ({
+                    name: c.title,
+                    subtitle: t.nav.collectionSubtitle,
+                    href: `/c/${c.handle}`,
+                  })),
+                  archiveSection,
+                ].map((c, i) => (
+                  <motion.li
+                    key={c.href}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.06 * i }}
+                  >
+                    <Link
+                      href={c.href}
+                      onClick={closeMenu}
+                      className="group flex items-end justify-between gap-3 md:gap-6 border-b border-ink/15 py-5 md:py-7 hover:border-ink transition-colors active:scale-[0.98] transition-transform"
+                    >
                       <span
-                        className="font-display uppercase tracking-tight leading-none group-hover:translate-x-2 transition-transform"
-                        style={{ fontSize: "clamp(2.2rem, 7vw, 4.5rem)" }}
+                        className="font-display uppercase tracking-tight leading-[0.95] group-hover:translate-x-2 transition-transform min-w-0 flex-1 break-words"
+                        style={{ fontSize: "clamp(2rem, 7.5vw, 5rem)" }}
                       >
                         {c.name}
                       </span>
-                      <span className="text-xs text-ink-soft/60">
-                        {c.soon ? "Próximamente" : `${c.count} pieza${c.count === 1 ? "" : "s"}`}
+                      <span className="text-[11px] md:text-sm text-ink-soft/60 shrink-0 whitespace-nowrap text-right pb-1 md:pb-2">
+                        {c.subtitle}
                       </span>
-                    </>
-                  );
-                  const className =
-                    "group flex items-baseline justify-between border-b border-ink/15 py-5 hover:border-ink transition-colors active:scale-[0.98] transition-transform";
-                  return (
-                    <motion.li
-                      key={c.name}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.06 * i }}
-                    >
-                      {isInternal ? (
-                        <Link href={c.href} onClick={() => setOpen(false)} className={className}>
-                          {inner}
-                        </Link>
-                      ) : (
-                        <a href={c.href} onClick={() => setOpen(false)} className={className}>
-                          {inner}
-                        </a>
-                      )}
-                    </motion.li>
-                  );
-                })}
+                    </Link>
+                  </motion.li>
+                ))}
               </ul>
 
-              <div className="mt-12 flex flex-wrap gap-3">
+              {/* Botones estilo footer: IG + TikTok arriba (con iconos) y
+                  Mi cuenta a lo ancho debajo. Centrados. */}
+              <div className="mt-10 mb-4 flex flex-col gap-3 max-w-sm mx-auto">
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href="https://www.instagram.com/vainspn/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Instagram"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-[1.02] transition-all text-sm"
+                  >
+                    <InstagramIcon />
+                    Instagram
+                  </a>
+                  <a
+                    href="https://www.tiktok.com/@vainspn"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="TikTok"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-[1.02] transition-all text-sm"
+                  >
+                    <TikTokIcon />
+                    TikTok
+                  </a>
+                </div>
+
                 <a
-                  href="https://www.instagram.com/vainspn/"
+                  href="https://account.v4in.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full bg-ink/5 hover:scale-105 transition-transform text-sm"
+                  onClick={closeMenu}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-ink text-bone hover:scale-[1.02] transition-transform text-sm"
                 >
-                  Instagram
+                  {t.nav.myAccount}
                   <ArrowUpRight className="size-3.5" strokeWidth={2.25} />
-                </a>
-                <a
-                  href="https://www.tiktok.com/@vainspn"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full bg-ink/5 hover:scale-105 transition-transform text-sm"
-                >
-                  TikTok
-                  <ArrowUpRight className="size-3.5" strokeWidth={2.25} />
-                </a>
-                <a
-                  href="mailto:press@v4in.com"
-                  className="inline-block px-5 py-3 rounded-full bg-ink/5 hover:scale-105 transition-transform text-sm"
-                >
-                  press@v4in.com
                 </a>
               </div>
+
             </div>
           </motion.div>
         )}
