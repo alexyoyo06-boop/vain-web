@@ -42,3 +42,6 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# capturas de verificacion movil (scripts/mobile-check.js)
+/_mobile_shots/

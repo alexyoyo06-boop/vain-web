@@ -17,7 +17,9 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com",
+      // va.vercel-scripts.com = Analytics/Speed Insights en dev (en prod se
+      // sirven same-origin vía /_vercel/* y los cubre 'self').
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",

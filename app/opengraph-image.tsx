@@ -5,7 +5,7 @@ import sharp from "sharp";
 import { getLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/dictionary";
 
-export const alt = "VAIN — DRESS THE NOISE";
+export const alt = "VAIN";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -17,21 +17,22 @@ const LATIN_OG = new Set(["es", "en", "fr", "it", "de", "pt", "nl", "pl"]);
 export default async function Image() {
   const locale = await getLocale();
   const t = await getDictionary(LATIN_OG.has(locale) ? locale : "en");
-  const eyebrow = `Drop/01 — ${t.product.limitedEdition}`;
-  const ogTitle = t.hero.taglineLine1.replace(/\.\s*$/, "");
+  const eyebrow = t.product.limitedEdition;
+  const ogTitle = "VAIN";
   const ogSub = t.meta.ogDescription;
-  // Re-renderizamos el logo en un PNG de ancho fijo para que satori no necesite
-  // calcular el alto automáticamente (no soporta height: auto fiable).
+  // El logo es la V (logo_mono, el mismo del nav), no el wordmark. Lo
+  // re-renderizamos a un PNG de alto fijo para que satori no necesite
+  // calcular dimensiones automáticas (no soporta height: auto fiable).
   const logoBuf = await sharp(
-    await readFile(path.join(process.cwd(), "public", "logo2.png"))
+    await readFile(path.join(process.cwd(), "public", "logo_mono.png"))
   )
-    .resize({ width: 900 })
+    .resize({ height: 300 })
     .png()
     .toBuffer();
   const logoMeta = await sharp(logoBuf).metadata();
   const logoUrl = `data:image/png;base64,${logoBuf.toString("base64")}`;
-  const logoW = logoMeta.width ?? 900;
-  const logoH = logoMeta.height ?? 180;
+  const logoW = logoMeta.width ?? 300;
+  const logoH = logoMeta.height ?? 300;
 
   const bone = "#ffffff";
   const ink = "#0f0f0f";

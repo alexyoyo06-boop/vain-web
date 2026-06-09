@@ -132,9 +132,13 @@ export default function TripletsHero({ products = [] }: Props) {
                       }
                 }
                 transition={{
-                  type: "spring",
-                  stiffness: 62,
-                  damping: 16,
+                  // Tween, NO spring: con spring cada propiedad (x, y, rotate)
+                  // es un muelle independiente que se asienta en un momento
+                  // distinto → al final el logo "se recoloca". Con un tween
+                  // todas llegan juntas y terminan clavadas en su valor.
+                  type: "tween",
+                  duration: 0.9,
+                  ease: [0.22, 1, 0.36, 1],
                   delay: 0.15 + i * 0.16,
                 }}
                 className="w-[clamp(120px,20vh,195px)] md:w-[clamp(120px,22vh,210px)] will-change-transform"
