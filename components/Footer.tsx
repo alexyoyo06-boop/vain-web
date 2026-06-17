@@ -62,6 +62,7 @@ export default function Footer() {
           <Link href="/policies/terms-of-service" className="hover:text-bone transition-colors">{t.footer.policyTerms}</Link>
           <Link href="/policies/legal-notice" className="hover:text-bone transition-colors">{t.footer.policyLegalNotice}</Link>
           <Link href="/policies/contact-information" className="hover:text-bone transition-colors">{t.footer.policyContact}</Link>
+          <Link href="/policies/withdrawal" className="hover:text-bone transition-colors">{t.footer.policyWithdrawal}</Link>
         </nav>
       </div>
 

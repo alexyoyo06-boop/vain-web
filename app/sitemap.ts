@@ -19,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/policies/shipping-policy`, changeFrequency: "yearly", priority: 0.2 },
     { url: `${base}/policies/legal-notice`, changeFrequency: "yearly", priority: 0.2 },
     { url: `${base}/policies/contact-information`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${base}/policies/withdrawal`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
   let productRoutes: MetadataRoute.Sitemap = [];

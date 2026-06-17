@@ -15,15 +15,27 @@ export default function RefundPolicyPage() {
         Política de reembolso
       </h1>
 
-      <h2 className={H2}>Devoluciones y cambios</h2>
+      <h2 className={H2}>Derecho de desistimiento</h2>
       <p>
-        No aceptamos devoluciones ni cambios de talla, ya que todos los
-        productos se fabrican bajo pedido a través de nuestro sistema de
-        preventa.
+        Si resides en la Unión Europea, dispones de un plazo de{" "}
+        <strong>14 días naturales</strong> para desistir de tu compra sin
+        necesidad de justificación. Encontrarás todos los detalles y el modelo
+        de formulario en nuestra{" "}
+        <a
+          href="/policies/withdrawal"
+          className="underline underline-offset-4 hover:text-ink"
+        >
+          página de derecho de desistimiento
+        </a>
+        .
       </p>
+
+      <h2 className={H2}>Cambios y artículos defectuosos</h2>
       <p>
-        Solo aceptamos devoluciones si la prenda es defectuosa o si nos hemos
-        equivocado con tu pedido.
+        Nuestros productos se fabrican bajo pedido a través del sistema de
+        preventa, por lo que no realizamos cambios de talla una vez confirmado
+        el pedido. Si la prenda llega defectuosa o nos hemos equivocado con tu
+        pedido, lo solucionamos sin coste para ti.
       </p>
 
       <h2 className={H2}>Contacto</h2>

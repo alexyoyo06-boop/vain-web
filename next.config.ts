@@ -87,6 +87,18 @@ const nextConfig: NextConfig = {
         destination: `https://${SHOPIFY_DOMAIN}/a/:path*`,
         permanent: false,
       },
+      // Cuenta de cliente Shopify (subdominio nuevo account.v4in.com; incl.
+      // autoservicio de devolución/desistimiento). Atajo por si algo enlaza a /account.
+      {
+        source: "/account/:path*",
+        destination: "https://account.v4in.com/:path*",
+        permanent: false,
+      },
+      {
+        source: "/account",
+        destination: "https://account.v4in.com",
+        permanent: false,
+      },
       {
         source: "/services/:path*",
         destination: `https://${SHOPIFY_DOMAIN}/services/:path*`,
