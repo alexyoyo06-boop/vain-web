@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# Vain
 
-First, run the development server:
+**Tienda de ropa online — proyecto real, en producción, para un cliente real.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+E-commerce headless construido con Next.js sobre Shopify. Desplegado en Vercel con CI/CD.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[🛒 Ver tienda en vivo](https://v4in.com)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+</div>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Resultados
 
-To learn more about Next.js, take a look at the following resources:
+Una tienda de verdad, con clientes de verdad:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 🧾 **40 pedidos** en los primeros 30 días.
+- 📈 **8,7 % de conversión** — frente al 2–3 % de media del sector (≈ 3–4×).
+- 🚀 En producción en [v4in.com](https://v4in.com).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Qué es
 
-## Deploy on Vercel
+Vain es una tienda de ropa con **arquitectura headless**: Shopify se encarga del catálogo, el carrito, el checkout y los pagos, y todo el *frontend* está construido a medida con Next.js. Eso da control total sobre el diseño y el rendimiento sin renunciar a la fiabilidad del checkout de Shopify.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Características
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 🛍️ **Catálogo y producto** conectados a la **Shopify Storefront API** (GraphQL) — colecciones, fichas de producto, variantes.
+- 🛒 **Carrito completo** con la Cart API de Shopify (añadir, actualizar, eliminar) y checkout nativo de Shopify.
+- 🧊 **Logo en 3D** interactivo con React Three Fiber / Three.js.
+- 🌐 **Internacionalización (i18n)** propia, servidor y cliente.
+- 🔒 **Zona de administración** con autenticación y *rate limiting*.
+- ✉️ **Early access / lista de espera** para drops.
+- ⚡ **Optimización y analítica**: Vercel Analytics, Speed Insights y Edge Config para *feature flags* / estado del sitio.
+- 🎨 Diseño y animaciones a medida (Framer Motion), sin librería de componentes.
+
+## Stack
+
+| Área | Tecnología |
+|------|-----------|
+| Framework | Next.js 16 · React 19 · TypeScript |
+| Commerce | Shopify Storefront API (headless, GraphQL) |
+| 3D | React Three Fiber · Three.js · Drei |
+| Estilos / animación | Tailwind CSS v4 · Framer Motion |
+| Infra | Vercel · Edge Config · Analytics · Speed Insights |
+| CI/CD | Despliegue continuo en Vercel |
+
+## Capturas
+
+| Home | Producto | Carrito |
+|------|----------|---------|
+| ![Home](_mobile_shots/home.png) | ![Producto](_mobile_shots/producto.png) | ![Carrito](_mobile_shots/cart.png) |
+
+## Arquitectura (breve)
+
+La integración con Shopify vive en [`lib/shopify/`](lib/shopify) (cliente GraphQL, `products`, `collections`, `cart`, `customer` y las `queries`). El estado del carrito y el menú se manejan en el cliente (`lib/cart-ui.tsx`, `lib/menu-ui.tsx`), y la internacionalización en [`lib/i18n/`](lib/i18n). El renderizado de producto usa datos servidos desde el servidor (`lib/products-server.ts`) para SEO y velocidad.
+
+---
+
+<div align="center">
+Desarrollado por <a href="https://github.com/alexyoyo06-boop">Alex García Marcos</a>
+</div>
