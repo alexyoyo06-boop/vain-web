@@ -1,4 +1,5 @@
 import Nav from "@/components/NavServer";
+import PhotoHero from "@/components/PhotoHero";
 import TripletsHero from "@/components/TripletsHero";
 import Hero from "@/components/Hero";
 import TrustStrip from "@/components/TrustStrip";
@@ -16,6 +17,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col min-h-screen">
       <Nav />
+      <PhotoHero />
       <TripletsHero products={all} />
       <Hero product={featured} />
       <TrustStrip />

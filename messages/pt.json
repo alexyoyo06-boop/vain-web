@@ -78,7 +78,8 @@
     "taglineLine2": "Drops limitados, qualidade real.",
     "buyFull": "Comprar Drop/01 — 39,99€",
     "buyShort": "Comprar — 39,99€",
-    "discoverDrop": "Descobre o novo drop"
+    "discoverDrop": "Descobre o novo drop",
+    "newDropShort": "Novo drop"
   },
   "categories": {
     "kicker": "Drop/01 + o que vem",
@@ -218,5 +219,10 @@
   },
   "home": {
     "allTitle": "Toda a roupa"
+  },
+  "collectionNames": {
+    "pantalones": "Calças",
+    "camisetas": "T-shirts",
+    "sudaderas": "Sweatshirts"
   }
 }

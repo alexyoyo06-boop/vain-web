@@ -78,7 +78,8 @@
     "taglineLine2": "دروبات محدودة، جودة حقيقية.",
     "buyFull": "شراء Drop/01 — 39,99€",
     "buyShort": "شراء — 39,99€",
-    "discoverDrop": "اكتشف الدروب الجديد"
+    "discoverDrop": "اكتشف الدروب الجديد",
+    "newDropShort": "دروب جديد"
   },
   "categories": {
     "kicker": "Drop/01 + ما هو قادم",
@@ -218,5 +219,10 @@
   },
   "home": {
     "allTitle": "كل الملابس"
+  },
+  "collectionNames": {
+    "pantalones": "بنطلونات",
+    "camisetas": "تي شيرت",
+    "sudaderas": "هوديز"
   }
 }

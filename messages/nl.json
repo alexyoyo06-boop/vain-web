@@ -78,7 +78,8 @@
     "taglineLine2": "Gelimiteerde drops, echte kwaliteit.",
     "buyFull": "Koop Drop/01 — 39,99€",
     "buyShort": "Kopen — 39,99€",
-    "discoverDrop": "Ontdek de nieuwe drop"
+    "discoverDrop": "Ontdek de nieuwe drop",
+    "newDropShort": "Nieuwe drop"
   },
   "categories": {
     "kicker": "Drop/01 + wat komt",
@@ -218,5 +219,10 @@
   },
   "home": {
     "allTitle": "Alle kleding"
+  },
+  "collectionNames": {
+    "pantalones": "Broeken",
+    "camisetas": "T-shirts",
+    "sudaderas": "Hoodies"
   }
 }

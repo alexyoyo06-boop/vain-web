@@ -13,15 +13,18 @@ import { getT } from "@/lib/i18n/server";
  * La mitad izquierda tiene que estar despejada y no ser blanca: ahí van el
  * texto y el botón, y si no, no se leen.
  */
-const PHOTO = "/archivo/02_plaid-hoodie.jpg";
+const PHOTO = "/hero/banner-1.jpg";
 
-export default async function PhotoHero() {
+export default async function PhotoHero({ photo = PHOTO }: { photo?: string }) {
   const { t } = await getT();
 
   return (
-    <section className="relative w-full aspect-[16/9] md:aspect-auto md:h-[80svh] md:min-h-[560px] overflow-hidden bg-ink">
+    // El margen negativo mete la foto por debajo de la barra (84px en móvil,
+    // 100 en escritorio) para que la barra flote encima y se funda con ella.
+    // Si cambia el alto de la barra en Nav.tsx, hay que cambiarlo aquí.
+    <section className="relative w-full -mt-[84px] md:-mt-[100px] h-[calc(56.25vw+84px)] md:h-[80svh] md:min-h-[560px] overflow-hidden bg-ink">
       <Image
-        src={PHOTO}
+        src={photo}
         alt="VAIN"
         fill
         priority
@@ -36,21 +39,36 @@ export default async function PhotoHero() {
         className="absolute inset-0 bg-gradient-to-r from-ink/55 via-ink/10 to-transparent"
       />
 
-      <div className="absolute inset-y-0 left-0 flex flex-col items-start justify-center gap-2 md:gap-4 px-5 sm:px-8 md:px-14 md:justify-end md:pb-16">
+      {/* Velo por arriba: la barra va fundida con la foto y en blanco, así que
+          necesita algo oscuro detrás o el logo se pierde sobre la piedra clara. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-28 md:h-36 bg-gradient-to-b from-ink/45 to-transparent"
+      />
+
+      {/* Degradado al crema por abajo: la foto se funde con la página en vez
+          de cortar con una línea recta contra la sección de los triplets. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-3 md:h-4 bg-gradient-to-t from-bone to-transparent"
+      />
+
+      {/* pb-20 en escritorio: el texto se queda por encima del degradado de
+          abajo, si no el botón crema se pierde sobre el crema. */}
+      <div className="absolute inset-y-0 left-0 flex flex-col items-start justify-center gap-2 md:gap-4 px-5 sm:px-8 md:px-14 pt-[84px] md:pt-0 md:justify-end md:pb-20">
         <h1
           className="font-display uppercase tracking-tight leading-none text-bone drop-shadow-[0_2px_12px_rgba(15,15,15,0.5)]"
           style={{ fontSize: "clamp(1.1rem, 4.2vw, 3rem)" }}
         >
           {t.nav.newDrop}
         </h1>
-        <p className="text-bone/90 text-[clamp(0.7rem,2.6vw,1rem)] max-w-md leading-snug drop-shadow-[0_2px_10px_rgba(15,15,15,0.5)]">
-          {t.hero.taglineLine2}
-        </p>
+        {/* Mismo tratamiento que las píldoras de la barra fundida: translúcido
+            en blanco. Sobre foto, un botón sólido rompe el efecto de capa. */}
         <Link
           href="/nuevo-drop"
-          className="mt-1 inline-flex items-center justify-center px-5 py-2.5 md:px-7 md:py-3.5 rounded-full bg-bone text-ink text-[clamp(0.75rem,2.8vw,1rem)] shadow-soft hover:scale-[1.03] active:scale-[0.98] transition-transform"
+          className="mt-1 inline-flex items-center justify-center px-5 py-2.5 md:px-7 md:py-3.5 rounded-full bg-bone/20 hover:bg-bone/30 text-bone backdrop-blur-sm text-[clamp(0.75rem,2.8vw,1rem)] hover:scale-[1.03] active:scale-[0.98] transition-all"
         >
-          {t.hero.discoverDrop}
+          {t.hero.newDropShort}
         </Link>
       </div>
     </section>

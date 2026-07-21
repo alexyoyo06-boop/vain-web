@@ -78,7 +78,8 @@
     "taglineLine2": "Περιορισμένα drops, αληθινή ποιότητα.",
     "buyFull": "Αγορά Drop/01 — 39,99€",
     "buyShort": "Αγορά — 39,99€",
-    "discoverDrop": "Ανακάλυψε το νέο drop"
+    "discoverDrop": "Ανακάλυψε το νέο drop",
+    "newDropShort": "Νέο drop"
   },
   "categories": {
     "kicker": "Drop/01 + ό,τι έρχεται",
@@ -218,5 +219,10 @@
   },
   "home": {
     "allTitle": "Όλα τα ρούχα"
+  },
+  "collectionNames": {
+    "pantalones": "Παντελόνια",
+    "camisetas": "Μπλουζάκια",
+    "sudaderas": "Φούτερ"
   }
 }

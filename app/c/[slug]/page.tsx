@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ProductsGrid from "@/components/ProductsGrid";
 import { getCollection, getCollections } from "@/lib/products-server";
 import { getT } from "@/lib/i18n/server";
+import { collectionLabel } from "@/lib/collection-label";
 import { tpl } from "@/lib/i18n/dictionary";
 
 type Params = { slug: string };
@@ -23,11 +24,12 @@ export async function generateMetadata({
   const collection = await getCollection(slug);
   if (!collection) return {};
   const { t } = await getT();
+  const title = collectionLabel(t, slug, collection.title);
   return {
-    title: `${collection.title} — VAIN`,
+    title: `${title} — VAIN`,
     description:
       collection.description ||
-      tpl(t.meta.collectionFallback, { title: collection.title }),
+      tpl(t.meta.collectionFallback, { title }),
   };
 }
 
@@ -46,7 +48,7 @@ export default async function CollectionPage({
       <Nav />
       <ProductsGrid
         eyebrow={t.pages.collectionEyebrow}
-        title={collection.title}
+        title={collectionLabel(t, slug, collection.title)}
         description={collection.description || undefined}
         products={collection.products}
         emptyMessage={t.pages.collectionEmpty}

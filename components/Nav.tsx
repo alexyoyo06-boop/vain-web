@@ -10,6 +10,7 @@ import { useCartUI } from "@/lib/cart-ui";
 import { useMenuUI } from "@/lib/menu-ui";
 import { adminLogoutAction } from "@/app/actions/admin";
 import { tpl, useT } from "@/lib/i18n/client";
+import { collectionLabel } from "@/lib/collection-label";
 import LangSwitcher from "./LangSwitcher";
 
 type NavCollection = { handle: string; title: string };
@@ -66,21 +67,46 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // La home empieza con la foto a sangre: la barra se funde con ella (sin fondo,
+  // todo en blanco) y al bajar vuelve a la barra crema normal. En el resto de
+  // rutas no hay foto detrás, así que la barra es siempre la normal.
+  const light = pathname === "/" && !scrolled;
+  const pill = light
+    ? "bg-bone/20 text-bone hover:bg-bone/30 backdrop-blur-sm"
+    : "bg-ink/5 hover:bg-ink/10";
+
   return (
     <>
+      {/* Barra opaca siempre. Translúcida con blur sobre la foto del banner, el
+          logo negro y el titular blanco se mezclaban y se leía fatal al bajar.
+          Al hacer scroll solo aparece una sombra: sigue notándose que flota. */}
       <header
         data-sticky-header
-        className={`sticky top-0 z-50 transition-all ${
-          scrolled ? "bg-bone/80 backdrop-blur-lg" : "bg-bone"
+        className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-500 ${
+          light
+            ? "bg-transparent"
+            : `bg-bone ${scrolled ? "shadow-[0_4px_16px_-10px_rgba(15,15,15,0.45)]" : ""}`
         }`}
       >
-        <div className="relative flex items-center justify-between gap-2 px-3 sm:px-6 py-4">
+        {/* Degradado bajo la barra: en vez de cortar en seco contra lo que
+            venga debajo, el crema se desvanece. Fundida con la foto no aplica:
+            ahí no hay barra que desvanecer. */}
+        <span
+          aria-hidden
+          className={`pointer-events-none absolute inset-x-0 top-full h-3 md:h-4 bg-gradient-to-b from-bone to-transparent transition-opacity duration-500 ${
+            light ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        {/* Alto fijo en vez de padding: el logo va centrado y así tiene aire
+            por arriba y por abajo. Si cambias estos valores, cambia también el
+            margen negativo de PhotoHero, que mete la foto bajo la barra. */}
+        <div className="relative flex items-center justify-between gap-2 px-3 sm:px-6 h-[84px] md:h-[100px]">
           <div className="flex items-center gap-1 sm:gap-2">
             <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={openMenu}
               aria-label={t.nav.openMenu}
-              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-ink/5 hover:scale-105 transition-transform text-sm"
+              className={`inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full hover:scale-105 transition-all text-sm ${pill}`}
             >
               <span className="flex flex-col gap-1">
                 <span className="block w-4 h-px bg-current" />
@@ -96,7 +122,7 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
               rel="noreferrer"
               aria-label={t.nav.myAccount}
               title={t.nav.myAccount}
-              className="inline-flex items-center justify-center size-9 sm:size-10 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-105 transition-all text-sm"
+              className={`inline-flex items-center justify-center size-9 sm:size-10 rounded-full hover:scale-105 transition-all text-sm ${pill}`}
             >
               <User className="size-4 sm:size-[18px]" strokeWidth={2.25} />
             </motion.a>
@@ -109,20 +135,24 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
             style={{ perspective: 600 }}
           >
-            <motion.div className="relative size-14 md:size-16 animate-coin-spin">
+            {/* Mismo tamaño que el logo del menú abierto. Sobre la foto se
+                invierte: el PNG es la silueta negra, invertida sale blanca. */}
+            <motion.div className="relative size-16 md:size-20 animate-coin-spin">
               <Image
                 src="/logo_mono.png"
                 alt="VAIN"
                 fill
                 priority
-                sizes="64px"
-                className="object-contain"
+                sizes="80px"
+                className={`object-contain transition-[filter] duration-500 ${
+                  light ? "invert drop-shadow-[0_2px_10px_rgba(15,15,15,0.45)]" : ""
+                }`}
               />
             </motion.div>
           </Link>
 
           <div className="flex items-center gap-1 sm:gap-2">
-            <LangSwitcher variant="menu" />
+            <LangSwitcher variant="menu" light={light} />
 
             {isAdmin && (
               <>
@@ -167,7 +197,9 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
                   label: count === 1 ? t.nav.item : t.nav.items,
                 })}
                 title={t.nav.cart}
-                className="relative inline-flex items-center gap-1.5 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full bg-ink text-bone hover:scale-105 transition-transform text-sm"
+                className={`relative inline-flex items-center gap-1.5 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full hover:scale-105 transition-all text-sm ${
+                  light ? pill : "bg-ink text-bone"
+                }`}
               >
                 <ShoppingCart className="size-4 sm:size-[18px]" strokeWidth={2.25} />
                 <AnimatePresence mode="popLayout">
@@ -177,7 +209,9 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.6, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 380, damping: 22 }}
-                    className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-bone/20 text-xs tabular-nums"
+                    className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-xs tabular-nums ${
+                      light ? "bg-bone/25" : "bg-bone/20"
+                    }`}
                   >
                     {count}
                   </motion.span>
@@ -231,7 +265,7 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
                 {[
                   ...fixedSections,
                   ...collections.map((c) => ({
-                    name: c.title,
+                    name: collectionLabel(t, c.handle, c.title),
                     subtitle: t.nav.collectionSubtitle,
                     href: `/c/${c.handle}`,
                   })),
