@@ -73,7 +73,7 @@ export default function Hero({ product }: Props) {
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-cover [mix-blend-mode:multiply] transition-transform duration-700 group-hover:scale-[1.03]"
+              className="object-contain [mix-blend-mode:multiply] transition-transform duration-700 group-hover:scale-[1.03]"
             />
             <span className="absolute top-4 left-4 inline-flex items-center px-4 py-2 rounded-full bg-ink text-bone text-xs uppercase tracking-wide">
               {t.nav.newDrop}

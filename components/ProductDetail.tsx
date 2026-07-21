@@ -7,12 +7,48 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
 import ShareButton from "./ShareButton";
+import { usePrevRoute } from "./RouteMemory";
 import { useCartUI } from "@/lib/cart-ui";
 import { formatPrice, productHref, type Product, type ProductSize } from "@/lib/products";
 import { tripletColor, tripletTitleColor } from "@/lib/triplet-theme";
 import { tpl, useT } from "@/lib/i18n/client";
 
 type Props = { product: Product };
+
+type BackTarget = { href: string; label: string };
+type BackLabels = {
+  home: string;
+  all: string;
+  newDrop: string;
+  archive: string;
+};
+
+/**
+ * Traduce la ruta anterior al enlace "Volver a X". Rutas que no son un
+ * listado (otra ficha, /cart, /admin…) caen al catálogo completo.
+ */
+function resolveBack(prevRoute: string | null, labels: BackLabels): BackTarget {
+  const fallback: BackTarget = { href: "/todo", label: labels.all };
+  if (!prevRoute) return fallback;
+
+  const path = prevRoute.replace(/\/$/, "") || "/";
+  const known: Record<string, string> = {
+    "/": labels.home,
+    "/todo": labels.all,
+    "/nuevo-drop": labels.newDrop,
+    "/archivo": labels.archive,
+  };
+  if (known[path]) return { href: path, label: known[path] };
+
+  // Colecciones: /c/<handle> → título legible a partir del handle.
+  const collection = path.match(/^\/c\/([^/]+)$/);
+  if (collection) {
+    const title = collection[1].replace(/-/g, " ");
+    return { href: path, label: title.charAt(0).toUpperCase() + title.slice(1) };
+  }
+
+  return fallback;
+}
 
 export default function ProductDetail({ product }: Props) {
   const t = useT();
@@ -29,6 +65,17 @@ export default function ProductDetail({ product }: Props) {
   const [active, setActive] = useState(0);
   const touchStartX = useRef(0);
   const { addItem } = useCartUI();
+
+  // "Volver a X" apunta a la página real desde la que se ha llegado (el
+  // drop, una colección, el archivo…), no a un destino fijo. Si se entra
+  // directo por URL no hay ruta previa y se cae al catálogo completo.
+  const prevRoute = usePrevRoute();
+  const back = resolveBack(prevRoute, {
+    home: t.nav.home,
+    all: t.pages.allTitle,
+    newDrop: t.nav.newDrop,
+    archive: t.nav.archive,
+  });
 
   const href = productHref(product);
   // Acento de color SOLO para los pantalones de la cápsula triplet (rosa/gris/
@@ -64,11 +111,11 @@ export default function ProductDetail({ product }: Props) {
         <div className="px-4 sm:px-6 max-w-7xl mx-auto">
           <div className="flex items-center justify-between gap-3 mb-6">
             <Link
-              href="/todo"
+              href={back.href}
               className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-ink transition-colors"
             >
               <ArrowLeft className="size-4" strokeWidth={2.25} />
-              {t.product.backToHoodies}
+              {tpl(t.product.backToCategory, { category: back.label })}
             </Link>
             <ShareButton
               title={`${product.name} — VAIN`}
@@ -127,14 +174,14 @@ export default function ProductDetail({ product }: Props) {
                     setActive((a) => (a - 1 + product.photos.length) % product.photos.length)
                   }
                   aria-label={t.product.photoPrev}
-                  className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
+                  className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur hidden md:flex items-center justify-center hover:scale-110 transition-transform"
                 >
                   <ArrowLeft className="size-4" strokeWidth={2.25} />
                 </button>
                 <button
                   onClick={() => setActive((a) => (a + 1) % product.photos.length)}
                   aria-label={t.product.photoNext}
-                  className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
+                  className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 size-11 rounded-full bg-bone/90 backdrop-blur hidden md:flex items-center justify-center hover:scale-110 transition-transform"
                 >
                   <ArrowRight className="size-4" strokeWidth={2.25} />
                 </button>

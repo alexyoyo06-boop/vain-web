@@ -99,14 +99,14 @@ export default function ProductShowcase({ product, reverse = false }: Props) {
                 setActive((a) => (a - 1 + product.photos.length) % product.photos.length)
               }
               aria-label={t.product.photoPrev}
-              className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
+              className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-bone/90 backdrop-blur hidden md:flex items-center justify-center hover:scale-110 transition-transform"
             >
               <ArrowLeft className="size-4" strokeWidth={2.25} />
             </button>
             <button
               onClick={() => setActive((a) => (a + 1) % product.photos.length)}
               aria-label={t.product.photoNext}
-              className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-bone/90 backdrop-blur flex items-center justify-center hover:scale-110 transition-transform"
+              className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-10 size-11 rounded-full bg-bone/90 backdrop-blur hidden md:flex items-center justify-center hover:scale-110 transition-transform"
             >
               <ArrowRight className="size-4" strokeWidth={2.25} />
             </button>

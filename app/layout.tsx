@@ -7,6 +7,7 @@ import { CartUIProvider } from "@/lib/cart-ui";
 import { MenuUIProvider } from "@/lib/menu-ui";
 import CartToast from "@/components/CartToast";
 import LocaleBanner from "@/components/LocaleBanner";
+import RouteMemory from "@/components/RouteMemory";
 import { getT } from "@/lib/i18n/server";
 import { LocaleProvider } from "@/lib/i18n/client";
 import {
@@ -114,6 +115,7 @@ export default async function RootLayout({
         }`}
       >
         <LocaleProvider locale={locale} dict={t}>
+          <RouteMemory />
           {showLocaleBanner && <LocaleBanner suggestedLocale={suggested} />}
           <CartUIProvider>
             <MenuUIProvider>{children}</MenuUIProvider>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Lock, LogOut, ShoppingBag, User, X } from "lucide-react";
+import { ArrowUpRight, Lock, LogOut, ShoppingCart, User, X } from "lucide-react";
 import { useCartUI } from "@/lib/cart-ui";
 import { useMenuUI } from "@/lib/menu-ui";
 import { adminLogoutAction } from "@/app/actions/admin";
@@ -95,10 +95,10 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
               target="_blank"
               rel="noreferrer"
               aria-label={t.nav.myAccount}
-              className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-105 transition-all text-sm"
+              title={t.nav.myAccount}
+              className="inline-flex items-center justify-center size-9 sm:size-10 rounded-full bg-ink/5 hover:bg-ink/10 hover:scale-105 transition-all text-sm"
             >
-              <User className="size-4" strokeWidth={2.25} />
-              <span className="hidden md:inline">{t.nav.myAccount}</span>
+              <User className="size-4 sm:size-[18px]" strokeWidth={2.25} />
             </motion.a>
           </div>
 
@@ -109,13 +109,13 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
             style={{ perspective: 600 }}
           >
-            <motion.div className="relative size-9 md:size-11 animate-coin-spin">
+            <motion.div className="relative size-14 md:size-16 animate-coin-spin">
               <Image
                 src="/logo_mono.png"
                 alt="VAIN"
                 fill
                 priority
-                sizes="44px"
+                sizes="64px"
                 className="object-contain"
               />
             </motion.div>
@@ -166,10 +166,10 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
                   count,
                   label: count === 1 ? t.nav.item : t.nav.items,
                 })}
-                className="relative inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-ink text-bone hover:scale-105 transition-transform text-sm"
+                title={t.nav.cart}
+                className="relative inline-flex items-center gap-1.5 px-3 sm:px-3.5 h-9 sm:h-10 rounded-full bg-ink text-bone hover:scale-105 transition-transform text-sm"
               >
-                <ShoppingBag className="size-4 sm:hidden" strokeWidth={2.25} />
-                <span className="hidden sm:inline">{t.nav.cart}</span>
+                <ShoppingCart className="size-4 sm:size-[18px]" strokeWidth={2.25} />
                 <AnimatePresence mode="popLayout">
                   <motion.span
                     key={count}
@@ -205,12 +205,12 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
                 className="select-none"
                 style={{ perspective: 600 }}
               >
-                <motion.div className="relative size-10 md:size-12 animate-coin-spin">
+                <motion.div className="relative size-16 md:size-20 animate-coin-spin">
                   <Image
                     src="/logo_mono.png"
                     alt="VAIN"
                     fill
-                    sizes="48px"
+                    sizes="80px"
                     className="object-contain"
                   />
                 </motion.div>
