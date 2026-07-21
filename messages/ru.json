@@ -76,8 +76,7 @@
   "hero": {
     "taglineLine1": "Streetwear, сделанный в Испании.",
     "taglineLine2": "Лимитированные дропы, настоящее качество.",
-    "buyFull": "Купить Drop/01 — 39,99€",
-    "buyShort": "Купить — 39,99€",
+    "buy": "Купить",
     "discoverDrop": "Открой новый дроп",
     "newDropShort": "Новый дроп"
   },
@@ -207,6 +206,7 @@
     "siteTitle": "VAIN",
     "siteDescription": "VAIN. Лимитированные дропы, настоящее качество, бесплатная доставка от 40€.",
     "ogDescription": "Лимитированные дропы, настоящее качество, бесплатная доставка от 40€.",
+    "ogOutNow": "Уже в продаже",
     "todoTitle": "VAIN — Всё",
     "todoDescription": "Вся одежда VAIN. Без фильтров, без категорий.",
     "newDropTitle": "VAIN — Новый Drop",

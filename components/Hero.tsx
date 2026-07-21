@@ -7,13 +7,29 @@ import { ArrowRight } from "lucide-react";
 import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
 import { formatPrice, productHref, type Product } from "@/lib/products";
+import { tripletTitleColor } from "@/lib/triplet-theme";
 import { useT } from "@/lib/i18n/client";
 
-type Props = { product?: Product };
+type Props = { products?: Product[] };
 
-export default function Hero({ product }: Props) {
+/** Cada cuántos ms cambia de prenda la portada del drop. */
+const ROTATE_MS = 5000;
+
+export default function Hero({ products = [] }: Props) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  // El drop trae la misma prenda en varios colores: la portada los va rotando
+  // en vez de enseñar siempre el primero (si no, el gris salía en todas
+  // partes). Se para en cuanto el usuario interactúa, para que no le cambie
+  // el producto justo al ir a pulsar "Comprar".
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  // Solo se monta la foto de las prendas ya mostradas: la portada arranca
+  // pesando una imagen (la que mide el LCP), no tres.
+  const [seen, setSeen] = useState<number[]>([0]);
   const t = useT();
+
+  const product = products[active] ?? products[0];
+  const rotates = products.length > 1;
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -24,6 +40,21 @@ export default function Hero({ product }: Props) {
     window.addEventListener("mousemove", onMove);
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
+
+  useEffect(() => {
+    setSeen((s) => (s.includes(active) ? s : [...s, active]));
+  }, [active]);
+
+  useEffect(() => {
+    if (!rotates || paused) return;
+    // Sin animaciones automáticas para quien pide menos movimiento.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(
+      () => setActive((a) => (a + 1) % products.length),
+      ROTATE_MS,
+    );
+    return () => clearInterval(id);
+  }, [rotates, paused, products.length]);
 
   // Sin catálogo: portada mínima de marca para que la home nunca quede vacía.
   if (!product) {
@@ -40,7 +71,7 @@ export default function Hero({ product }: Props) {
               href="/todo"
               className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-sm sm:text-base md:text-lg shadow-soft"
             >
-              {t.hero.buyFull}
+              {t.hero.buy}
               <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
             </Link>
           </MagneticButton>
@@ -52,7 +83,13 @@ export default function Hero({ product }: Props) {
   const href = productHref(product);
 
   return (
-    <section id="top" className="relative overflow-hidden bg-bone">
+    <section
+      id="top"
+      className="relative overflow-hidden bg-bone"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onPointerDown={() => setPaused(true)}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 px-4 sm:px-6 pt-3 md:pt-6 pb-6 md:pb-10 max-w-7xl mx-auto items-center">
         {/* Foto del drop */}
         <motion.div
@@ -67,18 +104,55 @@ export default function Hero({ product }: Props) {
             className="group block relative aspect-[4/5] max-h-[60vh] sm:aspect-square sm:max-h-none lg:aspect-auto lg:h-[56vh] lg:max-h-[560px] lg:min-h-[400px] rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
             style={{ transform: `translate3d(${mouse.x * -6}px, ${mouse.y * -4}px, 0)` }}
           >
-            <FadeImage
-              src={product.primaryImage}
-              alt={product.name}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-contain [mix-blend-mode:multiply] transition-transform duration-700 group-hover:scale-[1.03]"
-            />
+            {products.map((p, i) =>
+              seen.includes(i) ? (
+                <motion.div
+                  key={p.slug}
+                  initial={false}
+                  animate={{ opacity: i === active ? 1 : 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0"
+                >
+                  <FadeImage
+                    src={p.primaryImage}
+                    alt={p.name}
+                    fill
+                    priority={i === 0}
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="object-contain [mix-blend-mode:multiply] transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </motion.div>
+              ) : null,
+            )}
             <span className="absolute top-4 left-4 inline-flex items-center px-4 py-2 rounded-full bg-ink text-bone text-xs uppercase tracking-wide">
               {t.nav.newDrop}
             </span>
           </Link>
+
+          {/* Control manual: además de parar la rotación, deja elegir color. */}
+          {rotates && (
+            <div className="flex justify-center gap-1.5 mt-3">
+              {products.map((p, i) => (
+                <button
+                  key={p.slug}
+                  onClick={() => {
+                    setActive(i);
+                    setPaused(true);
+                  }}
+                  aria-label={p.name}
+                  aria-current={i === active}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === active ? "w-8" : "w-1.5 bg-ink/25 hover:bg-ink/40"
+                  }`}
+                  style={
+                    i === active
+                      ? { backgroundColor: tripletTitleColor(p.slug) ?? "#0f0f0f" }
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Detalle */}
@@ -92,12 +166,16 @@ export default function Hero({ product }: Props) {
             {product.drop} — {t.product.limitedEdition}
           </span>
 
-          <h1
+          <motion.h1
+            key={product.slug}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
             className="font-display text-ink uppercase leading-none tracking-tighter"
             style={{ fontSize: "clamp(2.8rem, 7vw, 5rem)" }}
           >
             {product.name}
-          </h1>
+          </motion.h1>
 
           <div className="flex items-baseline gap-3 justify-center lg:justify-start">
             <span className="text-3xl md:text-4xl">{formatPrice(product.price)}</span>
@@ -119,8 +197,9 @@ export default function Hero({ product }: Props) {
               href={href}
               className="group inline-flex items-center gap-3 bg-ink text-bone px-6 sm:px-8 py-4 sm:py-5 rounded-full text-base md:text-lg shadow-soft"
             >
-              <span className="hidden sm:inline">{t.hero.buyFull}</span>
-              <span className="sm:hidden">{t.hero.buyShort}</span>
+              {/* Precio real del producto: antes iba fijo en los textos
+                  ("Comprar Drop/01 — 39,99€") y se quedaba desfasado. */}
+              {t.hero.buy} — {formatPrice(product.price)}
               <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
             </Link>
           </MagneticButton>

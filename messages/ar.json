@@ -76,8 +76,7 @@
   "hero": {
     "taglineLine1": "ستريت وير صُنع في إسبانيا.",
     "taglineLine2": "دروبات محدودة، جودة حقيقية.",
-    "buyFull": "شراء Drop/01 — 39,99€",
-    "buyShort": "شراء — 39,99€",
+    "buy": "شراء",
     "discoverDrop": "اكتشف الدروب الجديد",
     "newDropShort": "دروب جديد"
   },
@@ -207,6 +206,7 @@
     "siteTitle": "VAIN",
     "siteDescription": "VAIN. دروبات محدودة، جودة حقيقية، شحن مجاني من 40€.",
     "ogDescription": "دروبات محدودة، جودة حقيقية، شحن مجاني من 40€.",
+    "ogOutNow": "متوفر الآن",
     "todoTitle": "VAIN — الكل",
     "todoDescription": "كل ملابس VAIN. دون فلاتر، دون فئات.",
     "newDropTitle": "VAIN — Drop جديد",

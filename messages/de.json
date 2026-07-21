@@ -76,8 +76,7 @@
   "hero": {
     "taglineLine1": "Streetwear aus Spanien.",
     "taglineLine2": "Limitierte Drops, echte Qualität.",
-    "buyFull": "Drop/01 kaufen — 39,99€",
-    "buyShort": "Kaufen — 39,99€",
+    "buy": "Kaufen",
     "discoverDrop": "Entdecke den neuen Drop",
     "newDropShort": "Neuer Drop"
   },
@@ -207,6 +206,7 @@
     "siteTitle": "VAIN",
     "siteDescription": "VAIN. Limitierte Drops, echte Qualität, gratis Versand ab 40€.",
     "ogDescription": "Limitierte Drops, echte Qualität, gratis Versand ab 40€.",
+    "ogOutNow": "Jetzt verfügbar",
     "todoTitle": "VAIN — Alles",
     "todoDescription": "Alle VAIN-Teile. Ohne Filter, ohne Kategorien.",
     "newDropTitle": "VAIN — Neuer Drop",

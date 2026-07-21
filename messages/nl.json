@@ -76,8 +76,7 @@
   "hero": {
     "taglineLine1": "Streetwear gemaakt in Spanje.",
     "taglineLine2": "Gelimiteerde drops, echte kwaliteit.",
-    "buyFull": "Koop Drop/01 — 39,99€",
-    "buyShort": "Kopen — 39,99€",
+    "buy": "Kopen",
     "discoverDrop": "Ontdek de nieuwe drop",
     "newDropShort": "Nieuwe drop"
   },
@@ -207,6 +206,7 @@
     "siteTitle": "VAIN",
     "siteDescription": "VAIN. Gelimiteerde drops, echte kwaliteit, gratis verzending vanaf 40€.",
     "ogDescription": "Gelimiteerde drops, echte kwaliteit, gratis verzending vanaf 40€.",
+    "ogOutNow": "Nu verkrijgbaar",
     "todoTitle": "VAIN — Alles",
     "todoDescription": "Alle VAIN-kleding. Zonder filters, zonder categorieën.",
     "newDropTitle": "VAIN — Nieuwe Drop",

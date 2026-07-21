@@ -76,8 +76,7 @@
   "hero": {
     "taglineLine1": "Streetwear κατασκευασμένο στην Ισπανία.",
     "taglineLine2": "Περιορισμένα drops, αληθινή ποιότητα.",
-    "buyFull": "Αγορά Drop/01 — 39,99€",
-    "buyShort": "Αγορά — 39,99€",
+    "buy": "Αγορά",
     "discoverDrop": "Ανακάλυψε το νέο drop",
     "newDropShort": "Νέο drop"
   },
@@ -207,6 +206,7 @@
     "siteTitle": "VAIN",
     "siteDescription": "VAIN. Περιορισμένα drops, αληθινή ποιότητα, δωρεάν αποστολή από 40€.",
     "ogDescription": "Περιορισμένα drops, αληθινή ποιότητα, δωρεάν αποστολή από 40€.",
+    "ogOutNow": "Διαθέσιμο τώρα",
     "todoTitle": "VAIN — Όλα",
     "todoDescription": "Όλα τα ρούχα VAIN. Χωρίς φίλτρα, χωρίς κατηγορίες.",
     "newDropTitle": "VAIN — Νέο Drop",

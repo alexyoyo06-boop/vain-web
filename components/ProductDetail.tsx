@@ -63,7 +63,7 @@ export default function ProductDetail({ product }: Props) {
         product.sizes[0];
   const [size, setSize] = useState<ProductSize>(defaultSize);
   const [active, setActive] = useState(0);
-  const touchStartX = useRef(0);
+  const touchStart = useRef({ x: 0, y: 0 });
   const { addItem } = useCartUI();
 
   // "Volver a X" apunta a la página real desde la que se ha llegado (el
@@ -95,11 +95,14 @@ export default function ProductDetail({ product }: Props) {
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 50) {
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    // Solo cambia de foto si el gesto es claramente horizontal: así un
+    // scroll vertical con el dedo sobre la foto no salta de imagen.
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
       if (dx < 0) setActive((a) => (a + 1) % product.photos.length);
       else setActive((a) => (a - 1 + product.photos.length) % product.photos.length);
     }
@@ -138,7 +141,9 @@ export default function ProductDetail({ product }: Props) {
               {accent && (
                 <div
                   aria-hidden
-                  className="absolute -inset-6 -z-10 opacity-50"
+                  // Sin desbordar en horizontal: 24px a cada lado creaban
+                  // scroll lateral en móvil (el desenfoque ya lo difumina).
+                  className="absolute -inset-y-6 inset-x-0 -z-10 opacity-50"
                   style={{
                     background: `radial-gradient(circle at 50% 45%, ${accent}, transparent 65%)`,
                     filter: "blur(42px)",
@@ -146,7 +151,7 @@ export default function ProductDetail({ product }: Props) {
                 />
               )}
               <div
-                className="relative aspect-square rounded-3xl bg-bone-dim overflow-hidden shadow-soft"
+                className="relative aspect-square rounded-3xl bg-bone-dim overflow-hidden shadow-soft touch-pan-y"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
               >

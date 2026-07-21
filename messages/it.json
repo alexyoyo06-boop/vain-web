@@ -76,8 +76,7 @@
   "hero": {
     "taglineLine1": "Streetwear fatto in Spagna.",
     "taglineLine2": "Drop limitati, qualità vera.",
-    "buyFull": "Compra Drop/01 — 39,99€",
-    "buyShort": "Compra — 39,99€",
+    "buy": "Compra",
     "discoverDrop": "Scopri il nuovo drop",
     "newDropShort": "Nuovo drop"
   },
@@ -207,6 +206,7 @@
     "siteTitle": "VAIN",
     "siteDescription": "VAIN. Drop limitati, qualità vera, spedizione gratis da 40€.",
     "ogDescription": "Drop limitati, qualità vera, spedizione gratis da 40€.",
+    "ogOutNow": "Ora disponibile",
     "todoTitle": "VAIN — Tutto",
     "todoDescription": "Tutti i capi VAIN. Senza filtri, senza categorie.",
     "newDropTitle": "VAIN — Nuovo Drop",

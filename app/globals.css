@@ -35,6 +35,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* La página nunca se mueve en horizontal: al deslizar las fotos de un
+ * producto en móvil el gesto no debe arrastrar la web ni encadenar con el
+ * "swipe atrás" del navegador. `clip` en vez de `hidden` para no romper el
+ * header sticky (hidden convertiría <html> en contenedor de scroll). */
+html,
+body {
+  overflow-x: clip;
+  overscroll-behavior-x: contain;
+}
+
 /* Evita que el header sticky tape el destino al saltar a un ancla #shop */
 [id] {
   scroll-margin-top: 96px;
