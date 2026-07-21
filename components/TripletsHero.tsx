@@ -97,7 +97,11 @@ export default function TripletsHero({ products = [] }: Props) {
         <div
           ref={scrollRef}
           onScroll={onCarouselScroll}
-          className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 w-full overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"
+          // Carrusel móvil centrado: la tarjeta mide 88vw y sobran 12vw, así que
+          // 6vw de padding a cada lado dejan la prenda justo en el centro de la
+          // pantalla. Con padding fijo (px-4) quedaba desplazada a la izquierda,
+          // porque el 88% se medía sobre el ancho YA descontado el padding.
+          className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 w-full overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none no-scrollbar -mx-4 px-[6vw] md:mx-0 md:px-0"
         >
           {triplets.map((trip) => {
             const p = trip.product;
@@ -105,7 +109,7 @@ export default function TripletsHero({ products = [] }: Props) {
               <motion.div
                 key={trip.slug}
                 initial={false}
-                className="relative snap-center shrink-0 basis-[88%] md:basis-auto"
+                className="relative snap-center shrink-0 w-[88vw] md:w-auto"
               >
                 {/* Glow de color detrás del pantalón */}
                 <div
