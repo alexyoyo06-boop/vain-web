@@ -20,8 +20,11 @@ type Variant = "footer" | "menu";
 
 export default function LangSwitcher({
   variant = "footer",
+  light = false,
 }: {
   variant?: Variant;
+  /** Sobre foto (barra fundida en la home): pinta el botón en claro. */
+  light?: boolean;
 }) {
   const current = useLocale();
   const t = useT();
@@ -56,7 +59,11 @@ export default function LangSwitcher({
         onClick={() => setOpen((v) => !v)}
         aria-label={t.lang.ariaSwitch}
         aria-expanded={open}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ink/5 hover:bg-ink/10 transition-colors text-xs uppercase tracking-wider"
+        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors text-xs uppercase tracking-wider ${
+          light
+            ? "bg-bone/20 text-bone hover:bg-bone/30"
+            : "bg-ink/5 hover:bg-ink/10"
+        }`}
       >
         <Globe className="size-3.5" strokeWidth={2.25} aria-hidden />
         {LOCALE_LABEL[current]}

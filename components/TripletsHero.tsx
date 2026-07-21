@@ -3,27 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { formatPrice, productHref, type Product } from "@/lib/products";
-import { TRIPLET_COLORS, TRIPLET_ORDER } from "@/lib/triplet-theme";
+import {
+  TRIPLET_COLORS,
+  TRIPLET_ORDER,
+  TRIPLET_PHOTO_SCALE,
+} from "@/lib/triplet-theme";
 import { useT } from "@/lib/i18n/client";
-
-// Posición final de cada logo en el abanico (offset en % del ancho del propio
-// logo → escala sola en móvil porque el ancho es clamp(vw)).
-const FAN = [
-  { x: "-50%", y: "-10%", rotate: -8 }, // rosa, atrás-izquierda
-  { x: "0%", y: "6%", rotate: 0 }, // gris, centro
-  { x: "50%", y: "22%", rotate: 8 }, // azul, delante-derecha
-] as const;
-
-// Flag a nivel de módulo: la intro se anima una vez por CARGA de página. Se
-// mutará en useEffect (no en el render) para no romper SSR/hidratación: el
-// servidor siempre renderiza con la animación, y al volver de una ficha por
-// navegación interna (sin recarga) el módulo sigue vivo → no se repite. Una
-// recarga completa reinicia el módulo → vuelve a animar.
-let introPlayed = false;
 
 // Logo VAIN recoloreado vía CSS mask sobre triplet-mark.png (silueta nítida con
 // alpha). Solo importa el canal alpha de la máscara → el color lo pone el
@@ -54,7 +43,6 @@ type Props = { products?: Product[] };
 
 export default function TripletsHero({ products = [] }: Props) {
   const t = useT();
-  const reduce = useReducedMotion();
   const router = useRouter();
   // Carrusel móvil: seguimos el scroll para iluminar el dot de paginación.
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -64,13 +52,6 @@ export default function TripletsHero({ products = [] }: Props) {
   // carta navega al producto solo. Por eso medimos X e Y.
   const touchRef = useRef<{ x: number; y: number; drag: boolean } | null>(null);
   const scrollRafRef = useRef(0);
-  // Animar solo en la primera carga (no al volver de una ficha). SSR-safe:
-  // el módulo solo se muta en el efecto, así el render del servidor y la
-  // primera hidratación coinciden (ambos animan).
-  const [shouldAnimate] = useState(() => !introPlayed);
-  useEffect(() => {
-    introPlayed = true;
-  }, []);
 
   // Cada slot del abanico/carta = un triplet (rosa, gris, azul) con su color y,
   // si ya está subido a Shopify, su producto real (foto + ruta).
@@ -104,72 +85,26 @@ export default function TripletsHero({ products = [] }: Props) {
 
   return (
     <section className="relative overflow-hidden bg-bone">
-      <div className="min-h-[calc(100svh-3.5rem)] md:min-h-[calc(100svh-4rem)] px-4 sm:px-6 py-3 md:py-4 max-w-6xl mx-auto flex flex-col items-center justify-center gap-3 md:gap-6">
-        {/* Abanico de los 3 logos */}
-        <div className="relative w-full max-w-[680px] h-[clamp(155px,26vh,250px)] md:h-[clamp(150px,30vh,290px)]">
-          {triplets.map((trip, i) => (
-            <div
-              key={trip.slug}
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ zIndex: i + 1 }}
-            >
-              <motion.div
-                initial={
-                  !shouldAnimate
-                    ? false
-                    : reduce
-                      ? { opacity: 0 }
-                      : { opacity: 0, x: "-140%", rotate: -16 }
-                }
-                animate={
-                  reduce
-                    ? { opacity: 1 }
-                    : {
-                        opacity: 1,
-                        x: FAN[i].x,
-                        y: FAN[i].y,
-                        rotate: FAN[i].rotate,
-                      }
-                }
-                transition={{
-                  // Tween, NO spring: con spring cada propiedad (x, y, rotate)
-                  // es un muelle independiente que se asienta en un momento
-                  // distinto → al final el logo "se recoloca". Con un tween
-                  // todas llegan juntas y terminan clavadas en su valor.
-                  type: "tween",
-                  duration: 0.9,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.15 + i * 0.16,
-                }}
-                className="w-[clamp(120px,20vh,195px)] md:w-[clamp(120px,22vh,210px)] will-change-transform"
-              >
-                <Mark color={trip.color} />
-              </motion.div>
-            </div>
-          ))}
-        </div>
-
+      {/* Sin los logos, la sección ya no necesita ocupar la pantalla entera:
+          se ajusta a las prendas. Ancho amplio (no max-w-6xl) para que los tres
+          pantalones caigan bajo los tres de la foto del banner. */}
+      <div className="px-4 sm:px-6 py-8 md:py-14 max-w-[1600px] mx-auto flex flex-col items-center justify-center gap-4 md:gap-8">
         {/* Las 3 prendas — sin recuadro: el pantalón flota (foto en multiply
             sobre el fondo) con el color SOLO como glow detrás. Cada uno enlaza a
-            su ficha. Entran con fundido escalonado DESPUÉS de los logos. Si algún
-            triplet aún no está en Shopify, cae a un placeholder con el logo. */}
+            su ficha. Van en el mismo orden que la foto del banner de arriba
+            (gris · azul · rosa) para que se lean como continuación de ella. Si
+            algún triplet aún no está en Shopify, cae a un placeholder. */}
         <div
           ref={scrollRef}
           onScroll={onCarouselScroll}
           className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 w-full overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"
         >
-          {triplets.map((trip, i) => {
+          {triplets.map((trip) => {
             const p = trip.product;
             return (
               <motion.div
                 key={trip.slug}
-                initial={shouldAnimate ? { opacity: 0, y: 30 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.95 + i * 0.14,
-                  duration: 0.6,
-                  ease: [0.2, 0.8, 0.2, 1],
-                }}
+                initial={false}
                 className="relative snap-center shrink-0 basis-[88%] md:basis-auto"
               >
                 {/* Glow de color detrás del pantalón */}
@@ -214,26 +149,31 @@ export default function TripletsHero({ products = [] }: Props) {
                     }}
                     className="group relative block"
                   >
-                    <div className="relative w-full aspect-square md:aspect-auto md:h-[clamp(200px,36vh,400px)]">
+                    {/* `scale` (propiedad CSS, no transform) para no pisar el
+                        transform del hover de la imagen: se componen. */}
+                    <div
+                      className="relative w-full aspect-[4/3] md:aspect-auto md:h-[clamp(280px,48vh,560px)]"
+                      style={{ scale: TRIPLET_PHOTO_SCALE[trip.slug] ?? 1 }}
+                    >
                       <Image
                         src={p.primaryImage}
                         alt={p.name}
                         fill
-                        sizes="(max-width: 640px) 30vw, 300px"
+                        sizes="(max-width: 768px) 88vw, 500px"
                         className="object-contain [mix-blend-mode:multiply] transition-transform duration-500 group-hover:scale-[1.05]"
                       />
                     </div>
-                    <div className="mt-1.5 flex flex-col items-center text-center">
-                      <span className="font-display uppercase tracking-tighter text-[11px] sm:text-sm md:text-base leading-none">
+                    <div className="mt-3 md:mt-4 flex flex-col items-center text-center gap-0.5">
+                      <span className="font-display uppercase tracking-tighter text-sm sm:text-base md:text-xl leading-none">
                         {p.name}
                       </span>
-                      <span className="text-[10px] sm:text-xs text-ink-soft tabular-nums">
+                      <span className="text-xs md:text-sm text-ink-soft tabular-nums">
                         {formatPrice(p.price)}
                       </span>
                     </div>
                   </Link>
                 ) : (
-                  <div className="flex flex-col items-center justify-center gap-2 aspect-square md:aspect-auto md:h-[clamp(200px,36vh,400px)]">
+                  <div className="flex flex-col items-center justify-center gap-2 aspect-[4/3] md:aspect-auto md:h-[clamp(280px,48vh,560px)]">
                     <div className="w-[42%] opacity-95">
                       <Mark color={trip.color} />
                     </div>
@@ -264,11 +204,7 @@ export default function TripletsHero({ products = [] }: Props) {
         </div>
 
         {/* CTA al drop completo */}
-        <motion.div
-          initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.45, duration: 0.5 }}
-        >
+        <motion.div initial={false}>
           <Link
             href="/nuevo-drop"
             className="group inline-flex items-center gap-2.5 rounded-full bg-ink text-bone px-6 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base shadow-soft"
@@ -286,9 +222,7 @@ export default function TripletsHero({ products = [] }: Props) {
       {/* Pista de scroll: hay más web debajo. Baja al Hero del drop. */}
       <motion.a
         href="#top"
-        initial={shouldAnimate ? { opacity: 0 } : false}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.9, duration: 0.6 }}
+        initial={false}
         aria-label={t.hero.discoverDrop}
         className="hidden md:block absolute bottom-5 left-1/2 -translate-x-1/2 text-ink-soft hover:text-ink transition-colors"
       >

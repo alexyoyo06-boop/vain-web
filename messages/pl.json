@@ -78,7 +78,8 @@
     "taglineLine2": "Limitowane dropy, prawdziwa jakość.",
     "buyFull": "Kup Drop/01 — 39,99€",
     "buyShort": "Kup — 39,99€",
-    "discoverDrop": "Odkryj nowy drop"
+    "discoverDrop": "Odkryj nowy drop",
+    "newDropShort": "Nowy drop"
   },
   "categories": {
     "kicker": "Drop/01 + co nadchodzi",
@@ -218,5 +219,10 @@
   },
   "home": {
     "allTitle": "Cała odzież"
+  },
+  "collectionNames": {
+    "pantalones": "Spodnie",
+    "camisetas": "Koszulki",
+    "sudaderas": "Bluzy"
   }
 }

@@ -22,12 +22,27 @@ export function tripletTitleColor(slug: string): string | null {
   return TRIPLET_TITLE_COLORS[slug] ?? null;
 }
 
-/** Orden canónico para el abanico de la home (izquierda → derecha). */
+/** Orden canónico en la home (izquierda → derecha). Es el mismo en el que
+ *  aparecen en la foto del banner de portada, para que la fila de abajo se lea
+ *  como continuación de la foto. Si cambias la foto, cambia esto. */
 export const TRIPLET_ORDER = [
-  "the-pink-triplet",
   "the-grey-triplet",
   "the-blue-triplet",
+  "the-pink-triplet",
 ] as const;
+
+/**
+ * Ajuste fino del tamaño de la foto en la home, por slug.
+ *
+ * PARCHE TEMPORAL: las fotos que hay ahora en Shopify no están normalizadas
+ * entre sí — la del azul tiene más aire alrededor de la prenda, así que se veía
+ * más pequeña que la del gris y la del rosa puestas en fila. Cuando se suban
+ * las fotos nuevas (todas recortadas con la prenda al 78% del alto) esto sobra:
+ * se vacía el objeto y todas miden igual solas.
+ */
+export const TRIPLET_PHOTO_SCALE: Record<string, number> = {
+  "the-blue-triplet": 1.15,
+};
 
 /** Color de acento de un slug, o null si no es un triplet. */
 export function tripletColor(slug: string): string | null {

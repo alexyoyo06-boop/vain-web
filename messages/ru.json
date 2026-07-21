@@ -78,7 +78,8 @@
     "taglineLine2": "Лимитированные дропы, настоящее качество.",
     "buyFull": "Купить Drop/01 — 39,99€",
     "buyShort": "Купить — 39,99€",
-    "discoverDrop": "Открой новый дроп"
+    "discoverDrop": "Открой новый дроп",
+    "newDropShort": "Новый дроп"
   },
   "categories": {
     "kicker": "Drop/01 + что дальше",
@@ -218,5 +219,10 @@
   },
   "home": {
     "allTitle": "Вся одежда"
+  },
+  "collectionNames": {
+    "pantalones": "Брюки",
+    "camisetas": "Футболки",
+    "sudaderas": "Худи"
   }
 }
