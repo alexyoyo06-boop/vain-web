@@ -75,7 +75,9 @@ export default async function Image({
   // si es relativo (asset local legacy), leemos de disk.
   const [productImg, logo] = await Promise.all([
     loadImageAsPng(product.primaryImage, 1100),
-    fileToSizedPng("logo2.png", 80),
+    // La marca (logo_mono), la misma que va arriba del todo en la web. El
+    // wordmark con las letras no: se repite con el nombre de la prenda.
+    fileToSizedPng("logo_mono.png", 84),
   ]);
 
   const bone = "#ffffff";
