@@ -51,8 +51,24 @@ export type Product = {
   ogPhotoAspect?: number;
 };
 
-export function formatPrice(n: number): string {
-  return new Intl.NumberFormat("es-ES", {
+/**
+ * Etiqueta BCP-47 con la que formatear precios en cada idioma. Casi siempre
+ * es el propio locale; la excepción es el árabe, donde forzamos dígitos
+ * latinos (`-u-nu-latn`): por defecto Intl pinta ٢٩٫٠٠ y en esta web el
+ * precio es un número grande de display que tiene que leerse igual que en el
+ * resto de idiomas.
+ */
+const PRICE_LOCALE: Record<string, string> = {
+  ar: "ar-u-nu-latn",
+};
+
+/**
+ * Precio en euros formateado según el idioma del visitante: "29,00 €" en
+ * español, "€29.00" en inglés. Sin `locale` cae al español, que es lo que
+ * necesitan los sitios sin contexto de idioma (OG images, metadata).
+ */
+export function formatPrice(n: number, locale = "es"): string {
+  return new Intl.NumberFormat(PRICE_LOCALE[locale] ?? locale, {
     style: "currency",
     currency: "EUR",
     minimumFractionDigits: 2,

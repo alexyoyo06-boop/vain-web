@@ -11,7 +11,7 @@ import { usePrevRoute } from "./RouteMemory";
 import { useCartUI } from "@/lib/cart-ui";
 import { formatPrice, productHref, type Product, type ProductSize } from "@/lib/products";
 import { tripletColor, tripletTitleColor } from "@/lib/triplet-theme";
-import { tpl, useT } from "@/lib/i18n/client";
+import { tpl, useLocale, useT } from "@/lib/i18n/client";
 
 type Props = { product: Product };
 
@@ -52,6 +52,7 @@ function resolveBack(prevRoute: string | null, labels: BackLabels): BackTarget {
 
 export default function ProductDetail({ product }: Props) {
   const t = useT();
+  const locale = useLocale();
   // Por defecto: la talla del modelo si está disponible, si no la primera
   // talla disponible, si no la primera del listado completo.
   const availableSet = new Set(product.sizesAvailable);
@@ -124,7 +125,7 @@ export default function ProductDetail({ product }: Props) {
               title={`${product.name} — VAIN`}
               text={tpl(t.product.shareCheck, {
                 name: product.name,
-                price: formatPrice(product.price),
+                price: formatPrice(product.price, locale),
               })}
               url={href}
             />
@@ -169,7 +170,7 @@ export default function ProductDetail({ product }: Props) {
                       fill
                       priority={i === 0}
                       sizes="(max-width: 1024px) 100vw, 60vw"
-                      className="object-cover [mix-blend-mode:multiply]"
+                      className="object-contain [mix-blend-mode:multiply] p-6 md:p-10"
                     />
                   </motion.div>
                 ))}
@@ -240,9 +241,9 @@ export default function ProductDetail({ product }: Props) {
               <h1
                 className={`font-display uppercase ${titleColor ? "" : "text-ink"}`}
                 style={{
-                  fontSize: "clamp(2.6rem, 6vw, 4.5rem)",
+                  fontSize: "clamp(2rem, 4.5vw, 3.25rem)",
                   lineHeight: 1,
-                  letterSpacing: "-0.05em",
+                  letterSpacing: "-0.04em",
                   color: titleColor ?? undefined,
                 }}
               >
@@ -257,18 +258,13 @@ export default function ProductDetail({ product }: Props) {
               )}
 
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl md:text-4xl">{formatPrice(product.price)}</span>
+                <span className="text-2xl md:text-3xl">{formatPrice(product.price, locale)}</span>
                 {product.oldPrice && (
-                  <span className="line-through text-ink-soft/50 text-lg">
-                    {formatPrice(product.oldPrice)}
+                  <span className="line-through text-ink-soft/50 text-base">
+                    {formatPrice(product.oldPrice, locale)}
                   </span>
                 )}
               </div>
-
-              <div
-                className="rich-text max-w-md"
-                dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-              />
 
               <div className="flex flex-col gap-3 mt-2">
                 <span className="text-sm text-ink-soft">{t.product.size}</span>
@@ -351,11 +347,24 @@ export default function ProductDetail({ product }: Props) {
                     +
                   </span>
                 </summary>
-                <ul className="mt-3 text-sm text-ink-soft leading-relaxed space-y-1.5 list-disc pl-5">
-                  {product.details.map((d) => (
-                    <li key={d}>{d}</li>
-                  ))}
-                </ul>
+                {/* La descripción de Shopify vive aquí, dentro del desplegable,
+                    en vez de suelta bajo el precio: arriba solo queda lo esencial
+                    (título, precio, talla, comprar). Aplica a toda la ropa. */}
+                <div className="mt-3 space-y-3">
+                  {product.descriptionHtml && (
+                    <div
+                      className="rich-text"
+                      dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                    />
+                  )}
+                  {product.details.length > 0 && (
+                    <ul className="text-sm text-ink-soft leading-relaxed space-y-1.5 list-disc pl-5">
+                      {product.details.map((d) => (
+                        <li key={d}>{d}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </details>
 
               <details className="group border-t border-ink/10 pt-4">

@@ -4,12 +4,15 @@ import "server-only";
 import { storefront } from "./client";
 import { categoryFromType, normalizeSize } from "./products";
 import type { ProductCategory } from "../products";
+import { LOCALE_TO_SHOPIFY } from "../i18n/config";
+import { getLocale } from "../i18n/server";
 import {
   CART_CREATE,
   CART_GET,
   CART_LINES_ADD,
   CART_LINES_REMOVE,
   CART_LINES_UPDATE,
+  SHOP_LANGUAGES,
 } from "./queries";
 
 export type CartLine = {
@@ -121,12 +124,60 @@ type CartGetResp = { cart: ShopifyCart | null };
 
 const NO_CACHE = { revalidate: 0, tags: ["shopify:cart"] };
 
+// --- Idioma de la pantalla de pago ---
+
+type ShopLanguagesResp = {
+  localization: {
+    availableLanguages: { isoCode: string }[];
+    language: { isoCode: string };
+  };
+};
+
+/** Si Shopify no responde: lo que hay publicado hoy en la tienda. */
+const FALLBACK_LANGUAGES = { available: ["ES", "EN"], shopDefault: "ES" };
+
+/**
+ * Idiomas publicados en Shopify. Se consulta a la tienda (cacheado 1h) en vez
+ * de mantener una lista a mano: si el amigo publica alemán en Ajustes →
+ * Idiomas, la pantalla de pago pasa a salir en alemán sola, sin tocar código.
+ */
+async function publishedLanguages(): Promise<{
+  available: string[];
+  shopDefault: string;
+}> {
+  const data = await storefront<ShopLanguagesResp>(
+    SHOP_LANGUAGES,
+    {},
+    { revalidate: 3600, tags: ["shopify"] },
+  );
+  if (!data) return FALLBACK_LANGUAGES;
+  return {
+    available: data.localization.availableLanguages.map((l) => l.isoCode),
+    shopDefault: data.localization.language.isoCode,
+  };
+}
+
+/**
+ * Código de idioma con el que pedirle el carrito a Shopify. Manda el idioma
+ * del visitante si la tienda lo tiene publicado; si no, inglés (para alguien
+ * que navega en alemán o ruso, una pantalla de pago en inglés se entiende
+ * mucho mejor que una en español); y si ni eso, el idioma de la tienda.
+ */
+async function checkoutLanguage(): Promise<string> {
+  const locale = await getLocale();
+  const wanted = LOCALE_TO_SHOPIFY[locale];
+  const { available, shopDefault } = await publishedLanguages();
+  if (available.includes(wanted)) return wanted;
+  if (available.includes("EN")) return "EN";
+  return shopDefault;
+}
+
 export async function cartCreate(
   lines: { merchandiseId: string; quantity: number }[],
 ): Promise<Cart | null> {
   const data = await storefront<CartMutationResp<"cartCreate">>(
     CART_CREATE,
-    { lines },
+    { lines, language: await checkoutLanguage() },
     NO_CACHE,
   );
   const errors = data?.cartCreate.userErrors;
@@ -143,7 +194,7 @@ export async function cartCreate(
 export async function cartGet(cartId: string): Promise<Cart | null> {
   const data = await storefront<CartGetResp>(
     CART_GET,
-    { id: cartId },
+    { id: cartId, language: await checkoutLanguage() },
     NO_CACHE,
   );
   return data?.cart ? mapCart(data.cart) : null;
@@ -155,7 +206,7 @@ export async function cartLinesAdd(
 ): Promise<Cart | null> {
   const data = await storefront<CartMutationResp<"cartLinesAdd">>(
     CART_LINES_ADD,
-    { cartId, lines },
+    { cartId, lines, language: await checkoutLanguage() },
     NO_CACHE,
   );
   const errors = data?.cartLinesAdd.userErrors;
@@ -175,7 +226,7 @@ export async function cartLinesUpdate(
 ): Promise<Cart | null> {
   const data = await storefront<CartMutationResp<"cartLinesUpdate">>(
     CART_LINES_UPDATE,
-    { cartId, lines },
+    { cartId, lines, language: await checkoutLanguage() },
     NO_CACHE,
   );
   const cart = data?.cartLinesUpdate.cart;
@@ -188,7 +239,7 @@ export async function cartLinesRemove(
 ): Promise<Cart | null> {
   const data = await storefront<CartMutationResp<"cartLinesRemove">>(
     CART_LINES_REMOVE,
-    { cartId, lineIds },
+    { cartId, lineIds, language: await checkoutLanguage() },
     NO_CACHE,
   );
   const cart = data?.cartLinesRemove.cart;

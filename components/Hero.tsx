@@ -8,7 +8,7 @@ import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
 import { formatPrice, productHref, type Product } from "@/lib/products";
 import { tripletTitleColor } from "@/lib/triplet-theme";
-import { useT } from "@/lib/i18n/client";
+import { useLocale, useT } from "@/lib/i18n/client";
 
 type Props = { products?: Product[] };
 
@@ -27,6 +27,7 @@ export default function Hero({ products = [] }: Props) {
   // pesando una imagen (la que mide el LCP), no tres.
   const [seen, setSeen] = useState<number[]>([0]);
   const t = useT();
+  const locale = useLocale();
 
   const product = products[active] ?? products[0];
   const rotates = products.length > 1;
@@ -178,10 +179,10 @@ export default function Hero({ products = [] }: Props) {
           </motion.h1>
 
           <div className="flex items-baseline gap-3 justify-center lg:justify-start">
-            <span className="text-3xl md:text-4xl">{formatPrice(product.price)}</span>
+            <span className="text-3xl md:text-4xl">{formatPrice(product.price, locale)}</span>
             {product.oldPrice && (
               <span className="line-through text-ink-soft/50 text-lg">
-                {formatPrice(product.oldPrice)}
+                {formatPrice(product.oldPrice, locale)}
               </span>
             )}
           </div>
@@ -199,7 +200,7 @@ export default function Hero({ products = [] }: Props) {
             >
               {/* Precio real del producto: antes iba fijo en los textos
                   ("Comprar Drop/01 — 39,99€") y se quedaba desfasado. */}
-              {t.hero.buy} — {formatPrice(product.price)}
+              {t.hero.buy} — {formatPrice(product.price, locale)}
               <ArrowRight aria-hidden className="size-4 sm:size-5 transition-transform group-hover:translate-x-1" strokeWidth={2.25} />
             </Link>
           </MagneticButton>

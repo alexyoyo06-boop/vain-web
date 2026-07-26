@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Politique de confidentialité",
+    "heading": "Politique de confidentialité",
+    "blocks": [
+      { "note": "Dernière mise à jour : 8 avril 2026" },
+      { "p": "Cette politique de confidentialité décrit comment VAIN collecte, utilise et divulgue les informations personnelles lorsque vous visitez ou utilisez nos services, effectuez un achat ou communiquez avec nous au sujet du Site." },
+      { "h2": "Modifications de cette politique" },
+      { "p": "Cette politique peut être mise à jour pour refléter des changements dans nos pratiques ou pour des raisons opérationnelles, légales ou réglementaires. Les modifications seront publiées ici avec leur date de mise à jour." },
+      { "h2": "Collecte et utilisation de vos informations" },
+      { "p": "Nous collectons différentes informations selon la façon dont vous interagissez avec nos services, et les utilisons pour communiquer avec vous, fournir ou améliorer nos services, respecter nos obligations légales et protéger des droits." },
+      { "h3": "Informations que nous collectons directement" },
+      { "ul": [
+        "Coordonnées : nom, adresse, téléphone, e-mail",
+        "Données de commande : facturation, livraison, confirmation de paiement",
+        "Compte : nom d'utilisateur, mot de passe, questions de sécurité",
+        "Achats : articles consultés, panier, fidélité, avis",
+        "Service client : vos échanges avec nous"
+      ] },
+      { "h3": "Informations que nous collectons sur votre utilisation" },
+      { "p": "Nous collectons automatiquement des données d'utilisation via des cookies et technologies similaires, incluant les informations d'accès, d'appareil, de navigateur, de réseau et d'adresse IP." },
+      { "h3": "Informations obtenues de tiers" },
+      { "ul": [
+        "Entreprises qui soutiennent le Site (comme Shopify)",
+        "Processeurs de paiement",
+        "Tiers via pixels et cookies"
+      ] },
+      { "h3": "Utilisations de vos informations" },
+      { "ul": [
+        "Prestation de services : traiter les paiements, préparer les commandes, gérer les comptes et les retours",
+        "Marketing et publicité : communications promotionnelles et annonces personnalisées",
+        "Sécurité et prévention de la fraude",
+        "Service client et amélioration du service"
+      ] },
+      { "h2": "Cookies" },
+      { "p": "Nous utilisons des cookies pour faire fonctionner le Site, améliorer nos services et réaliser des analyses. Vous pouvez configurer votre navigateur pour les refuser, mais cela peut affecter votre expérience. Nous reconnaissons le signal Global Privacy Control (GPC) comme une demande d'exclusion valide." },
+      { "h2": "Divulgation de vos informations" },
+      { "p": "Nous divulguons des informations personnelles dans les circonstances suivantes :" },
+      { "ul": [
+        "À des prestataires qui fournissent des services en notre nom",
+        "À des partenaires commerciaux et marketing",
+        "Lorsque vous le demandez ou y consentez",
+        "À des sociétés affiliées pour la conduite des affaires",
+        "Pour des transactions commerciales, fusions ou obligations légales"
+      ] },
+      { "h2": "Données des mineurs" },
+      { "p": "Nos services ne sont pas destinés aux mineurs. Nous ne collectons pas sciemment d'informations concernant des enfants. Si vous en constatez, vous pouvez demander leur suppression en nous contactant. Nous ne vendons ni ne partageons les informations des personnes de moins de 16 ans." },
+      { "h2": "Sécurité et conservation" },
+      { "p": "Aucune mesure de sécurité n'est parfaite. N'envoyez pas d'informations sensibles par des canaux non sécurisés. La durée de conservation dépend de la nécessité de maintenir les comptes, de respecter la loi ou de résoudre des litiges." },
+      { "h2": "Vos droits" },
+      { "ul": [
+        "Accès, suppression, rectification et portabilité de vos données",
+        "Refus de la vente/du partage de données ou de la publicité ciblée",
+        "Limitation ou arrêt du traitement",
+        "Retrait du consentement",
+        "Recours contre une décision de refus",
+        "Gestion des préférences de communication"
+      ] },
+      { "p": "Pour exercer vos droits, contactez-nous. Vous ne subirez aucune discrimination pour les avoir exercés. Nous pouvons vous demander de vérifier votre identité." },
+      { "h2": "Utilisateurs internationaux" },
+      { "p": "Vos informations peuvent être transférées, stockées et traitées hors de votre pays. Pour les transferts hors de l'EEE, nous utilisons les Clauses Contractuelles Types ou d'autres mécanismes reconnus." },
+      { "h2": "Réclamations" },
+      { "p": "Contactez-nous pour toute réclamation. Si vous n'êtes pas satisfait, vous pouvez déposer une réclamation auprès de votre autorité locale de protection des données." },
+      { "h2": "Contact" },
+      { "ul": [
+        "E-mail : support@v4in.com",
+        "Adresse : Calle Josep Camprecios 21 principal B, 08950, Espagne"
+      ] },
+      { "p": "VAIN est le responsable du traitement de vos informations personnelles." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Politique d'expédition",
+    "heading": "Politique d'expédition",
+    "blocks": [
+      { "h2": "Précommande" },
+      { "p": "Tous nos produits sont vendus en précommande. Cela signifie que nous n'avons pas de stock prêt à expédier au moment de l'achat. Une fois la fenêtre de précommande fermée, nous lançons la production puis expédions votre commande." },
+      { "p": "Délai de livraison estimé : 30 à 45 jours à compter de la clôture de la précommande. Nous vous préviendrons par e-mail au départ de votre commande." },
+      { "h2": "Délais d'expédition (après envoi)" },
+      { "ul": [
+        "Espagne (péninsule) : 2 à 5 jours ouvrables",
+        "Îles et zones spéciales : 3 à 7 jours ouvrables",
+        "International : 5 à 15 jours ouvrables selon le pays"
+      ] },
+      { "h2": "Transporteurs" },
+      { "p": "Nous travaillons avec Correos ou SEUR selon la destination." },
+      { "h2": "Frais d'expédition" },
+      { "p": "Les frais sont calculés au moment du paiement en fonction de votre adresse de livraison." },
+      { "h2": "Suivi" },
+      { "p": "Vous recevrez un numéro de suivi par e-mail au départ de votre commande." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Politique de remboursement",
+    "heading": "Politique de remboursement",
+    "blocks": [
+      { "h2": "Droit de rétractation" },
+      { "p": "Si vous résidez dans l'Union européenne, vous disposez de **14 jours calendaires** pour vous rétracter de votre achat sans avoir à vous justifier. Vous trouverez tous les détails et le formulaire type sur notre [page dédiée au droit de rétractation](/policies/withdrawal)." },
+      { "h2": "Échanges et articles défectueux" },
+      { "p": "Nos produits sont fabriqués à la commande via le système de précommande ; nous n'effectuons donc pas d'échange de taille une fois la commande confirmée. Si le vêtement arrive défectueux ou si nous nous sommes trompés de commande, nous le réglons sans frais pour vous." },
+      { "h2": "Contact" },
+      { "p": "Pour toute question relative aux retours, écrivez-nous à [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Conditions de service",
+    "heading": "Conditions de service",
+    "blocks": [
+      { "p": "Ce site est exploité par VAIN. En passant commande, vous acceptez les conditions suivantes :" },
+      { "ul": [
+        "Tous les produits sont vendus en précommande. En passant commande, vous acceptez que la livraison puisse prendre 30 à 45 jours à compter de la clôture de la précommande.",
+        "Nous nous réservons le droit de modifier les prix, produits ou politiques à tout moment.",
+        "Tous les prix sont en euros (€) et incluent les taxes applicables.",
+        "Nous pouvons annuler des commandes pour des motifs raisonnables (rupture de stock, erreurs de prix, etc.)."
+      ] },
+      { "h2": "Propriété intellectuelle" },
+      { "p": "Tous les designs, images et contenus de ce site sont la propriété de VAIN et sont protégés par le droit d'auteur. Toute utilisation non autorisée est strictement interdite." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Mentions légales",
+    "heading": "Mentions légales",
+    "blocks": [
+      { "p": "Conformément à la loi espagnole 34/2002 sur les services de la société de l'information et le commerce électronique (LSSI), les informations suivantes sont fournies :" },
+      { "ul": [
+        "**Titulaire :** VAIN",
+        "**E-mail :** [support@v4in.com](mailto:support@v4in.com)",
+        "**Réseaux sociaux :** Instagram et TikTok @vainspn",
+        "**Activité :** Vente en ligne de vêtements streetwear sous un modèle de précommande."
+      ] },
+      { "p": "Le site a été créé à des fins commerciales. L'utilisation du site ou la réalisation d'un achat vaut acceptation des conditions indiquées." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Informations de contact",
+    "heading": "Informations de contact",
+    "blocks": [
+      { "p": "Une question ou un problème avec votre commande ? Écrivez-nous :" },
+      { "ul": [
+        "E-mail : [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram : [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok : [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "Nous répondons généralement sous 48 heures ouvrées (du lundi au vendredi)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Droit de rétractation",
+    "heading": "Droit de rétractation",
+    "blocks": [
+      { "h2": "Votre droit" },
+      { "p": "Si vous résidez dans l'Union européenne, vous disposez de **14 jours calendaires** pour vous rétracter de votre achat sans avoir à vous justifier. Le délai commence le jour où vous (ou une personne que vous désignez) recevez le dernier article de la commande." },
+      { "p": "Pour respecter le délai, il suffit de nous communiquer votre décision de rétractation avant son expiration." },
+      { "h2": "Comment se rétracter" },
+      { "p": "Vous pouvez demander la rétractation directement depuis votre compte, sur la page de votre commande, via le [parcours en libre-service](https://account.v4in.com). Il vous suffit d'indiquer votre nom et la référence de la commande ; vous recevrez un e-mail de confirmation automatique." },
+      { "p": "Si vous préférez, vous pouvez aussi nous l'indiquer par e-mail à [support@v4in.com](mailto:support@v4in.com) en précisant votre nom et la référence de la commande. Nous vous confirmerons la réception." },
+      { "h2": "Effets de la rétractation" },
+      { "p": "Une fois la rétractation exercée, nous vous rembourserons tous les paiements reçus, y compris les frais de livraison standard, sans retard injustifié et en tout état de cause dans les 14 jours suivant la communication de votre décision. Nous pouvons différer le remboursement jusqu'à réception des articles retournés ou jusqu'à ce que vous prouviez leur envoi." },
+      { "p": "Vous devez renvoyer les articles sans retard injustifié et, en tout état de cause, dans un délai maximum de 14 jours à compter de la communication de votre rétractation." },
+      { "h2": "Formulaire type de rétractation" },
+      { "p": "(Ne complétez et n'envoyez ce formulaire que si vous souhaitez vous rétracter du contrat.)" },
+      { "p": "À l'attention de VAIN — support@v4in.com :\nPar la présente, je vous notifie ma rétractation du contrat de vente du produit suivant : __________\nCommande reçue le / avec la référence : __________\nNom du consommateur : __________\nDate : __________" }
+    ]
+  }
+}

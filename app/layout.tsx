@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartUIProvider } from "@/lib/cart-ui";
 import { MenuUIProvider } from "@/lib/menu-ui";
 import CartToast from "@/components/CartToast";
+import NewsletterPopup from "@/components/NewsletterPopup";
 import LocaleBanner from "@/components/LocaleBanner";
 import RouteMemory from "@/components/RouteMemory";
 import { getT } from "@/lib/i18n/server";
@@ -102,6 +103,12 @@ export default async function RootLayout({
   );
   const showLocaleBanner = !dismissed && suggested !== locale;
 
+  // Cuando la web está cerrada, el proxy hace rewrite al muro (/coming-soon)
+  // manteniendo la URL, y marca la request con "x-vain-wall". En ese caso el
+  // popup del 10% no debe montarse (el muro ya pide el email). El pathname en
+  // cliente sigue siendo "/", así que este flag del server es la señal fiable.
+  const servingWall = h.get("x-vain-wall") === "1";
+
   return (
     <html
       lang={locale}
@@ -121,6 +128,10 @@ export default async function RootLayout({
             <MenuUIProvider>{children}</MenuUIProvider>
             <CartToast />
           </CartUIProvider>
+          {/* Popup del 10%: se controla su visibilidad dentro (no sale en
+              /coming-soon ni /admin, y solo una vez por visitante). No se monta
+              cuando el proxy está sirviendo el muro de "web cerrada". */}
+          {!servingWall && <NewsletterPopup />}
         </LocaleProvider>
         <Analytics />
         <SpeedInsights />

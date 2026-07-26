@@ -110,10 +110,18 @@ export async function proxy(request: NextRequest) {
     return res;
   }
 
-  // Bloqueado → rewrite (mantiene la URL en la barra, sirve coming-soon)
+  // Bloqueado → rewrite (mantiene la URL en la barra, sirve coming-soon).
+  // Como es un rewrite (no redirect), la URL del navegador sigue siendo "/",
+  // así que usePathname() en cliente NO ve "/coming-soon". Marcamos la request
+  // con una cabecera para que el layout sepa que está sirviendo el muro y NO
+  // monte el popup del 10% encima (si no, salta aunque la web esté cerrada).
   const url = request.nextUrl.clone();
   url.pathname = "/coming-soon";
-  const res = NextResponse.rewrite(url);
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-vain-wall", "1");
+  const res = NextResponse.rewrite(url, {
+    request: { headers: requestHeaders },
+  });
   ensureLocaleCookie(request, res);
   return res;
 }

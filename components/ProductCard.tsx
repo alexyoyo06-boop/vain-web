@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { formatPrice, productHref, type Product } from "@/lib/products";
+import { useLocale } from "@/lib/i18n/client";
 
 type Props = {
   product: Product;
@@ -24,6 +25,7 @@ type Props = {
  * el click del Link para que no navegue al levantar el dedo.
  */
 export default function ProductCard({ product, index = 0 }: Props) {
+  const locale = useLocale();
   const [active, setActive] = useState(0);
   const [hovered, setHovered] = useState(false);
   const touchStartX = useRef(0);
@@ -136,10 +138,10 @@ export default function ProductCard({ product, index = 0 }: Props) {
             </p>
           </div>
           <div className="md:text-right">
-            <p className="text-sm md:text-lg">{formatPrice(product.price)}</p>
+            <p className="text-sm md:text-lg">{formatPrice(product.price, locale)}</p>
             {product.oldPrice && (
               <p className="text-[10px] md:text-xs line-through text-ink-soft/50">
-                {formatPrice(product.oldPrice)}
+                {formatPrice(product.oldPrice, locale)}
               </p>
             )}
           </div>

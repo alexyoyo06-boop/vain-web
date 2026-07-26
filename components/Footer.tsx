@@ -75,6 +75,17 @@ export default function Footer() {
           <span>{t.footer.madeInSpain}</span>
         </div>
       </div>
+
+      {/* Crédito del desarrollador — abajo del todo */}
+      <div className="border-t border-bone/10 px-6 py-4 text-center text-xs text-bone/40 max-w-3xl mx-auto">
+        {t.footer.developedBy}{" "}
+        <a
+          href="mailto:alexyoyo06@gmail.com"
+          className="text-bone/60 hover:text-bone underline underline-offset-2 transition-colors"
+        >
+          Alex · alexyoyo06@gmail.com
+        </a>
+      </div>
     </footer>
   );
 }

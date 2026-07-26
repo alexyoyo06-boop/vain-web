@@ -1,35 +1,47 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getT } from "@/lib/i18n/server";
 
 /**
- * Banner de portada: foto a sangre de lado a lado con el título, una línea de
+ * Banner de portada: vídeo a sangre de lado a lado con el título, una línea de
  * apoyo y el botón encima, abajo a la izquierda. Es lo primero que se ve al
  * entrar. En móvil es una franja apaisada corta (no ocupa toda la pantalla);
  * en escritorio ocupa casi todo el alto.
  *
- * PARA CAMBIAR LA FOTO: súbela a `public/hero/` y cambia PHOTO. Tiene que ser
- * **apaisada** (~2400x1350, 16:9) porque es la misma en móvil y escritorio.
- * La mitad izquierda tiene que estar despejada y no ser blanca: ahí van el
- * texto y el botón, y si no, no se leen.
+ * PARA CAMBIAR EL VÍDEO: súbelo a `public/hero/` y cambia VIDEO. Tiene que ser
+ * **apaisado** (16:9, p. ej. 1280x720) porque es el mismo en móvil y
+ * escritorio. La mitad izquierda tiene que estar despejada y no ser blanca:
+ * ahí van el texto y el botón, y si no, no se leen. Va sin sonido, en bucle y
+ * arranca solo (así lo permiten los navegadores en móvil).
+ *
+ * POSTER = imagen fija que se ve mientras carga el vídeo (y si no reproduce).
  */
-const PHOTO = "/hero/banner-1.jpg";
+const VIDEO = "/hero/videobanner.mp4";
+const POSTER = "/hero/banner-1.jpg";
 
-export default async function PhotoHero({ photo = PHOTO }: { photo?: string }) {
+export default async function PhotoHero({
+  video = VIDEO,
+  poster = POSTER,
+}: {
+  video?: string;
+  poster?: string;
+}) {
   const { t } = await getT();
 
   return (
-    // El margen negativo mete la foto por debajo de la barra (84px en móvil,
-    // 100 en escritorio) para que la barra flote encima y se funda con ella.
+    // El margen negativo mete el vídeo por debajo de la barra (84px en móvil,
+    // 100 en escritorio) para que la barra flote encima y se funda con él.
     // Si cambia el alto de la barra en Nav.tsx, hay que cambiarlo aquí.
     <section className="relative w-full -mt-[84px] md:-mt-[100px] h-[calc(56.25vw+84px)] md:h-[80svh] md:min-h-[560px] overflow-hidden bg-ink">
-      <Image
-        src={photo}
-        alt="VAIN"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[center_35%]"
+      <video
+        src={video}
+        poster={poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
       />
 
       {/* Velo oscuro por la izquierda y por abajo: la foto se ve entera y el

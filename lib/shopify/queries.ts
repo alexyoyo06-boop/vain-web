@@ -175,6 +175,27 @@ export const CUSTOMER_CREATE = /* GraphQL */ `
 
 // --- Cart ---
 
+// Todas las operaciones de carrito llevan `@inContext(language: $language)`.
+// Shopify NO guarda el idioma dentro del carrito: lo toma del contexto de CADA
+// petición y con él construye el `checkoutUrl`. Si no se pasa, la pantalla de
+// pago sale siempre en el idioma por defecto de la tienda (español) aunque el
+// visitante esté navegando en inglés. Ver `checkoutLanguage()` en cart.ts.
+
+/** Idiomas publicados en la tienda (Ajustes → Idiomas). Solo estos traducen
+ *  la pantalla de pago; el resto Shopify los sirve en el idioma por defecto. */
+export const SHOP_LANGUAGES = /* GraphQL */ `
+  query ShopLanguages {
+    localization {
+      availableLanguages {
+        isoCode
+      }
+      language {
+        isoCode
+      }
+    }
+  }
+`;
+
 export const CART_FRAGMENT = /* GraphQL */ `
   fragment CartShape on Cart {
     id
@@ -226,7 +247,8 @@ export const CART_FRAGMENT = /* GraphQL */ `
 
 export const CART_CREATE = /* GraphQL */ `
   ${CART_FRAGMENT}
-  mutation CartCreate($lines: [CartLineInput!]) {
+  mutation CartCreate($lines: [CartLineInput!], $language: LanguageCode!)
+  @inContext(language: $language) {
     cartCreate(input: { lines: $lines }) {
       cart { ...CartShape }
       userErrors { field message }
@@ -236,14 +258,16 @@ export const CART_CREATE = /* GraphQL */ `
 
 export const CART_GET = /* GraphQL */ `
   ${CART_FRAGMENT}
-  query CartGet($id: ID!) {
+  query CartGet($id: ID!, $language: LanguageCode!)
+  @inContext(language: $language) {
     cart(id: $id) { ...CartShape }
   }
 `;
 
 export const CART_LINES_ADD = /* GraphQL */ `
   ${CART_FRAGMENT}
-  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!, $language: LanguageCode!)
+  @inContext(language: $language) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart { ...CartShape }
       userErrors { field message }
@@ -253,7 +277,8 @@ export const CART_LINES_ADD = /* GraphQL */ `
 
 export const CART_LINES_UPDATE = /* GraphQL */ `
   ${CART_FRAGMENT}
-  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!, $language: LanguageCode!)
+  @inContext(language: $language) {
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
       cart { ...CartShape }
       userErrors { field message }
@@ -263,7 +288,8 @@ export const CART_LINES_UPDATE = /* GraphQL */ `
 
 export const CART_LINES_REMOVE = /* GraphQL */ `
   ${CART_FRAGMENT}
-  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!, $language: LanguageCode!)
+  @inContext(language: $language) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart { ...CartShape }
       userErrors { field message }

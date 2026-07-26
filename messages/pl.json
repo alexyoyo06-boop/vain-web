@@ -3,7 +3,7 @@
     "back": "Wstecz",
     "close": "Zamknij",
     "loading": "Ładowanie…",
-    "freeShipping": "Darmowa wysyłka od 40€",
+    "freeShipping": "Wysyłka w 24–72h",
     "madeInSpain": "Wyprodukowano w Hiszpanii",
     "soldOut": "Wyprzedane",
     "available": "Dostępne",
@@ -48,7 +48,8 @@
     "copyright": "© 2026, VAIN — Wszelkie prawa zastrzeżone.",
     "madeInSpain": "Wyprodukowano w Hiszpanii",
     "admin": "admin",
-    "language": "Język"
+    "language": "Język",
+    "developedBy": "Zaprojektowane i stworzone przez"
   },
   "comingSoon": {
     "loginPassword": "Wejdź z hasłem",
@@ -121,7 +122,8 @@
     "ctaKicker": "Nosisz VAIN?",
     "ctaTitle": "Oznacz nas na Instagramie",
     "ctaBodyPre": "Wyślij nam zdjęcie na ",
-    "ctaBodyPost": " i trafisz do archiwum."
+    "ctaBodyPost": " i trafisz do archiwum.",
+    "seeAll": "Zobacz archiwum"
   },
   "showcase": {
     "viewDetail": "Zobacz szczegóły",
@@ -141,7 +143,7 @@
     "copied": "Skopiowano",
     "details": "Szczegóły i materiały",
     "shipping": "Wysyłka",
-    "shippingIntro": "Gdy Twoje zamówienie będzie gotowe:",
+    "shippingIntro": "Wysyłamy zamówienie w 24–72h:",
     "shippingSpain": "Hiszpania: 2–5 dni roboczych",
     "shippingEurope": "Europa: 6–9 dni roboczych",
     "shippingMore": "Więcej szczegółów w",
@@ -158,7 +160,8 @@
     "photoPrev": "Poprzednie zdjęcie",
     "photoNext": "Następne zdjęcie",
     "photoAria": "Przejdź do zdjęcia {index}",
-    "noProducts": "Brak dostępnych produktów."
+    "noProducts": "Brak dostępnych produktów.",
+    "completeTrio": "Skompletuj swoje trio"
   },
   "cart": {
     "title": "Twój koszyk",
@@ -204,8 +207,8 @@
   },
   "meta": {
     "siteTitle": "VAIN",
-    "siteDescription": "VAIN. Limitowane dropy, prawdziwa jakość, darmowa wysyłka od 40€.",
-    "ogDescription": "Limitowane dropy, prawdziwa jakość, darmowa wysyłka od 40€.",
+    "siteDescription": "VAIN. Streetwear robiony w Hiszpanii. Limitowane dropy, prawdziwa jakość.",
+    "ogDescription": "Limitowane dropy, prawdziwa jakość. Robione w Hiszpanii.",
     "ogOutNow": "Już dostępne",
     "todoTitle": "VAIN — Wszystko",
     "todoDescription": "Wszystkie ubrania VAIN. Bez filtrów, bez kategorii.",
@@ -224,5 +227,16 @@
     "pantalones": "Spodnie",
     "camisetas": "Koszulki",
     "sudaderas": "Bluzy"
+  },
+  "popup": {
+    "title": "Zdobądź 10% zniżki",
+    "subtitle": "I dowiedz się pierwszy o nowych dropach.",
+    "cta": "Odbierz moje 10%",
+    "close": "Zamknij",
+    "success": "Gotowe! Sprawdź e-mail — tam czeka Twoje 10%.",
+    "successHeading": "Gotowe! Oto Twoje 10%:",
+    "useDiscount": "Użyj moich 10%",
+    "copied": "Skopiowano!",
+    "copyHint": "Dotknij, aby skopiować kod"
   }
 }

@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Política de privacidade",
+    "heading": "Política de privacidade",
+    "blocks": [
+      { "note": "Última atualização: 8 de abril de 2026" },
+      { "p": "Esta Política de privacidade descreve como a VAIN recolhe, utiliza e divulga informações pessoais quando visitas ou utilizas os nossos serviços, fazes uma compra ou comunicas connosco sobre o Site." },
+      { "h2": "Alterações a esta política" },
+      { "p": "A política pode ser atualizada para refletir mudanças nas nossas práticas ou por motivos operacionais, legais ou regulamentares. As alterações serão publicadas aqui com a respetiva data de atualização." },
+      { "h2": "Recolha e utilização das tuas informações" },
+      { "p": "Recolhemos informações variadas consoante a forma como interages com os nossos serviços, e utilizamo-las para comunicar contigo, prestar ou melhorar serviços, cumprir obrigações legais e proteger direitos." },
+      { "h3": "Informações que recolhemos diretamente" },
+      { "ul": [
+        "Dados de contacto: nome, morada, telefone, e-mail",
+        "Dados da encomenda: faturação, envio, confirmação de pagamento",
+        "Conta: nome de utilizador, palavra-passe, perguntas de segurança",
+        "Compras: artigos vistos, carrinho, fidelização, avaliações",
+        "Apoio ao cliente: as tuas comunicações connosco"
+      ] },
+      { "h3": "Informações que recolhemos sobre a tua utilização" },
+      { "p": "Recolhemos automaticamente dados de utilização através de cookies e tecnologias semelhantes, incluindo informações de acesso, dispositivo, navegador, rede e IP." },
+      { "h3": "Informações obtidas de terceiros" },
+      { "ul": [
+        "Empresas que apoiam o Site (como a Shopify)",
+        "Processadores de pagamento",
+        "Terceiros através de píxeis e cookies"
+      ] },
+      { "h3": "Utilizações das tuas informações" },
+      { "ul": [
+        "Prestação de serviços: processar pagamentos, preparar encomendas, manter contas, gerir devoluções",
+        "Marketing e publicidade: comunicações promocionais e anúncios personalizados",
+        "Segurança e prevenção de fraude",
+        "Apoio ao cliente e melhoria do serviço"
+      ] },
+      { "h2": "Cookies" },
+      { "p": "Usamos cookies para operar o Site, melhorar serviços e realizar análises. Podes configurar o navegador para os recusar, embora isso possa afetar a tua experiência. Reconhecemos o sinal Global Privacy Control (GPC) como pedido válido de exclusão." },
+      { "h2": "Divulgação das tuas informações" },
+      { "p": "Divulgamos informações pessoais nas seguintes circunstâncias:" },
+      { "ul": [
+        "A fornecedores que prestam serviços em nosso nome",
+        "A parceiros comerciais e de marketing",
+        "Quando o solicitas ou consentes",
+        "A afiliadas para conduzir o negócio",
+        "Por transações comerciais, fusões ou obrigações legais"
+      ] },
+      { "h2": "Dados de menores" },
+      { "p": "Os nossos serviços não se destinam a menores. Não recolhemos intencionalmente informações de crianças. Se detetares alguma, podes pedir a sua eliminação contactando-nos. Não vendemos nem partilhamos informações de menores de 16 anos." },
+      { "h2": "Segurança e conservação" },
+      { "p": "Nenhuma medida de segurança é perfeita. Não envies informações sensíveis por canais inseguros. A conservação depende da necessidade de manter contas, cumprir a lei ou resolver litígios." },
+      { "h2": "Os teus direitos" },
+      { "ul": [
+        "Acesso, eliminação, retificação e portabilidade dos teus dados",
+        "Oposição à venda/partilha de dados ou à publicidade dirigida",
+        "Limitação ou cessação do tratamento",
+        "Retirada do consentimento",
+        "Recurso de decisões de recusa",
+        "Gestão das preferências de comunicação"
+      ] },
+      { "p": "Para exerceres os teus direitos, contacta-nos. Não haverá discriminação por os exerceres. Podemos pedir a verificação da tua identidade." },
+      { "h2": "Utilizadores internacionais" },
+      { "p": "As tuas informações podem ser transferidas, armazenadas e tratadas fora do teu país. Para transferências fora do EEE utilizamos Cláusulas Contratuais-Tipo ou outros mecanismos reconhecidos." },
+      { "h2": "Reclamações" },
+      { "p": "Contacta-nos para qualquer reclamação. Se não ficares satisfeito, podes apresentar reclamação à autoridade local de proteção de dados." },
+      { "h2": "Contacto" },
+      { "ul": [
+        "E-mail: support@v4in.com",
+        "Morada: Calle Josep Camprecios 21 principal B, 08950, Espanha"
+      ] },
+      { "p": "A VAIN é responsável pelo tratamento das tuas informações pessoais." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Política de envio",
+    "heading": "Política de envio",
+    "blocks": [
+      { "h2": "Pré-venda" },
+      { "p": "Todos os nossos produtos são vendidos em pré-venda. Isto significa que não temos stock pronto a enviar no momento da compra. Depois de fechada a janela de pré-venda, iniciamos a produção e só então enviamos a tua encomenda." },
+      { "p": "Tempo estimado de entrega: 30 a 45 dias a contar do fecho da pré-venda. Avisamos-te por e-mail quando a encomenda sair." },
+      { "h2": "Prazos de envio (após expedição)" },
+      { "ul": [
+        "Espanha (península): 2 a 5 dias úteis",
+        "Ilhas e zonas especiais: 3 a 7 dias úteis",
+        "Internacional: 5 a 15 dias úteis consoante o país"
+      ] },
+      { "h2": "Transportadoras" },
+      { "p": "Trabalhamos com a Correos ou a SEUR consoante o destino." },
+      { "h2": "Custo de envio" },
+      { "p": "O custo é calculado no checkout em função da tua morada de entrega." },
+      { "h2": "Seguimento" },
+      { "p": "Receberás um número de seguimento por e-mail quando a tua encomenda sair." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Política de reembolso",
+    "heading": "Política de reembolso",
+    "blocks": [
+      { "h2": "Direito de livre resolução" },
+      { "p": "Se resides na União Europeia, dispões de um prazo de **14 dias de calendário** para resolver a tua compra sem necessidade de justificação. Encontras todos os detalhes e o modelo de formulário na nossa [página de direito de livre resolução](/policies/withdrawal)." },
+      { "h2": "Trocas e artigos com defeito" },
+      { "p": "Os nossos produtos são fabricados por encomenda através do sistema de pré-venda, pelo que não fazemos trocas de tamanho depois de confirmada a encomenda. Se a peça chegar com defeito ou nos enganarmos na tua encomenda, resolvemos sem custos para ti." },
+      { "h2": "Contacto" },
+      { "p": "Para qualquer questão relacionada com devoluções, escreve-nos para [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Termos de serviço",
+    "heading": "Termos de serviço",
+    "blocks": [
+      { "p": "Este site é operado pela VAIN. Ao fazeres uma encomenda, aceitas as seguintes condições:" },
+      { "ul": [
+        "Todos os produtos são vendidos em pré-venda. Ao fazeres uma encomenda, aceitas que a entrega pode demorar 30 a 45 dias a contar do fecho da pré-venda.",
+        "Reservamo-nos o direito de alterar preços, produtos ou políticas a qualquer momento.",
+        "Todos os preços estão em euros (€) e incluem os impostos aplicáveis.",
+        "Podemos cancelar encomendas por causas razoáveis (falta de stock, erros de preço, etc.)."
+      ] },
+      { "h2": "Propriedade intelectual" },
+      { "p": "Todos os designs, imagens e conteúdos deste site são propriedade da VAIN e estão protegidos por direitos de autor. Qualquer utilização não autorizada é estritamente proibida." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Aviso legal",
+    "heading": "Aviso legal",
+    "blocks": [
+      { "p": "Em cumprimento da Lei espanhola 34/2002 de Serviços da Sociedade da Informação e de Comércio Eletrónico (LSSI), presta-se a seguinte informação:" },
+      { "ul": [
+        "**Titular:** VAIN",
+        "**E-mail:** [support@v4in.com](mailto:support@v4in.com)",
+        "**Redes sociais:** Instagram e TikTok @vainspn",
+        "**Atividade:** Venda online de roupa streetwear em modelo de pré-venda."
+      ] },
+      { "p": "O site foi criado para fins comerciais. A utilização do site ou a realização de compras constituem aceitação dos termos indicados." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Informações de contacto",
+    "heading": "Informações de contacto",
+    "blocks": [
+      { "p": "Tens dúvidas ou algum problema com a tua encomenda? Escreve-nos:" },
+      { "ul": [
+        "E-mail: [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram: [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok: [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "Costumamos responder em 48 horas úteis (de segunda a sexta)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Direito de livre resolução",
+    "heading": "Direito de livre resolução",
+    "blocks": [
+      { "h2": "O teu direito" },
+      { "p": "Se resides na União Europeia, dispões de um prazo de **14 dias de calendário** para resolver a tua compra sem necessidade de justificação. O prazo começa no dia em que tu (ou uma pessoa que indiques) recebes o último artigo da encomenda." },
+      { "p": "Para respeitar o prazo basta que nos comuniques a tua decisão de resolver antes de este terminar." },
+      { "h2": "Como resolver o contrato" },
+      { "p": "Podes pedir a resolução diretamente a partir da tua conta, na página da tua encomenda, através do [fluxo de autosserviço](https://account.v4in.com). Só precisas de indicar o teu nome e a referência da encomenda; receberás um e-mail de confirmação automático." },
+      { "p": "Se preferires, também podes comunicar-nos por e-mail para [support@v4in.com](mailto:support@v4in.com), indicando o teu nome e a referência da encomenda. Enviaremos confirmação de receção." },
+      { "h2": "Efeitos da resolução" },
+      { "p": "Uma vez exercida a resolução, reembolsaremos todos os pagamentos recebidos, incluindo os custos de envio padrão, sem demora indevida e, em qualquer caso, no prazo de 14 dias a contar da comunicação da tua decisão. Podemos reter o reembolso até termos recebido os artigos devolvidos ou até comprovares o seu envio." },
+      { "p": "Deverás devolver os artigos sem demora indevida e, em qualquer caso, no prazo máximo de 14 dias a contar da comunicação da tua resolução." },
+      { "h2": "Modelo de formulário de livre resolução" },
+      { "p": "(Só deves preencher e enviar este formulário se pretenderes resolver o contrato.)" },
+      { "p": "À atenção da VAIN — support@v4in.com:\nPela presente comunico que resolvo o meu contrato de venda do seguinte produto: __________\nEncomenda recebida em / com a referência: __________\nNome do consumidor: __________\nData: __________" }
+    ]
+  }
+}

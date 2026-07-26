@@ -76,6 +76,21 @@ const nextConfig: NextConfig = {
         destination: `https://${SHOPIFY_DOMAIN}/checkouts/:path*`,
         permanent: false,
       },
+      // Mismas rutas con prefijo de idioma. Cuando el carrito se pide a Shopify
+      // en un idioma que la tienda tiene publicado, el checkoutUrl vuelve como
+      // `v4in.com/en/cart/c/{id}` — con el prefijo delante. Sin estas reglas la
+      // pantalla de pago en inglés da 404. `:lang` son 2 letras (en) o 2-2
+      // (pt-br), así que nunca choca con /pants/…, /hoodies/… ni /policies/….
+      {
+        source: "/:lang([a-z]{2}|[a-z]{2}-[a-z]{2})/cart/c/:path*",
+        destination: `https://${SHOPIFY_DOMAIN}/:lang/cart/c/:path*`,
+        permanent: false,
+      },
+      {
+        source: "/:lang([a-z]{2}|[a-z]{2}-[a-z]{2})/checkouts/:path*",
+        destination: `https://${SHOPIFY_DOMAIN}/:lang/checkouts/:path*`,
+        permanent: false,
+      },
       {
         source: "/checkout/:path*",
         destination: `https://${SHOPIFY_DOMAIN}/checkout/:path*`,
@@ -102,6 +117,13 @@ const nextConfig: NextConfig = {
       {
         source: "/services/:path*",
         destination: `https://${SHOPIFY_DOMAIN}/services/:path*`,
+        permanent: false,
+      },
+      // Enlaces de descuento (popup del 10%): /discount/CODE los sirve Shopify,
+      // que aplica el código y redirige al carrito. Sin esto darían 404 en Next.
+      {
+        source: "/discount/:path*",
+        destination: `https://${SHOPIFY_DOMAIN}/discount/:path*`,
         permanent: false,
       },
     ];

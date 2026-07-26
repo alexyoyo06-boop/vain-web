@@ -8,12 +8,13 @@ import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
 import { useCartUI } from "@/lib/cart-ui";
 import { formatPrice, productHref, type Product, type ProductSize } from "@/lib/products";
-import { tpl, useT } from "@/lib/i18n/client";
+import { tpl, useLocale, useT } from "@/lib/i18n/client";
 
 type Props = { product: Product; reverse?: boolean };
 
 export default function ProductShowcase({ product, reverse = false }: Props) {
   const t = useT();
+  const locale = useLocale();
   const availableSet = new Set(product.sizesAvailable);
   const defaultSize: ProductSize =
     product.modelSize && availableSet.has(product.modelSize)
@@ -166,10 +167,10 @@ export default function ProductShowcase({ product, reverse = false }: Props) {
           </h2>
 
           <div className="flex items-baseline gap-3">
-            <span className="text-3xl md:text-4xl">{formatPrice(product.price)}</span>
+            <span className="text-3xl md:text-4xl">{formatPrice(product.price, locale)}</span>
             {product.oldPrice && (
               <span className="line-through text-ink-soft/50 text-lg">
-                {formatPrice(product.oldPrice)}
+                {formatPrice(product.oldPrice, locale)}
               </span>
             )}
           </div>

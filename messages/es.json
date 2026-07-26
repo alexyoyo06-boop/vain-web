@@ -3,7 +3,7 @@
     "back": "Volver",
     "close": "Cerrar",
     "loading": "Cargando…",
-    "freeShipping": "Envío gratis desde 40€",
+    "freeShipping": "Envío en 24–72h",
     "madeInSpain": "Hecho en España",
     "soldOut": "Agotado",
     "available": "Disponible",
@@ -48,7 +48,8 @@
     "copyright": "© 2026, VAIN — Todos los derechos reservados.",
     "madeInSpain": "Hecho en España",
     "admin": "admin",
-    "language": "Idioma"
+    "language": "Idioma",
+    "developedBy": "Diseñada y desarrollada por"
   },
   "comingSoon": {
     "loginPassword": "Entrar con contraseña",
@@ -121,7 +122,8 @@
     "ctaKicker": "¿Llevas VAIN?",
     "ctaTitle": "Etiquétanos en Instagram",
     "ctaBodyPre": "Mándanos tu foto a ",
-    "ctaBodyPost": " y entras al archivo."
+    "ctaBodyPost": " y entras al archivo.",
+    "seeAll": "Ver el archivo"
   },
   "showcase": {
     "viewDetail": "Ver detalle",
@@ -141,7 +143,7 @@
     "copied": "Copiado",
     "details": "Detalles y materiales",
     "shipping": "Envíos",
-    "shippingIntro": "Una vez tu pedido esté listo:",
+    "shippingIntro": "Enviamos tu pedido en 24–72h:",
     "shippingSpain": "España: 2–5 días laborables",
     "shippingEurope": "Europa: 6–9 días laborables",
     "shippingMore": "Más detalles en",
@@ -158,7 +160,8 @@
     "photoPrev": "Foto anterior",
     "photoNext": "Foto siguiente",
     "photoAria": "Ir a foto {index}",
-    "noProducts": "No hay productos disponibles."
+    "noProducts": "No hay productos disponibles.",
+    "completeTrio": "Completa tu trío"
   },
   "cart": {
     "title": "Tu cesta",
@@ -204,8 +207,8 @@
   },
   "meta": {
     "siteTitle": "VAIN",
-    "siteDescription": "VAIN. Drops limitados, calidad real, envío gratis desde 40€.",
-    "ogDescription": "Drops limitados, calidad real, envío gratis desde 40€.",
+    "siteDescription": "VAIN. Streetwear hecho en España. Drops limitados, calidad real.",
+    "ogDescription": "Drops limitados, calidad real. Hecho en España.",
     "ogOutNow": "Ya disponible",
     "todoTitle": "VAIN — Todo",
     "todoDescription": "Toda la ropa de VAIN. Sin filtros, sin categorías.",
@@ -224,5 +227,16 @@
     "pantalones": "Pantalones",
     "camisetas": "Camisetas",
     "sudaderas": "Sudaderas"
+  },
+  "popup": {
+    "title": "Consigue un 10% de descuento",
+    "subtitle": "Y sé el primero en enterarte de los nuevos drops.",
+    "cta": "Consigue mi 10%",
+    "close": "Cerrar",
+    "success": "¡Listo! Revisa tu correo, ahí tienes tu 10%.",
+    "successHeading": "¡Listo! Aquí tienes tu 10%:",
+    "useDiscount": "Usar mi 10%",
+    "copied": "¡Copiado!",
+    "copyHint": "Toca para copiar el código"
   }
 }

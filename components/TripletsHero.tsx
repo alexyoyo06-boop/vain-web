@@ -12,7 +12,7 @@ import {
   TRIPLET_ORDER,
   TRIPLET_PHOTO_SCALE,
 } from "@/lib/triplet-theme";
-import { useT } from "@/lib/i18n/client";
+import { useLocale, useT } from "@/lib/i18n/client";
 
 // Logo VAIN recoloreado vía CSS mask sobre triplet-mark.png (silueta nítida con
 // alpha). Solo importa el canal alpha de la máscara → el color lo pone el
@@ -43,6 +43,7 @@ type Props = { products?: Product[] };
 
 export default function TripletsHero({ products = [] }: Props) {
   const t = useT();
+  const locale = useLocale();
   const router = useRouter();
   // Carrusel móvil: seguimos el scroll para iluminar el dot de paginación.
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -172,7 +173,7 @@ export default function TripletsHero({ products = [] }: Props) {
                         {p.name}
                       </span>
                       <span className="text-xs md:text-sm text-ink-soft tabular-nums">
-                        {formatPrice(p.price)}
+                        {formatPrice(p.price, locale)}
                       </span>
                     </div>
                   </Link>

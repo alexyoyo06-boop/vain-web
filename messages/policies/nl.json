@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Privacybeleid",
+    "heading": "Privacybeleid",
+    "blocks": [
+      { "note": "Laatst bijgewerkt: 8 april 2026" },
+      { "p": "Dit privacybeleid beschrijft hoe VAIN persoonsgegevens verzamelt, gebruikt en deelt wanneer je onze diensten bezoekt of gebruikt, een aankoop doet of met ons communiceert over de Site." },
+      { "h2": "Wijzigingen in dit beleid" },
+      { "p": "Dit beleid kan worden bijgewerkt om veranderingen in onze werkwijze weer te geven of om operationele, juridische of regelgevende redenen. Wijzigingen worden hier gepubliceerd met de bijbehorende datum." },
+      { "h2": "Verzameling en gebruik van je gegevens" },
+      { "p": "We verzamelen uiteenlopende gegevens afhankelijk van hoe je met onze diensten omgaat, en gebruiken die om met je te communiceren, diensten te leveren of te verbeteren, wettelijke verplichtingen na te komen en rechten te beschermen." },
+      { "h3": "Gegevens die we rechtstreeks verzamelen" },
+      { "ul": [
+        "Contactgegevens: naam, adres, telefoon, e-mail",
+        "Bestelgegevens: facturatie, verzending, betalingsbevestiging",
+        "Account: gebruikersnaam, wachtwoord, beveiligingsvragen",
+        "Aankopen: bekeken artikelen, winkelwagen, loyaliteit, reviews",
+        "Klantenservice: je communicatie met ons"
+      ] },
+      { "h3": "Gegevens die we over je gebruik verzamelen" },
+      { "p": "We verzamelen automatisch gebruiksgegevens via cookies en vergelijkbare technologieën, waaronder toegangs-, apparaat-, browser-, netwerk- en IP-informatie." },
+      { "h3": "Gegevens verkregen van derden" },
+      { "ul": [
+        "Bedrijven die de Site ondersteunen (zoals Shopify)",
+        "Betalingsverwerkers",
+        "Derden via pixels en cookies"
+      ] },
+      { "h3": "Gebruik van je gegevens" },
+      { "ul": [
+        "Dienstverlening: betalingen verwerken, bestellingen voorbereiden, accounts beheren, retouren afhandelen",
+        "Marketing en reclame: promotionele communicatie en gepersonaliseerde advertenties",
+        "Veiligheid en fraudepreventie",
+        "Klantenservice en verbetering van de dienstverlening"
+      ] },
+      { "h2": "Cookies" },
+      { "p": "We gebruiken cookies om de Site te laten werken, diensten te verbeteren en analyses uit te voeren. Je kunt je browser instellen om ze te weigeren, al kan dat je ervaring beïnvloeden. We erkennen het Global Privacy Control-signaal (GPC) als een geldig opt-outverzoek." },
+      { "h2": "Delen van je gegevens" },
+      { "p": "We delen persoonsgegevens in de volgende gevallen:" },
+      { "ul": [
+        "Met leveranciers die namens ons diensten verlenen",
+        "Met zakelijke en marketingpartners",
+        "Wanneer je erom vraagt of ermee instemt",
+        "Met gelieerde ondernemingen om de bedrijfsvoering te runnen",
+        "Bij bedrijfstransacties, fusies of wettelijke verplichtingen"
+      ] },
+      { "h2": "Gegevens van minderjarigen" },
+      { "p": "Onze diensten zijn niet bedoeld voor minderjarigen. We verzamelen niet bewust gegevens van kinderen. Als je zulke gegevens opmerkt, kun je verwijdering aanvragen door contact met ons op te nemen. We verkopen of delen geen gegevens van personen onder de 16 jaar." },
+      { "h2": "Beveiliging en bewaring" },
+      { "p": "Geen enkele beveiligingsmaatregel is perfect. Stuur geen gevoelige gegevens via onveilige kanalen. De bewaartermijn hangt af van de noodzaak om accounts te onderhouden, aan de wet te voldoen of geschillen op te lossen." },
+      { "h2": "Je rechten" },
+      { "ul": [
+        "Inzage, verwijdering, correctie en overdraagbaarheid van je gegevens",
+        "Bezwaar tegen verkoop/deling van gegevens of gerichte reclame",
+        "Beperking of stopzetting van de verwerking",
+        "Intrekking van je toestemming",
+        "Beroep tegen een afwijzend besluit",
+        "Beheer van communicatievoorkeuren"
+      ] },
+      { "p": "Neem contact met ons op om je rechten uit te oefenen. Je wordt daarvoor niet benadeeld. We kunnen om identiteitsverificatie vragen." },
+      { "h2": "Internationale gebruikers" },
+      { "p": "Je gegevens kunnen buiten je land worden doorgegeven, opgeslagen en verwerkt. Voor doorgiften buiten de EER gebruiken we standaardcontractbepalingen of andere erkende mechanismen." },
+      { "h2": "Klachten" },
+      { "p": "Neem contact met ons op bij klachten. Ben je niet tevreden, dan kun je een klacht indienen bij je lokale gegevensbeschermingsautoriteit." },
+      { "h2": "Contact" },
+      { "ul": [
+        "E-mail: support@v4in.com",
+        "Adres: Calle Josep Camprecios 21 principal B, 08950, Spanje"
+      ] },
+      { "p": "VAIN is verwerkingsverantwoordelijke voor je persoonsgegevens." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Verzendbeleid",
+    "heading": "Verzendbeleid",
+    "blocks": [
+      { "h2": "Pre-order" },
+      { "p": "Al onze producten worden als pre-order verkocht. Dat betekent dat we op het moment van aankoop geen voorraad klaar hebben liggen. Zodra het pre-ordervenster sluit, starten we de productie en verzenden we daarna je bestelling." },
+      { "p": "Geschatte levertijd: 30 tot 45 dagen na sluiting van de pre-order. We laten het je per e-mail weten zodra je bestelling onderweg is." },
+      { "h2": "Verzendtijden (na verzending)" },
+      { "ul": [
+        "Spanje (vasteland): 2 tot 5 werkdagen",
+        "Eilanden en speciale zones: 3 tot 7 werkdagen",
+        "Internationaal: 5 tot 15 werkdagen afhankelijk van het land"
+      ] },
+      { "h2": "Vervoerders" },
+      { "p": "We werken met Correos of SEUR, afhankelijk van de bestemming." },
+      { "h2": "Verzendkosten" },
+      { "p": "De kosten worden bij het afrekenen berekend op basis van je bezorgadres." },
+      { "h2": "Track & trace" },
+      { "p": "Je ontvangt per e-mail een trackingnummer zodra je bestelling onderweg is." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Retourbeleid",
+    "heading": "Retourbeleid",
+    "blocks": [
+      { "h2": "Herroepingsrecht" },
+      { "p": "Als je in de Europese Unie woont, heb je **14 kalenderdagen** om je aankoop te herroepen zonder opgave van redenen. Alle details en het modelformulier vind je op onze [pagina over het herroepingsrecht](/policies/withdrawal)." },
+      { "h2": "Ruilen en defecte artikelen" },
+      { "p": "Onze producten worden op bestelling gemaakt via het pre-ordersysteem, dus we ruilen geen maten meer nadat de bestelling is bevestigd. Komt het kledingstuk defect aan of hebben wij je bestelling verkeerd verwerkt, dan lossen we dat kosteloos voor je op." },
+      { "h2": "Contact" },
+      { "p": "Voor alles wat met retouren te maken heeft, mail ons op [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Servicevoorwaarden",
+    "heading": "Servicevoorwaarden",
+    "blocks": [
+      { "p": "Deze site wordt beheerd door VAIN. Door een bestelling te plaatsen ga je akkoord met de volgende voorwaarden:" },
+      { "ul": [
+        "Alle producten worden als pre-order verkocht. Door te bestellen accepteer je dat levering 30 tot 45 dagen kan duren vanaf de sluiting van de pre-order.",
+        "We behouden ons het recht voor prijzen, producten of beleid op elk moment te wijzigen.",
+        "Alle prijzen zijn in euro's (€) en inclusief de van toepassing zijnde belastingen.",
+        "We kunnen bestellingen annuleren om redelijke redenen (niet op voorraad, prijsfouten, enz.)."
+      ] },
+      { "h2": "Intellectueel eigendom" },
+      { "p": "Alle ontwerpen, afbeeldingen en content op deze site zijn eigendom van VAIN en auteursrechtelijk beschermd. Elk ongeoorloofd gebruik is strikt verboden." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Juridische kennisgeving",
+    "heading": "Juridische kennisgeving",
+    "blocks": [
+      { "p": "Ter naleving van de Spaanse wet 34/2002 inzake diensten van de informatiemaatschappij en elektronische handel (LSSI) wordt de volgende informatie verstrekt:" },
+      { "ul": [
+        "**Eigenaar:** VAIN",
+        "**E-mail:** [support@v4in.com](mailto:support@v4in.com)",
+        "**Sociale media:** Instagram en TikTok @vainspn",
+        "**Activiteit:** Online verkoop van streetwearkleding volgens een pre-ordermodel."
+      ] },
+      { "p": "De site is opgezet voor commerciële doeleinden. Gebruik van de site of het doen van aankopen geldt als aanvaarding van de genoemde voorwaarden." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Contactgegevens",
+    "heading": "Contactgegevens",
+    "blocks": [
+      { "p": "Vragen of een probleem met je bestelling? Laat het ons weten:" },
+      { "ul": [
+        "E-mail: [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram: [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok: [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "We reageren meestal binnen 48 werkuren (maandag t/m vrijdag)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Herroepingsrecht",
+    "heading": "Herroepingsrecht",
+    "blocks": [
+      { "h2": "Je recht" },
+      { "p": "Als je in de Europese Unie woont, heb je **14 kalenderdagen** om je aankoop te herroepen zonder opgave van redenen. De termijn begint op de dag waarop jij (of iemand die je aanwijst) het laatste artikel van de bestelling ontvangt." },
+      { "p": "Om de termijn te halen volstaat het dat je ons je beslissing tot herroeping meedeelt voordat die verstrijkt." },
+      { "h2": "Hoe je herroept" },
+      { "p": "Je kunt de herroeping rechtstreeks vanuit je account aanvragen, op de pagina van je bestelling, via de [selfservicestroom](https://account.v4in.com). Je hoeft alleen je naam en het bestelnummer op te geven; je ontvangt automatisch een bevestigingsmail." },
+      { "p": "Liever anders? Je kunt het ons ook per e-mail laten weten op [support@v4in.com](mailto:support@v4in.com), met vermelding van je naam en het bestelnummer. We bevestigen de ontvangst." },
+      { "h2": "Gevolgen van de herroeping" },
+      { "p": "Zodra je hebt herroepen, betalen we alle ontvangen betalingen terug, inclusief de standaard verzendkosten, zonder onnodige vertraging en in elk geval binnen 14 dagen nadat je ons je beslissing hebt meegedeeld. We mogen de terugbetaling opschorten tot we de geretourneerde artikelen hebben ontvangen of tot je aantoont dat je ze hebt verzonden." },
+      { "p": "Je moet de artikelen zonder onnodige vertraging terugsturen en in elk geval binnen 14 dagen nadat je ons je herroeping hebt meegedeeld." },
+      { "h2": "Modelformulier voor herroeping" },
+      { "p": "(Vul dit formulier alleen in en stuur het op als je de overeenkomst wilt herroepen.)" },
+      { "p": "Ter attentie van VAIN — support@v4in.com:\nHierbij deel ik mee dat ik mijn koopovereenkomst voor het volgende product herroep: __________\nBestelling ontvangen op / met referentie: __________\nNaam van de consument: __________\nDatum: __________" }
+    ]
+  }
+}

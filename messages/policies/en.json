@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Privacy policy",
+    "heading": "Privacy policy",
+    "blocks": [
+      { "note": "Last updated: 8 April 2026" },
+      { "p": "This Privacy Policy describes how VAIN collects, uses and discloses personal information when you visit or use our services, make a purchase, or communicate with us regarding the Site." },
+      { "h2": "Changes to this policy" },
+      { "p": "This policy may be updated to reflect changes in our practices or for operational, legal or regulatory reasons. Changes will be posted here along with their update date." },
+      { "h2": "Collection and use of your information" },
+      { "p": "We collect a range of information depending on how you interact with our services, and use it to communicate with you, provide or improve our services, meet legal obligations and protect rights." },
+      { "h3": "Information we collect directly" },
+      { "ul": [
+        "Contact details: name, address, phone, email",
+        "Order details: billing, shipping, payment confirmation",
+        "Account: username, password, security questions",
+        "Shopping: items viewed, cart, loyalty, reviews",
+        "Customer support: your communications with us"
+      ] },
+      { "h3": "Information we collect about your use" },
+      { "p": "We automatically collect usage data through cookies and similar technologies, including access, device, browser, network and IP information." },
+      { "h3": "Information obtained from third parties" },
+      { "ul": [
+        "Companies that support the Site (such as Shopify)",
+        "Payment processors",
+        "Third parties via pixels and cookies"
+      ] },
+      { "h3": "How we use your information" },
+      { "ul": [
+        "Service delivery: processing payments, preparing orders, maintaining accounts, handling returns",
+        "Marketing and advertising: promotional communications and personalised ads",
+        "Security and fraud prevention",
+        "Customer support and service improvement"
+      ] },
+      { "h2": "Cookies" },
+      { "p": "We use cookies to operate the Site, improve our services and run analytics. You can set your browser to refuse them, though this may affect your experience. We recognise the Global Privacy Control (GPC) signal as a valid opt-out request." },
+      { "h2": "Disclosure of your information" },
+      { "p": "We disclose personal information in the following circumstances:" },
+      { "ul": [
+        "To vendors providing services on our behalf",
+        "To business and marketing partners",
+        "When you request it or consent to it",
+        "To affiliates in order to run the business",
+        "For business transactions, mergers or legal obligations"
+      ] },
+      { "h2": "Children's data" },
+      { "p": "Our services are not intended for minors. We do not knowingly collect information from children. If you become aware of any, you can request its deletion by contacting us. We do not sell or share the information of anyone under 16." },
+      { "h2": "Security and retention" },
+      { "p": "No security measure is perfect. Do not send sensitive information through insecure channels. Retention depends on the need to maintain accounts, comply with the law or resolve disputes." },
+      { "h2": "Your rights" },
+      { "ul": [
+        "Access, deletion, correction and portability of your data",
+        "Opting out of the sale/sharing of data or targeted advertising",
+        "Restricting or stopping processing",
+        "Withdrawing consent",
+        "Appealing a denial decision",
+        "Managing communication preferences"
+      ] },
+      { "p": "To exercise your rights, contact us. You will not be discriminated against for doing so. We may ask you to verify your identity." },
+      { "h2": "International users" },
+      { "p": "Your information may be transferred, stored and processed outside your country. For transfers outside the EEA we use Standard Contractual Clauses or other recognised mechanisms." },
+      { "h2": "Complaints" },
+      { "p": "Contact us with any complaint. If you are not satisfied, you may lodge a complaint with your local data protection authority." },
+      { "h2": "Contact" },
+      { "ul": [
+        "Email: support@v4in.com",
+        "Address: Calle Josep Camprecios 21 principal B, 08950, Spain"
+      ] },
+      { "p": "VAIN is the controller of your personal information." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Shipping policy",
+    "heading": "Shipping policy",
+    "blocks": [
+      { "h2": "Ready to ship" },
+      { "p": "All our products are made and in stock — this is not a pre-order. We prepare your order and ship it within 24 to 72 working hours of purchase." },
+      { "p": "We will email you a tracking number as soon as your order leaves." },
+      { "h2": "Shipping times (after dispatch)" },
+      { "ul": [
+        "Mainland Spain: 2 to 5 working days",
+        "Islands and special zones: 3 to 7 working days",
+        "International: 5 to 15 working days depending on the country"
+      ] },
+      { "h2": "Couriers" },
+      { "p": "We work with Correos or SEUR depending on the destination." },
+      { "h2": "Shipping cost" },
+      { "p": "The cost is calculated at checkout based on your delivery address." },
+      { "h2": "Tracking" },
+      { "p": "You will receive a tracking number by email when your order ships." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Refund policy",
+    "heading": "Refund policy",
+    "blocks": [
+      { "h2": "Right of withdrawal" },
+      { "p": "If you live in the European Union, you have **14 calendar days** to withdraw from your purchase without giving a reason. You will find all the details and the model form on our [right of withdrawal page](/policies/withdrawal)." },
+      { "h2": "Returns and exchanges" },
+      { "p": "Beyond the legal right of withdrawal above, we do not accept voluntary returns or size exchanges for change of mind. If the piece arrives faulty or we got your order wrong, we will fix it at no cost to you." },
+      { "h2": "Contact" },
+      { "p": "For anything to do with returns, write to us at [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Terms of service",
+    "heading": "Terms of service",
+    "blocks": [
+      { "p": "This site is operated by VAIN. By placing an order, you accept the following terms:" },
+      { "ul": [
+        "All products are in stock and ready to ship. We prepare and ship your order within 24 to 72 working hours.",
+        "We reserve the right to change prices, products or policies at any time.",
+        "All prices are in euros (€) and include applicable taxes.",
+        "We may cancel orders for reasonable causes (out of stock, pricing errors, etc.)."
+      ] },
+      { "h2": "Intellectual property" },
+      { "p": "All designs, images and content on this site are the property of VAIN and are protected by copyright. Any unauthorised use is strictly prohibited." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Legal notice",
+    "heading": "Legal notice",
+    "blocks": [
+      { "p": "In compliance with Spanish Law 34/2002 on Information Society Services and Electronic Commerce (LSSI), the following information is provided:" },
+      { "ul": [
+        "**Owner:** VAIN",
+        "**Email:** [support@v4in.com](mailto:support@v4in.com)",
+        "**Social media:** Instagram and TikTok @vainspn",
+        "**Activity:** Online sale of streetwear clothing."
+      ] },
+      { "p": "The site was established for commercial purposes. Using the site or making a purchase constitutes acceptance of the terms set out here." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Contact information",
+    "heading": "Contact information",
+    "blocks": [
+      { "p": "Questions or a problem with your order? Get in touch:" },
+      { "ul": [
+        "Email: [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram: [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok: [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "We usually reply within 48 working hours (Monday to Friday)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Right of withdrawal",
+    "heading": "Right of withdrawal",
+    "blocks": [
+      { "h2": "Your right" },
+      { "p": "If you live in the European Union, you have **14 calendar days** to withdraw from your purchase without giving a reason. The period starts on the day you (or someone you nominate) receive the last item of the order." },
+      { "p": "To meet the deadline, it is enough that you tell us of your decision to withdraw before it expires." },
+      { "h2": "How to withdraw" },
+      { "p": "You can request withdrawal directly from your account, on your order page, through the [self-service flow](https://account.v4in.com). You only need to give your name and the order reference; you will receive an automatic confirmation email." },
+      { "p": "If you prefer, you can also tell us by email at [support@v4in.com](mailto:support@v4in.com), giving your name and the order reference. We will confirm that we received it." },
+      { "h2": "Effects of withdrawal" },
+      { "p": "Once you have withdrawn, we will refund all payments received, including standard shipping costs, without undue delay and in any case within 14 days of you telling us your decision. We may withhold the refund until we have received the returned items or until you provide proof that you have sent them." },
+      { "p": "You must return the items without undue delay and in any case within 14 days of telling us of your withdrawal." },
+      { "h2": "Model withdrawal form" },
+      { "p": "(Only complete and send this form if you wish to withdraw from the contract.)" },
+      { "p": "To VAIN — support@v4in.com:\nI hereby give notice that I withdraw from my contract of sale of the following product: __________\nOrder received on / with reference: __________\nName of consumer: __________\nDate: __________" }
+    ]
+  }
+}

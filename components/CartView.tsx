@@ -9,8 +9,6 @@ import { useMenuUI } from "@/lib/menu-ui";
 import RevealText from "./RevealText";
 import { tpl, useLocale, useT } from "@/lib/i18n/client";
 
-const FREE_SHIPPING_THRESHOLD = 40;
-
 export default function CartView() {
   const { items, count, subtotal, removeItem, updateQty, checkoutUrl, isPending } =
     useCartUI();
@@ -24,10 +22,6 @@ export default function CartView() {
       currency: "EUR",
       minimumFractionDigits: 2,
     }).format(n);
-
-  const missing = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
-  const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
-  const freeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
 
   if (items.length === 0) {
     return (
@@ -208,32 +202,6 @@ export default function CartView() {
                 {t.cart.summary}
               </h2>
 
-              {/* Barra envío gratis */}
-              <div>
-                {freeShipping ? (
-                  <p className="text-sm">
-                    <span className="font-medium">{t.cart.shippingIncluded}</span>
-                    <span className="text-ink-soft">{t.cart.shippingIncludedTail}</span>
-                  </p>
-                ) : (
-                  <p className="text-sm text-ink-soft">
-                    {t.cart.shippingProgressPre}
-                    <span className="text-ink font-medium">{fmt(missing)}</span>
-                    {t.cart.shippingProgressPost}
-                  </p>
-                )}
-                <div className="mt-2 h-1.5 rounded-full bg-ink/10 overflow-hidden">
-                  <motion.div
-                    initial={false}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                    className={`h-full rounded-full ${
-                      freeShipping ? "bg-ink" : "bg-ink/70"
-                    }`}
-                  />
-                </div>
-              </div>
-
               <div className="flex flex-col gap-2 pt-2 border-t border-ink/10">
                 <div className="flex items-baseline justify-between text-sm">
                   <span className="text-ink-soft">{t.cart.subtotal}</span>
@@ -241,9 +209,7 @@ export default function CartView() {
                 </div>
                 <div className="flex items-baseline justify-between text-sm">
                   <span className="text-ink-soft">{t.cart.shipping}</span>
-                  <span className="tabular-nums">
-                    {freeShipping ? t.cart.shippingFree : t.cart.shippingCalculated}
-                  </span>
+                  <span className="tabular-nums">{t.cart.shippingCalculated}</span>
                 </div>
                 <div className="flex items-baseline justify-between mt-2 pt-3 border-t border-ink/10">
                   <span className="text-base">{t.cart.total}</span>

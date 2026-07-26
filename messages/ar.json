@@ -3,7 +3,7 @@
     "back": "رجوع",
     "close": "إغلاق",
     "loading": "جارٍ التحميل…",
-    "freeShipping": "شحن مجاني من 40€",
+    "freeShipping": "الشحن خلال 24–72 ساعة",
     "madeInSpain": "صُنع في إسبانيا",
     "soldOut": "نفد",
     "available": "متوفر",
@@ -48,7 +48,8 @@
     "copyright": "© 2026، VAIN — جميع الحقوق محفوظة.",
     "madeInSpain": "صُنع في إسبانيا",
     "admin": "admin",
-    "language": "اللغة"
+    "language": "اللغة",
+    "developedBy": "تصميم وتطوير"
   },
   "comingSoon": {
     "loginPassword": "الدخول بكلمة المرور",
@@ -121,7 +122,8 @@
     "ctaKicker": "ترتدي VAIN؟",
     "ctaTitle": "أشّر علينا في Instagram",
     "ctaBodyPre": "أرسل لنا صورتك إلى ",
-    "ctaBodyPost": " وتدخل الأرشيف."
+    "ctaBodyPost": " وتدخل الأرشيف.",
+    "seeAll": "عرض الأرشيف"
   },
   "showcase": {
     "viewDetail": "عرض التفاصيل",
@@ -141,7 +143,7 @@
     "copied": "تم النسخ",
     "details": "التفاصيل والمواد",
     "shipping": "الشحن",
-    "shippingIntro": "بمجرد أن يصبح طلبك جاهزًا:",
+    "shippingIntro": "نشحن طلبك خلال 24–72 ساعة:",
     "shippingSpain": "إسبانيا: 2–5 أيام عمل",
     "shippingEurope": "أوروبا: 6–9 أيام عمل",
     "shippingMore": "مزيد من التفاصيل في",
@@ -158,7 +160,8 @@
     "photoPrev": "الصورة السابقة",
     "photoNext": "الصورة التالية",
     "photoAria": "الذهاب إلى الصورة {index}",
-    "noProducts": "لا توجد منتجات متوفرة."
+    "noProducts": "لا توجد منتجات متوفرة.",
+    "completeTrio": "أكمل ثلاثيّتك"
   },
   "cart": {
     "title": "سلتك",
@@ -204,8 +207,8 @@
   },
   "meta": {
     "siteTitle": "VAIN",
-    "siteDescription": "VAIN. دروبات محدودة، جودة حقيقية، شحن مجاني من 40€.",
-    "ogDescription": "دروبات محدودة، جودة حقيقية، شحن مجاني من 40€.",
+    "siteDescription": "VAIN. ستريت وير صُنع في إسبانيا. إصدارات محدودة، جودة حقيقية.",
+    "ogDescription": "إصدارات محدودة، جودة حقيقية. صُنع في إسبانيا.",
     "ogOutNow": "متوفر الآن",
     "todoTitle": "VAIN — الكل",
     "todoDescription": "كل ملابس VAIN. دون فلاتر، دون فئات.",
@@ -224,5 +227,16 @@
     "pantalones": "بنطلونات",
     "camisetas": "تي شيرت",
     "sudaderas": "هوديز"
+  },
+  "popup": {
+    "title": "احصل على خصم 10%",
+    "subtitle": "وكن أول من يعرف عن الإصدارات الجديدة.",
+    "cta": "احصل على 10% الخاص بي",
+    "close": "إغلاق",
+    "success": "تم! تحقق من بريدك للحصول على خصم 10%.",
+    "successHeading": "تم! هذا خصمك 10%:",
+    "useDiscount": "استخدم خصمي 10%",
+    "copied": "تم النسخ!",
+    "copyHint": "انقر لنسخ الرمز"
   }
 }

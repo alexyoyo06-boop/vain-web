@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Datenschutzerklärung",
+    "heading": "Datenschutzerklärung",
+    "blocks": [
+      { "note": "Zuletzt aktualisiert: 8. April 2026" },
+      { "p": "Diese Datenschutzerklärung beschreibt, wie VAIN personenbezogene Daten erhebt, verwendet und offenlegt, wenn du unsere Dienste besuchst oder nutzt, einen Kauf tätigst oder mit uns in Bezug auf die Website kommunizierst." },
+      { "h2": "Änderungen dieser Erklärung" },
+      { "p": "Diese Erklärung kann aktualisiert werden, um Änderungen unserer Praktiken oder betriebliche, rechtliche oder regulatorische Gründe abzubilden. Änderungen werden hier mit dem Aktualisierungsdatum veröffentlicht." },
+      { "h2": "Erhebung und Nutzung deiner Daten" },
+      { "p": "Wir erheben unterschiedliche Daten, je nachdem, wie du mit unseren Diensten interagierst, und nutzen sie, um mit dir zu kommunizieren, Dienste bereitzustellen oder zu verbessern, gesetzliche Pflichten zu erfüllen und Rechte zu schützen." },
+      { "h3": "Daten, die wir direkt erheben" },
+      { "ul": [
+        "Kontaktdaten: Name, Adresse, Telefon, E-Mail",
+        "Bestelldaten: Rechnungsstellung, Versand, Zahlungsbestätigung",
+        "Konto: Benutzername, Passwort, Sicherheitsfragen",
+        "Einkauf: angesehene Artikel, Warenkorb, Treueprogramm, Bewertungen",
+        "Kundenservice: deine Kommunikation mit uns"
+      ] },
+      { "h3": "Daten, die wir über deine Nutzung erheben" },
+      { "p": "Wir erheben automatisch Nutzungsdaten über Cookies und ähnliche Technologien, einschließlich Zugriffs-, Geräte-, Browser-, Netzwerk- und IP-Informationen." },
+      { "h3": "Von Dritten erhaltene Daten" },
+      { "ul": [
+        "Unternehmen, die die Website unterstützen (z. B. Shopify)",
+        "Zahlungsdienstleister",
+        "Dritte über Pixel und Cookies"
+      ] },
+      { "h3": "Verwendung deiner Daten" },
+      { "ul": [
+        "Leistungserbringung: Zahlungen abwickeln, Bestellungen vorbereiten, Konten führen, Retouren bearbeiten",
+        "Marketing und Werbung: Werbemitteilungen und personalisierte Anzeigen",
+        "Sicherheit und Betrugsprävention",
+        "Kundenservice und Verbesserung des Angebots"
+      ] },
+      { "h2": "Cookies" },
+      { "p": "Wir verwenden Cookies, um die Website zu betreiben, Dienste zu verbessern und Analysen durchzuführen. Du kannst deinen Browser so einstellen, dass er sie ablehnt, was jedoch deine Nutzung beeinträchtigen kann. Wir erkennen das Global-Privacy-Control-Signal (GPC) als gültigen Widerspruch an." },
+      { "h2": "Weitergabe deiner Daten" },
+      { "p": "Wir geben personenbezogene Daten in folgenden Fällen weiter:" },
+      { "ul": [
+        "An Dienstleister, die in unserem Auftrag tätig sind",
+        "An Geschäfts- und Marketingpartner",
+        "Wenn du es verlangst oder einwilligst",
+        "An verbundene Unternehmen zur Führung des Geschäfts",
+        "Bei Unternehmenstransaktionen, Fusionen oder gesetzlichen Pflichten"
+      ] },
+      { "h2": "Daten von Minderjährigen" },
+      { "p": "Unsere Dienste richten sich nicht an Minderjährige. Wir erheben wissentlich keine Daten von Kindern. Falls dir solche auffallen, kannst du deren Löschung anfordern, indem du uns kontaktierst. Wir verkaufen oder teilen keine Daten von Personen unter 16 Jahren." },
+      { "h2": "Sicherheit und Aufbewahrung" },
+      { "p": "Keine Sicherheitsmaßnahme ist perfekt. Sende keine sensiblen Daten über unsichere Kanäle. Die Aufbewahrungsdauer richtet sich danach, ob Konten geführt, gesetzliche Pflichten erfüllt oder Streitigkeiten beigelegt werden müssen." },
+      { "h2": "Deine Rechte" },
+      { "ul": [
+        "Auskunft, Löschung, Berichtigung und Übertragbarkeit deiner Daten",
+        "Widerspruch gegen Verkauf/Weitergabe von Daten oder zielgerichtete Werbung",
+        "Einschränkung oder Beendigung der Verarbeitung",
+        "Widerruf der Einwilligung",
+        "Einlegen von Rechtsbehelfen gegen ablehnende Entscheidungen",
+        "Verwaltung der Kommunikationseinstellungen"
+      ] },
+      { "p": "Um deine Rechte auszuüben, kontaktiere uns. Dir entsteht dadurch kein Nachteil. Wir können eine Identitätsprüfung verlangen." },
+      { "h2": "Internationale Nutzer" },
+      { "p": "Deine Daten können außerhalb deines Landes übermittelt, gespeichert und verarbeitet werden. Für Übermittlungen außerhalb des EWR nutzen wir Standardvertragsklauseln oder andere anerkannte Mechanismen." },
+      { "h2": "Beschwerden" },
+      { "p": "Kontaktiere uns bei Beschwerden. Bist du nicht zufrieden, kannst du dich an deine örtliche Datenschutzbehörde wenden." },
+      { "h2": "Kontakt" },
+      { "ul": [
+        "E-Mail: support@v4in.com",
+        "Adresse: Calle Josep Camprecios 21 principal B, 08950, Spanien"
+      ] },
+      { "p": "VAIN ist verantwortlich für die Verarbeitung deiner personenbezogenen Daten." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Versandbedingungen",
+    "heading": "Versandbedingungen",
+    "blocks": [
+      { "h2": "Vorbestellung" },
+      { "p": "Alle unsere Produkte werden als Vorbestellung verkauft. Das heißt, wir haben zum Kaufzeitpunkt keine versandfertige Ware auf Lager. Sobald das Vorbestellfenster schließt, starten wir die Produktion und versenden anschließend deine Bestellung." },
+      { "p": "Geschätzte Lieferzeit: 30 bis 45 Tage ab Ende der Vorbestellung. Wir benachrichtigen dich per E-Mail, sobald deine Bestellung rausgeht." },
+      { "h2": "Versandzeiten (nach Versand)" },
+      { "ul": [
+        "Spanien (Festland): 2 bis 5 Werktage",
+        "Inseln und Sonderzonen: 3 bis 7 Werktage",
+        "International: 5 bis 15 Werktage je nach Land"
+      ] },
+      { "h2": "Versanddienstleister" },
+      { "p": "Wir arbeiten je nach Ziel mit Correos oder SEUR." },
+      { "h2": "Versandkosten" },
+      { "p": "Die Kosten werden an der Kasse anhand deiner Lieferadresse berechnet." },
+      { "h2": "Sendungsverfolgung" },
+      { "p": "Du erhältst per E-Mail eine Sendungsnummer, sobald deine Bestellung rausgeht." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Rückerstattungsrichtlinie",
+    "heading": "Rückerstattungsrichtlinie",
+    "blocks": [
+      { "h2": "Widerrufsrecht" },
+      { "p": "Wenn du in der Europäischen Union wohnst, hast du **14 Kalendertage**, um deinen Kauf ohne Angabe von Gründen zu widerrufen. Alle Einzelheiten und das Muster-Formular findest du auf unserer [Seite zum Widerrufsrecht](/policies/withdrawal)." },
+      { "h2": "Umtausch und mangelhafte Artikel" },
+      { "p": "Unsere Produkte werden über das Vorbestellsystem auf Bestellung gefertigt, deshalb tauschen wir Größen nach Bestätigung der Bestellung nicht um. Kommt das Teil mangelhaft an oder haben wir deine Bestellung falsch bearbeitet, lösen wir das kostenfrei für dich." },
+      { "h2": "Kontakt" },
+      { "p": "Bei allen Fragen rund um Rücksendungen schreib uns an [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Nutzungsbedingungen",
+    "heading": "Nutzungsbedingungen",
+    "blocks": [
+      { "p": "Diese Website wird von VAIN betrieben. Mit einer Bestellung akzeptierst du die folgenden Bedingungen:" },
+      { "ul": [
+        "Alle Produkte werden als Vorbestellung verkauft. Mit deiner Bestellung akzeptierst du, dass die Lieferung ab Ende der Vorbestellung 30 bis 45 Tage dauern kann.",
+        "Wir behalten uns das Recht vor, Preise, Produkte oder Richtlinien jederzeit zu ändern.",
+        "Alle Preise sind in Euro (€) und enthalten die anfallenden Steuern.",
+        "Wir können Bestellungen aus nachvollziehbaren Gründen stornieren (nicht vorrätig, Preisfehler usw.)."
+      ] },
+      { "h2": "Geistiges Eigentum" },
+      { "p": "Alle Designs, Bilder und Inhalte dieser Website sind Eigentum von VAIN und urheberrechtlich geschützt. Jede unbefugte Nutzung ist strengstens untersagt." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Impressum",
+    "heading": "Impressum",
+    "blocks": [
+      { "p": "In Erfüllung des spanischen Gesetzes 34/2002 über Dienste der Informationsgesellschaft und den elektronischen Geschäftsverkehr (LSSI) werden folgende Angaben gemacht:" },
+      { "ul": [
+        "**Inhaber:** VAIN",
+        "**E-Mail:** [support@v4in.com](mailto:support@v4in.com)",
+        "**Soziale Netzwerke:** Instagram und TikTok @vainspn",
+        "**Tätigkeit:** Online-Verkauf von Streetwear-Kleidung im Vorbestellmodell."
+      ] },
+      { "p": "Die Website wurde zu kommerziellen Zwecken eingerichtet. Die Nutzung der Website oder das Tätigen von Käufen gilt als Annahme der genannten Bedingungen." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Kontaktinformationen",
+    "heading": "Kontaktinformationen",
+    "blocks": [
+      { "p": "Fragen oder ein Problem mit deiner Bestellung? Schreib uns:" },
+      { "ul": [
+        "E-Mail: [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram: [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok: [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "Wir antworten in der Regel innerhalb von 48 Arbeitsstunden (Montag bis Freitag)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Widerrufsrecht",
+    "heading": "Widerrufsrecht",
+    "blocks": [
+      { "h2": "Dein Recht" },
+      { "p": "Wenn du in der Europäischen Union wohnst, hast du **14 Kalendertage**, um deinen Kauf ohne Angabe von Gründen zu widerrufen. Die Frist beginnt an dem Tag, an dem du (oder eine von dir benannte Person) den letzten Artikel der Bestellung erhältst." },
+      { "p": "Zur Wahrung der Frist genügt es, dass du uns deine Widerrufsentscheidung vor Fristablauf mitteilst." },
+      { "h2": "So widerrufst du" },
+      { "p": "Du kannst den Widerruf direkt in deinem Konto auf der Seite deiner Bestellung über den [Selbstbedienungsablauf](https://account.v4in.com) beantragen. Du musst nur deinen Namen und die Bestellreferenz angeben; du erhältst automatisch eine Bestätigungs-E-Mail." },
+      { "p": "Wenn dir das lieber ist, kannst du es uns auch per E-Mail an [support@v4in.com](mailto:support@v4in.com) mitteilen, unter Angabe deines Namens und der Bestellreferenz. Wir bestätigen dir den Eingang." },
+      { "h2": "Folgen des Widerrufs" },
+      { "p": "Nach ausgeübtem Widerruf erstatten wir dir alle erhaltenen Zahlungen einschließlich der Standard-Versandkosten unverzüglich und in jedem Fall innerhalb von 14 Tagen ab Mitteilung deiner Entscheidung. Wir können die Erstattung zurückhalten, bis wir die zurückgesandten Artikel erhalten haben oder du deren Versand nachgewiesen hast." },
+      { "p": "Du musst die Artikel unverzüglich und in jedem Fall spätestens 14 Tage nach Mitteilung deines Widerrufs zurücksenden." },
+      { "h2": "Muster-Widerrufsformular" },
+      { "p": "(Fülle dieses Formular nur aus und sende es, wenn du den Vertrag widerrufen möchtest.)" },
+      { "p": "An VAIN — support@v4in.com:\nHiermit widerrufe ich meinen Kaufvertrag über das folgende Produkt: __________\nBestellung erhalten am / mit Referenz: __________\nName des Verbrauchers: __________\nDatum: __________" }
+    ]
+  }
+}

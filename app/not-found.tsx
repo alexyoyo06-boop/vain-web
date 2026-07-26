@@ -6,8 +6,10 @@ import { getLocale } from "@/lib/i18n/server";
 // bone/ink). Se ve cuando entran a una URL que no existe o a una ficha de
 // producto borrada/agotada que ya no resuelve.
 //
-// Texto autocontenido (ES/EN, fallback ES) para no tener que añadir claves a
-// los 11 ficheros de messages por una página de borde.
+// Texto autocontenido (ES/EN) para no tener que añadir claves a los 11
+// ficheros de messages por una página de borde. Quien no navega en español
+// ve el inglés: para un alemán o un ruso es mucho más legible que el español,
+// igual que hacemos con la pantalla de pago (ver checkoutLanguage()).
 const COPY = {
   es: {
     tag: "Error 404",
@@ -25,7 +27,7 @@ const COPY = {
 
 export default async function NotFound() {
   const locale = await getLocale();
-  const c = locale === "en" ? COPY.en : COPY.es;
+  const c = locale === "es" ? COPY.es : COPY.en;
 
   return (
     <main className="min-h-[100dvh] bg-bone text-ink flex flex-col items-center justify-center px-6 text-center">

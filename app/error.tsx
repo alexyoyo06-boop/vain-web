@@ -38,10 +38,12 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const isEn = useSyncExternalStore(
+  // Español solo para quien navega en español; el resto en inglés (más
+  // legible para un alemán o un ruso que el castellano).
+  const isEs = useSyncExternalStore(
     noopSubscribe,
-    () => document.documentElement.lang === "en",
-    () => false,
+    () => document.documentElement.lang === "es",
+    () => true,
   );
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function Error({
     console.error(error);
   }, [error]);
 
-  const c = isEn ? COPY.en : COPY.es;
+  const c = isEs ? COPY.es : COPY.en;
 
   return (
     <main className="min-h-[100dvh] bg-bone text-ink flex flex-col items-center justify-center px-6 text-center">

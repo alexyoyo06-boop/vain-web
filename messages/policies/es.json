@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Política de privacidad",
+    "heading": "Política de privacidad",
+    "blocks": [
+      { "note": "Última actualización: 8 de abril de 2026" },
+      { "p": "Esta Política de privacidad describe cómo VAIN recopila, utiliza y divulga información personal al visitar o utilizar nuestros servicios, realizar compras o comunicarse con nosotros respecto al Sitio." },
+      { "h2": "Cambios en esta política" },
+      { "p": "La política puede actualizarse para reflejar cambios en prácticas o razones operativas, legales o normativas. Los cambios se publicarán aquí con su fecha de actualización." },
+      { "h2": "Recopilación y uso de tu información" },
+      { "p": "Recopilamos información variada según cómo interactúes con nuestros servicios, utilizándola para comunicarnos contigo, proporcionar o mejorar servicios, cumplir obligaciones legales y proteger derechos." },
+      { "h3": "Información que recopilamos directamente" },
+      { "ul": [
+        "Datos de contacto: nombre, dirección, teléfono, correo",
+        "Datos del pedido: facturación, envío, confirmación de pago",
+        "Cuenta: nombre de usuario, contraseña, preguntas de seguridad",
+        "Compras: artículos vistos, carrito, fidelidad, reseñas",
+        "Atención al cliente: comunicaciones con nosotros"
+      ] },
+      { "h3": "Información que recopilamos sobre tu uso" },
+      { "p": "Recopilamos automáticamente datos de uso mediante cookies y tecnologías similares, incluyendo información de acceso, dispositivo, navegador, red e IP." },
+      { "h3": "Información obtenida de terceros" },
+      { "ul": [
+        "Empresas que respaldan el Sitio (como Shopify)",
+        "Procesadores de pago",
+        "Terceros mediante píxeles y cookies"
+      ] },
+      { "h3": "Usos de tu información" },
+      { "ul": [
+        "Prestación de servicios: procesar pagos, preparar pedidos, mantener cuentas, gestionar devoluciones",
+        "Marketing y publicidad: comunicaciones promocionales y anuncios personalizados",
+        "Seguridad y prevención de fraude",
+        "Atención al cliente y mejora del servicio"
+      ] },
+      { "h2": "Cookies" },
+      { "p": "Usamos cookies para operar el Sitio, mejorar servicios y realizar análisis. Puedes configurar el navegador para rechazarlas, aunque esto puede afectar tu experiencia. Reconocemos la señal Global Privacy Control (GPC) como solicitud válida de baja." },
+      { "h2": "Divulgación de tu información" },
+      { "p": "Divulgamos información personal en las siguientes circunstancias:" },
+      { "ul": [
+        "A proveedores que prestan servicios en nuestro nombre",
+        "A socios comerciales y de marketing",
+        "Cuando lo solicites o consientas",
+        "A afiliados para dirigir negocios",
+        "Por transacciones comerciales, fusiones u obligaciones legales"
+      ] },
+      { "h2": "Datos de menores" },
+      { "p": "Nuestros servicios no están destinados a menores. No recopilamos intencionadamente información de niños. Si lo detectas, puedes solicitar su eliminación contactándonos. No vendemos ni compartimos información de menores de 16 años." },
+      { "h2": "Seguridad y retención" },
+      { "p": "Ninguna medida de seguridad es perfecta. No envíes información sensible por canales inseguros. La retención depende de la necesidad de mantener cuentas, cumplimiento legal o resolución de disputas." },
+      { "h2": "Tus derechos" },
+      { "ul": [
+        "Acceso, eliminación, corrección y portabilidad de tus datos",
+        "Darte de baja de venta/compartición de datos o publicidad dirigida",
+        "Restringir o detener el procesamiento",
+        "Revocar el consentimiento",
+        "Apelar decisiones de denegación",
+        "Gestionar preferencias de comunicación"
+      ] },
+      { "p": "Para ejercer tus derechos, contáctanos. No habrá discriminación por ejercerlos. Podemos solicitar verificación de identidad." },
+      { "h2": "Usuarios internacionales" },
+      { "p": "Tu información puede transferirse, almacenarse y procesarse fuera de tu país. Para transferencias fuera del EEE utilizamos Cláusulas Contractuales Estándar u otros mecanismos reconocidos." },
+      { "h2": "Reclamaciones" },
+      { "p": "Contáctanos por reclamaciones. Si no quedas satisfecho, puedes presentar reclamación ante la autoridad local de protección de datos." },
+      { "h2": "Contacto" },
+      { "ul": [
+        "Email: support@v4in.com",
+        "Dirección: Calle Josep Camprecios 21 principal B, 08950, España"
+      ] },
+      { "p": "VAIN es responsable del tratamiento de tu información personal." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Política de envío",
+    "heading": "Política de envío",
+    "blocks": [
+      { "h2": "Listo para enviar" },
+      { "p": "Todos nuestros productos están hechos y en stock: esto no es una preventa. Preparamos tu pedido y lo enviamos en 24 a 72 horas laborables desde la compra." },
+      { "p": "Te enviaremos un número de seguimiento por email en cuanto tu pedido salga." },
+      { "h2": "Tiempos de envío (tras despacho)" },
+      { "ul": [
+        "España (península): 2 a 5 días laborables",
+        "Islas y zonas especiales: 3 a 7 días laborables",
+        "Internacional: 5 a 15 días laborables según el país"
+      ] },
+      { "h2": "Mensajería" },
+      { "p": "Trabajamos con Correos o SEUR según el destino." },
+      { "h2": "Coste de envío" },
+      { "p": "El coste se calcula en el checkout en función de tu dirección de entrega." },
+      { "h2": "Seguimiento" },
+      { "p": "Recibirás un número de seguimiento por email cuando tu pedido salga." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Política de reembolso",
+    "heading": "Política de reembolso",
+    "blocks": [
+      { "h2": "Derecho de desistimiento" },
+      { "p": "Si resides en la Unión Europea, dispones de un plazo de **14 días naturales** para desistir de tu compra sin necesidad de justificación. Encontrarás todos los detalles y el modelo de formulario en nuestra [página de derecho de desistimiento](/policies/withdrawal)." },
+      { "h2": "Devoluciones y cambios" },
+      { "p": "Más allá del derecho de desistimiento legal indicado arriba, no aceptamos devoluciones ni cambios de talla voluntarios por cambio de opinión. Si la prenda llega defectuosa o nos hemos equivocado con tu pedido, lo solucionamos sin coste para ti." },
+      { "h2": "Contacto" },
+      { "p": "Para cualquier cuestión relacionada con devoluciones, escríbenos a [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Términos del servicio",
+    "heading": "Términos del servicio",
+    "blocks": [
+      { "p": "Este sitio está operado por VAIN. Al realizar un pedido, aceptas las siguientes condiciones:" },
+      { "ul": [
+        "Todos los productos están en stock y listos para enviar. Preparamos y enviamos tu pedido en 24 a 72 horas laborables.",
+        "Nos reservamos el derecho de cambiar precios, productos o políticas en cualquier momento.",
+        "Todos los precios están en euros (€) e incluyen los impuestos aplicables.",
+        "Podemos cancelar pedidos por causas razonables (sin stock, errores de precio, etc.)."
+      ] },
+      { "h2": "Propiedad intelectual" },
+      { "p": "Todos los diseños, imágenes y contenido de este sitio son propiedad de VAIN y están protegidos por copyright. Cualquier uso no autorizado está estrictamente prohibido." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Aviso legal",
+    "heading": "Aviso legal",
+    "blocks": [
+      { "p": "En cumplimiento de la Ley 34/2002 de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI), se facilita la siguiente información:" },
+      { "ul": [
+        "**Titular:** VAIN",
+        "**Email:** [support@v4in.com](mailto:support@v4in.com)",
+        "**Redes sociales:** Instagram y TikTok @vainspn",
+        "**Actividad:** Venta online de ropa streetwear."
+      ] },
+      { "p": "El sitio se estableció con fines comerciales. El uso del sitio o la realización de compras constituyen aceptación de los términos indicados." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Información de contacto",
+    "heading": "Información de contacto",
+    "blocks": [
+      { "p": "¿Tienes dudas o algún problema con tu pedido? Escríbenos:" },
+      { "ul": [
+        "Email: [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram: [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok: [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "Solemos responder en 48 horas hábiles (lunes a viernes)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Derecho de desistimiento",
+    "heading": "Derecho de desistimiento",
+    "blocks": [
+      { "h2": "Tu derecho" },
+      { "p": "Si resides en la Unión Europea, dispones de un plazo de **14 días naturales** para desistir de tu compra sin necesidad de justificación. El plazo empieza el día en que tú (o una persona que indiques) recibís el último artículo del pedido." },
+      { "p": "Para respetar el plazo basta con que nos comuniques tu decisión de desistir antes de que venza." },
+      { "h2": "Cómo desistir" },
+      { "p": "Puedes solicitar el desistimiento directamente desde tu cuenta, en la página de tu pedido, a través del [flujo de autoservicio](https://account.v4in.com). Solo necesitas indicar tu nombre y la referencia del pedido; recibirás un correo de confirmación automático." },
+      { "p": "Si lo prefieres, también puedes comunicárnoslo por correo a [support@v4in.com](mailto:support@v4in.com) indicando tu nombre y la referencia del pedido. Te enviaremos confirmación de la recepción." },
+      { "h2": "Efectos del desistimiento" },
+      { "p": "Una vez ejercido el desistimiento, te reembolsaremos todos los pagos recibidos, incluidos los gastos de envío estándar, sin demora indebida y, en todo caso, antes de 14 días desde que nos comuniques tu decisión. Podremos retener el reembolso hasta haber recibido los artículos devueltos o hasta que acredites su envío." },
+      { "p": "Deberás devolver los artículos sin demora indebida y, en cualquier caso, en un plazo máximo de 14 días desde que nos comuniques tu desistimiento." },
+      { "h2": "Modelo de formulario de desistimiento" },
+      { "p": "(Solo debes completar y enviar este formulario si deseas desistir del contrato.)" },
+      { "p": "A la atención de VAIN — support@v4in.com:\nPor la presente le comunico que desisto de mi contrato de venta del siguiente producto: __________\nPedido recibido el / con referencia: __________\nNombre del consumidor: __________\nFecha: __________" }
+    ]
+  }
+}

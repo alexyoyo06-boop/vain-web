@@ -1,0 +1,171 @@
+{
+  "privacy-policy": {
+    "title": "Polityka prywatności",
+    "heading": "Polityka prywatności",
+    "blocks": [
+      { "note": "Ostatnia aktualizacja: 8 kwietnia 2026" },
+      { "p": "Niniejsza Polityka prywatności opisuje, w jaki sposób VAIN zbiera, wykorzystuje i ujawnia dane osobowe, gdy odwiedzasz lub korzystasz z naszych usług, dokonujesz zakupu albo kontaktujesz się z nami w sprawie Witryny." },
+      { "h2": "Zmiany w tej polityce" },
+      { "p": "Polityka może być aktualizowana, aby odzwierciedlać zmiany w naszych praktykach lub z powodów operacyjnych, prawnych czy regulacyjnych. Zmiany będą publikowane tutaj wraz z datą aktualizacji." },
+      { "h2": "Zbieranie i wykorzystywanie Twoich danych" },
+      { "p": "Zbieramy różne informacje w zależności od tego, jak korzystasz z naszych usług, i wykorzystujemy je do komunikacji z Tobą, świadczenia lub ulepszania usług, wypełniania obowiązków prawnych i ochrony praw." },
+      { "h3": "Dane, które zbieramy bezpośrednio" },
+      { "ul": [
+        "Dane kontaktowe: imię i nazwisko, adres, telefon, e-mail",
+        "Dane zamówienia: rozliczenia, wysyłka, potwierdzenie płatności",
+        "Konto: nazwa użytkownika, hasło, pytania zabezpieczające",
+        "Zakupy: oglądane produkty, koszyk, program lojalnościowy, opinie",
+        "Obsługa klienta: Twoja korespondencja z nami"
+      ] },
+      { "h3": "Dane, które zbieramy o Twoim korzystaniu" },
+      { "p": "Automatycznie zbieramy dane o korzystaniu za pomocą plików cookie i podobnych technologii, w tym informacje o dostępie, urządzeniu, przeglądarce, sieci i adresie IP." },
+      { "h3": "Dane pozyskane od podmiotów trzecich" },
+      { "ul": [
+        "Firmy wspierające Witrynę (np. Shopify)",
+        "Operatorzy płatności",
+        "Podmioty trzecie za pośrednictwem pikseli i plików cookie"
+      ] },
+      { "h3": "Sposoby wykorzystania Twoich danych" },
+      { "ul": [
+        "Świadczenie usług: obsługa płatności, przygotowanie zamówień, prowadzenie kont, obsługa zwrotów",
+        "Marketing i reklama: komunikacja promocyjna i spersonalizowane reklamy",
+        "Bezpieczeństwo i przeciwdziałanie oszustwom",
+        "Obsługa klienta i doskonalenie usług"
+      ] },
+      { "h2": "Pliki cookie" },
+      { "p": "Używamy plików cookie do obsługi Witryny, ulepszania usług i prowadzenia analiz. Możesz ustawić przeglądarkę tak, by je odrzucała, choć może to wpłynąć na komfort korzystania. Uznajemy sygnał Global Privacy Control (GPC) za ważny sprzeciw." },
+      { "h2": "Ujawnianie Twoich danych" },
+      { "p": "Ujawniamy dane osobowe w następujących okolicznościach:" },
+      { "ul": [
+        "Dostawcom świadczącym usługi w naszym imieniu",
+        "Partnerom biznesowym i marketingowym",
+        "Gdy o to poprosisz lub wyrazisz zgodę",
+        "Podmiotom powiązanym w celu prowadzenia działalności",
+        "W związku z transakcjami handlowymi, fuzjami lub obowiązkami prawnymi"
+      ] },
+      { "h2": "Dane osób nieletnich" },
+      { "p": "Nasze usługi nie są przeznaczone dla osób nieletnich. Nie zbieramy świadomie danych dzieci. Jeśli je zauważysz, możesz zażądać ich usunięcia, kontaktując się z nami. Nie sprzedajemy ani nie udostępniamy danych osób poniżej 16 roku życia." },
+      { "h2": "Bezpieczeństwo i przechowywanie" },
+      { "p": "Żaden środek bezpieczeństwa nie jest doskonały. Nie przesyłaj danych wrażliwych niezabezpieczonymi kanałami. Okres przechowywania zależy od potrzeby prowadzenia kont, zgodności z prawem lub rozstrzygania sporów." },
+      { "h2": "Twoje prawa" },
+      { "ul": [
+        "Dostęp, usunięcie, sprostowanie i przenoszenie Twoich danych",
+        "Sprzeciw wobec sprzedaży/udostępniania danych lub reklamy ukierunkowanej",
+        "Ograniczenie lub zaprzestanie przetwarzania",
+        "Wycofanie zgody",
+        "Odwołanie od decyzji odmownej",
+        "Zarządzanie preferencjami komunikacji"
+      ] },
+      { "p": "Aby skorzystać ze swoich praw, skontaktuj się z nami. Nie spotka Cię za to żadna niedogodność. Możemy poprosić o weryfikację tożsamości." },
+      { "h2": "Użytkownicy międzynarodowi" },
+      { "p": "Twoje dane mogą być przekazywane, przechowywane i przetwarzane poza Twoim krajem. W przypadku przekazywania poza EOG stosujemy standardowe klauzule umowne lub inne uznane mechanizmy." },
+      { "h2": "Skargi" },
+      { "p": "W sprawie skarg skontaktuj się z nami. Jeśli nie będziesz zadowolony, możesz złożyć skargę do lokalnego organu ochrony danych." },
+      { "h2": "Kontakt" },
+      { "ul": [
+        "E-mail: support@v4in.com",
+        "Adres: Calle Josep Camprecios 21 principal B, 08950, Hiszpania"
+      ] },
+      { "p": "VAIN jest administratorem Twoich danych osobowych." }
+    ]
+  },
+
+  "shipping-policy": {
+    "title": "Zasady wysyłki",
+    "heading": "Zasady wysyłki",
+    "blocks": [
+      { "h2": "Przedsprzedaż" },
+      { "p": "Wszystkie nasze produkty sprzedajemy w przedsprzedaży. Oznacza to, że w chwili zakupu nie mamy towaru gotowego do wysyłki. Po zamknięciu okna przedsprzedaży rozpoczynamy produkcję, a następnie wysyłamy Twoje zamówienie." },
+      { "p": "Szacowany czas dostawy: 30 do 45 dni od zamknięcia przedsprzedaży. Powiadomimy Cię e-mailem, gdy zamówienie zostanie nadane." },
+      { "h2": "Czas wysyłki (po nadaniu)" },
+      { "ul": [
+        "Hiszpania (część kontynentalna): 2 do 5 dni roboczych",
+        "Wyspy i strefy specjalne: 3 do 7 dni roboczych",
+        "Zagranica: 5 do 15 dni roboczych w zależności od kraju"
+      ] },
+      { "h2": "Przewoźnicy" },
+      { "p": "Współpracujemy z Correos lub SEUR w zależności od miejsca docelowego." },
+      { "h2": "Koszt wysyłki" },
+      { "p": "Koszt jest wyliczany przy finalizacji zamówienia na podstawie adresu dostawy." },
+      { "h2": "Śledzenie przesyłki" },
+      { "p": "Otrzymasz numer do śledzenia e-mailem, gdy zamówienie zostanie nadane." }
+    ]
+  },
+
+  "refund-policy": {
+    "title": "Zasady zwrotów",
+    "heading": "Zasady zwrotów",
+    "blocks": [
+      { "h2": "Prawo odstąpienia od umowy" },
+      { "p": "Jeśli mieszkasz w Unii Europejskiej, masz **14 dni kalendarzowych** na odstąpienie od zakupu bez podawania przyczyny. Wszystkie szczegóły i wzór formularza znajdziesz na naszej [stronie o prawie odstąpienia](/policies/withdrawal)." },
+      { "h2": "Wymiana i wadliwe artykuły" },
+      { "p": "Nasze produkty są wytwarzane na zamówienie w systemie przedsprzedaży, dlatego po potwierdzeniu zamówienia nie wymieniamy rozmiarów. Jeśli ubranie dotrze wadliwe albo pomylimy się przy Twoim zamówieniu, rozwiązujemy to bezkosztowo." },
+      { "h2": "Kontakt" },
+      { "p": "We wszystkich sprawach dotyczących zwrotów pisz na [support@v4in.com](mailto:support@v4in.com)." }
+    ]
+  },
+
+  "terms-of-service": {
+    "title": "Regulamin",
+    "heading": "Regulamin",
+    "blocks": [
+      { "p": "Tę witrynę prowadzi VAIN. Składając zamówienie, akceptujesz następujące warunki:" },
+      { "ul": [
+        "Wszystkie produkty sprzedawane są w przedsprzedaży. Składając zamówienie akceptujesz, że dostawa może potrwać 30 do 45 dni od zamknięcia przedsprzedaży.",
+        "Zastrzegamy sobie prawo do zmiany cen, produktów lub zasad w dowolnym momencie.",
+        "Wszystkie ceny podane są w euro (€) i zawierają obowiązujące podatki.",
+        "Możemy anulować zamówienia z uzasadnionych przyczyn (brak towaru, błędy cenowe itp.)."
+      ] },
+      { "h2": "Własność intelektualna" },
+      { "p": "Wszystkie projekty, zdjęcia i treści w tej witrynie są własnością VAIN i są chronione prawem autorskim. Jakiekolwiek nieuprawnione wykorzystanie jest surowo zabronione." }
+    ]
+  },
+
+  "legal-notice": {
+    "title": "Nota prawna",
+    "heading": "Nota prawna",
+    "blocks": [
+      { "p": "W wykonaniu hiszpańskiej ustawy 34/2002 o usługach społeczeństwa informacyjnego i handlu elektronicznym (LSSI) podaje się następujące informacje:" },
+      { "ul": [
+        "**Właściciel:** VAIN",
+        "**E-mail:** [support@v4in.com](mailto:support@v4in.com)",
+        "**Media społecznościowe:** Instagram i TikTok @vainspn",
+        "**Działalność:** Sprzedaż online odzieży streetwear w modelu przedsprzedaży."
+      ] },
+      { "p": "Witryna powstała w celach komercyjnych. Korzystanie z witryny lub dokonywanie zakupów oznacza akceptację wskazanych warunków." }
+    ]
+  },
+
+  "contact-information": {
+    "title": "Dane kontaktowe",
+    "heading": "Dane kontaktowe",
+    "blocks": [
+      { "p": "Masz pytania albo problem z zamówieniem? Napisz do nas:" },
+      { "ul": [
+        "E-mail: [support@v4in.com](mailto:support@v4in.com)",
+        "Instagram: [@vainspn](https://www.instagram.com/vainspn/)",
+        "TikTok: [@vainspn](https://www.tiktok.com/@vainspn)"
+      ] },
+      { "p": "Zwykle odpowiadamy w ciągu 48 godzin roboczych (od poniedziałku do piątku)." }
+    ]
+  },
+
+  "withdrawal": {
+    "title": "Prawo odstąpienia od umowy",
+    "heading": "Prawo odstąpienia od umowy",
+    "blocks": [
+      { "h2": "Twoje prawo" },
+      { "p": "Jeśli mieszkasz w Unii Europejskiej, masz **14 dni kalendarzowych** na odstąpienie od zakupu bez podawania przyczyny. Termin biegnie od dnia, w którym Ty (lub wskazana przez Ciebie osoba) otrzymasz ostatni artykuł z zamówienia." },
+      { "p": "Aby dochować terminu, wystarczy, że poinformujesz nas o decyzji o odstąpieniu przed jego upływem." },
+      { "h2": "Jak odstąpić" },
+      { "p": "Możesz złożyć wniosek o odstąpienie bezpośrednio ze swojego konta, na stronie zamówienia, poprzez [ścieżkę samoobsługową](https://account.v4in.com). Wystarczy podać imię i nazwisko oraz numer zamówienia; otrzymasz automatyczny e-mail potwierdzający." },
+      { "p": "Jeśli wolisz, możesz też powiadomić nas e-mailem na [support@v4in.com](mailto:support@v4in.com), podając imię i nazwisko oraz numer zamówienia. Potwierdzimy otrzymanie." },
+      { "h2": "Skutki odstąpienia" },
+      { "p": "Po skorzystaniu z prawa odstąpienia zwrócimy Ci wszystkie otrzymane płatności, w tym standardowe koszty wysyłki, bez zbędnej zwłoki, a w każdym razie w ciągu 14 dni od poinformowania nas o Twojej decyzji. Możemy wstrzymać zwrot do czasu otrzymania zwróconych artykułów albo do czasu udokumentowania ich odesłania." },
+      { "p": "Artykuły należy odesłać bez zbędnej zwłoki, a w każdym razie nie później niż w ciągu 14 dni od poinformowania nas o odstąpieniu." },
+      { "h2": "Wzór formularza odstąpienia" },
+      { "p": "(Wypełnij i odeślij ten formularz tylko wtedy, gdy chcesz odstąpić od umowy.)" },
+      { "p": "Do VAIN — support@v4in.com:\nNiniejszym informuję o odstąpieniu od mojej umowy sprzedaży następującego produktu: __________\nZamówienie otrzymane dnia / o numerze: __________\nImię i nazwisko konsumenta: __________\nData: __________" }
+    ]
+  }
+}
