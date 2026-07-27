@@ -120,21 +120,24 @@ async function breakdown(
 export async function getVisitorStats(period: Period): Promise<VisitorStats> {
   const granularity: "hour" | "day" = "hours" in period ? "hour" : "day";
 
-  // Con horas hace falta rango con hora (ISO completo); con días basta la
-  // fecha, y así el primer y el último día salen enteros.
+  // SIEMPRE timestamps ISO completos, nunca fechas sueltas ("2026-07-27").
+  // Con fecha suelta la API "ajusta el rango según la granularidad" y cada
+  // consulta acaba mirando un intervalo distinto: la serie por días incluía
+  // hoy y el total se paraba en la medianoche de hoy, así que el KPI no
+  // cuadraba con la suma de las barras (1224 contra 1431). Con ISO explícito
+  // todas las consultas ven exactamente el mismo intervalo.
   const now = Date.now();
+  const until = new Date(now).toISOString();
   const range =
     "hours" in period
-      ? {
-          since: new Date(now - period.hours * 3_600_000).toISOString(),
-          until: new Date(now).toISOString(),
-        }
+      ? { since: new Date(now - period.hours * 3_600_000).toISOString(), until }
       : {
-          // `days` contando hoy: 7 días = hoy y los 6 anteriores.
-          since: new Date(now - (period.days - 1) * 86_400_000)
+          // `days` contando hoy: 7 días = hoy y los 6 anteriores enteros,
+          // desde su medianoche.
+          since: `${new Date(now - (period.days - 1) * 86_400_000)
             .toISOString()
-            .slice(0, 10),
-          until: new Date(now).toISOString().slice(0, 10),
+            .slice(0, 10)}T00:00:00.000Z`,
+          until,
         };
 
   const [serie, total, routes, countries, referrers, devices, allTime] =
@@ -144,12 +147,19 @@ export async function getVisitorStats(period: Period): Promise<VisitorStats> {
         by: granularity,
         limit: "100",
       }),
-      // El total lo da `count`, no la suma de los tramos: es el endpoint
-      // autoritativo para "cuánta gente distinta pasó en el periodo".
-      query<{ data: { visitors: number; pageviews: number } }>(
-        "visits/count",
-        range,
-      ),
+      // OJO con el total. NO vale `visits/count`: con rangos de menos de un
+      // día redondea al último día completo — para "últimas 24 h" devolvía
+      // el día de AYER entero (142 visitantes cuando eran 171) y no cuadraba
+      // con el dashboard de Vercel. Tampoco vale sumar los tramos de la
+      // serie: quien entra a las 10 y a las 18 contaría dos veces.
+      // `aggregate` agrupado por `environment` devuelve UNA fila (el filtro
+      // por defecto de la API ya es solo producción) con los visitantes
+      // únicos deduplicados del rango exacto. Eso es lo que enseña Vercel.
+      query<{ data: AggregateRow[] }>("visits/aggregate", {
+        ...range,
+        by: "environment",
+        limit: "10",
+      }),
       breakdown("route", range),
       breakdown("country", range),
       breakdown("referrerHostname", range),
@@ -166,8 +176,13 @@ export async function getVisitorStats(period: Period): Promise<VisitorStats> {
     period,
     granularity,
     totals: {
-      visitors: total.data.visitors,
-      pageviews: total.data.pageviews,
+      // En la práctica es una sola fila (producción); se suma por si algún
+      // día la API deja de filtrar por entorno.
+      visitors: total.data.reduce((sum, r) => sum + Number(r.visitors ?? 0), 0),
+      pageviews: total.data.reduce(
+        (sum, r) => sum + Number(r.pageviews ?? 0),
+        0,
+      ),
     },
     series: serie.data.map((row) => ({
       timestamp: String(row.timestamp ?? ""),
