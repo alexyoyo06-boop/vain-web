@@ -6,6 +6,8 @@ import {
   EDGE_CONFIG_WRITES_READY,
 } from "@/lib/site-state";
 import AdminPanel from "./AdminPanel";
+import AdminStats from "./AdminStats";
+import { resolvePeriod } from "@/lib/vercel-analytics";
 
 export const metadata: Metadata = {
   title: "VAIN — Admin",
@@ -15,10 +17,19 @@ export const metadata: Metadata = {
 // Sin caché: el panel siempre lee el estado real.
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ periodo?: string }>;
+}) {
   if (!(await isAdmin())) redirect("/admin/login");
 
   const state = await getSiteState();
+
+  // Periodo de las estadísticas: ?periodo=24h | 7d | 30d. Va por URL y no por
+  // estado de cliente para que el panel siga siendo server-only (el token de
+  // Vercel no puede bajar al navegador).
+  const period = resolvePeriod((await searchParams).periodo);
 
   return (
     <main className="min-h-screen bg-bone text-ink px-4 sm:px-6 py-10 md:py-14">
@@ -36,6 +47,10 @@ export default async function AdminPage() {
             </h1>
           </div>
         </header>
+
+        <div className="mb-6">
+          <AdminStats period={period} />
+        </div>
 
         <AdminPanel
           comingSoonMode={state.comingSoonMode}
