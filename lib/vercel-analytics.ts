@@ -20,10 +20,14 @@ import "server-only";
 
 const API = "https://api.vercel.com/v1/query/web-analytics";
 
+// .trim() obligatorio: si el valor se metió en Vercel con `echo |` lleva un
+// salto de línea pegado, y la API responde 403 "Not authorized" sin más pista.
+const TOKEN = (process.env.VERCEL_API_TOKEN ?? "").trim();
+const PROJECT_ID = (process.env.VERCEL_PROJECT_ID ?? "").trim();
+const TEAM_ID = (process.env.VERCEL_TEAM_ID ?? "").trim();
+
 /** Sin token o sin project id no hay estadísticas que pedir. */
-export const ANALYTICS_READY = Boolean(
-  process.env.VERCEL_API_TOKEN && process.env.VERCEL_PROJECT_ID,
-);
+export const ANALYTICS_READY = Boolean(TOKEN && PROJECT_ID);
 
 /**
  * Periodos del selector. `hours` manda: si lo lleva, la serie va por horas.
@@ -72,15 +76,14 @@ async function query<T>(
   params: Record<string, string>,
 ): Promise<T> {
   const url = new URL(`${API}/${path}`);
-  url.searchParams.set("projectId", process.env.VERCEL_PROJECT_ID ?? "");
-  const teamId = process.env.VERCEL_TEAM_ID;
-  if (teamId) url.searchParams.set("teamId", teamId);
+  url.searchParams.set("projectId", PROJECT_ID);
+  if (TEAM_ID) url.searchParams.set("teamId", TEAM_ID);
   for (const [key, value] of Object.entries(params)) {
     url.searchParams.set(key, value);
   }
 
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${process.env.VERCEL_API_TOKEN}` },
+    headers: { Authorization: `Bearer ${TOKEN}` },
     // El panel lo abren dos personas: siempre datos frescos, sin caché.
     cache: "no-store",
   });

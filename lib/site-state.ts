@@ -10,9 +10,12 @@ import "server-only";
 import crypto from "node:crypto";
 import { get } from "@vercel/edge-config";
 
-const TEAM_ID = process.env.VERCEL_TEAM_ID ?? "";
-const CONFIG_ID = process.env.VERCEL_EDGE_CONFIG_ID ?? "";
-const API_TOKEN = process.env.VERCEL_API_TOKEN ?? "";
+// .trim() no es paranoia: estas tres se metieron en Vercel con `echo |`, que
+// cuela un salto de línea al final del valor. Un token con "\n" pegado hace
+// que la API conteste 403 sin decir por qué. Ver también lib/vercel-analytics.
+const TEAM_ID = (process.env.VERCEL_TEAM_ID ?? "").trim();
+const CONFIG_ID = (process.env.VERCEL_EDGE_CONFIG_ID ?? "").trim();
+const API_TOKEN = (process.env.VERCEL_API_TOKEN ?? "").trim();
 
 export const EDGE_CONFIG_READY = Boolean(process.env.EDGE_CONFIG);
 export const EDGE_CONFIG_WRITES_READY = Boolean(
