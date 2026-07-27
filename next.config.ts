@@ -96,6 +96,24 @@ const nextConfig: NextConfig = {
         destination: `https://${SHOPIFY_DOMAIN}/checkout/:path*`,
         permanent: false,
       },
+      // Rutas con el ID de tienda delante: `/96649576786/orders/{token}/authenticate?key=…`.
+      // Es el enlace del botón "Ver estado del pedido" de los emails de
+      // confirmación y de envío (order_status_url), que Shopify genera con el
+      // primary domain (www.v4in.com) → llegaba a Next y daba 404 al cliente
+      // justo después de pagar. Mismo patrón para facturas de pedidos borrador
+      // (/invoices/…) y demás rutas shop-scoped. Ningún :path de esta web
+      // empieza por dígitos, así que la regla no puede pisar rutas nuestras.
+      // La query (?key=…) la reenvía Next sola: el destino no lleva query.
+      {
+        source: "/:shopId(\\d+)/:path*",
+        destination: `https://${SHOPIFY_DOMAIN}/:shopId/:path*`,
+        permanent: false,
+      },
+      {
+        source: "/:lang([a-z]{2}|[a-z]{2}-[a-z]{2})/:shopId(\\d+)/:path*",
+        destination: `https://${SHOPIFY_DOMAIN}/:lang/:shopId/:path*`,
+        permanent: false,
+      },
       // Flujo de cuenta de cliente legacy / nuevo OAuth (login_with_shop).
       {
         source: "/a/:path*",
@@ -117,6 +135,34 @@ const nextConfig: NextConfig = {
       {
         source: "/services/:path*",
         destination: `https://${SHOPIFY_DOMAIN}/services/:path*`,
+        permanent: false,
+      },
+      // Índices de categoría. No existen como página propia (el catálogo es
+      // pequeño y /todo ya lo lista entero), pero es la URL natural si alguien
+      // recorta la de una ficha: /pants/the-grey-triplet → /pants. Daban 404.
+      {
+        source: "/:category(hoodies|tees|pants|headwear)",
+        destination: "/todo",
+        permanent: false,
+      },
+      // URLs de la tienda Shopify que vivió en este dominio antes que esta web
+      // (siguen pegadas en TikToks y en el índice de Google). /collections/{h}
+      // es el mismo handle que usa nuestra ruta /c/{h}. Las de producto las
+      // resuelve app/products/[handle]/page.tsx, que necesita mirar la
+      // categoría real en Shopify para armar /{categoria}/{slug}.
+      {
+        source: "/collections",
+        destination: "/todo",
+        permanent: false,
+      },
+      {
+        source: "/collections/all",
+        destination: "/todo",
+        permanent: false,
+      },
+      {
+        source: "/collections/:handle",
+        destination: "/c/:handle",
         permanent: false,
       },
       // Enlaces de descuento (popup del 10%): /discount/CODE los sirve Shopify,

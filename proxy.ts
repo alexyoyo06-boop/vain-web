@@ -13,6 +13,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { get } from "@vercel/edge-config";
 import { LOCALE_COOKIE, isLocale, pickLocale } from "@/lib/i18n/config";
 
+const LOCALE_COOKIE_OPTS = {
+  httpOnly: false,
+  secure: true,
+  sameSite: "lax",
+  path: "/",
+  maxAge: 60 * 60 * 24 * 365,
+} as const;
+
 const ACCESS_COOKIE = "vain_early_access";
 
 // Bots de redes sociales que escrapean OG tags. Si dejamos que el proxy los
@@ -52,17 +60,42 @@ function ensureLocaleCookie(
     request.headers.get("accept-language"),
     request.headers.get("x-vercel-ip-country"),
   );
-  response.cookies.set(LOCALE_COOKIE, locale, {
-    httpOnly: false,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 365,
-  });
+  response.cookies.set(LOCALE_COOKIE, locale, LOCALE_COOKIE_OPTS);
+}
+
+/**
+ * URLs con prefijo de idioma (`/en`, `/de/todo`, `/pt-pt/pants/x`). Esta web
+ * NO usa prefijos: el idioma va en cookie. Pero Shopify sí los genera — el
+ * botón "Seguir comprando" del checkout en inglés apunta a `www.v4in.com/en`
+ * — y también los pegan quienes copian la URL del switcher de la tienda.
+ * Antes eran 404. Ahora: quitamos el prefijo y dejamos el idioma en la cookie,
+ * así el visitante aterriza en la página buena y encima en su idioma.
+ *
+ * Ojo: las rutas de Shopify con prefijo (`/en/cart/c/…`, `/en/checkouts/…`)
+ * las capturan los redirects de next.config.ts, que corren ANTES del proxy.
+ */
+function stripLocalePrefix(request: NextRequest): NextResponse | null {
+  const segments = request.nextUrl.pathname.split("/");
+  const first = (segments[1] ?? "").toLowerCase();
+  // Estricto a propósito: "en" o "en-gb" y nada más. Si aceptáramos cualquier
+  // cosa antes del guion, un fichero como /el-fondo.png se leería como griego
+  // ("el") y acabaría redirigido a la home.
+  if (!/^[a-z]{2}(-[a-z]{2})?$/.test(first)) return null;
+  const base = first.slice(0, 2);
+  if (!isLocale(base)) return null;
+
+  const url = request.nextUrl.clone();
+  url.pathname = "/" + segments.slice(2).join("/");
+  const res = NextResponse.redirect(url, 307);
+  res.cookies.set(LOCALE_COOKIE, base, LOCALE_COOKIE_OPTS);
+  return res;
 }
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  const localeRedirect = stripLocalePrefix(request);
+  if (localeRedirect) return localeRedirect;
 
   // Permitir siempre estas rutas (no bloquear coming-soon)
   if (
