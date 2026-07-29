@@ -9,6 +9,9 @@
   --color-acid: #d4d4d4;
   --color-blood: #d72415;
   --color-haze: #8c8c8c;
+  /* Verde solo para el "hay gente online" del panel de admin. Nunca en la
+     tienda: la web es blanco · gris · negro. */
+  --color-online: #16a34a;
 
   --color-background: var(--color-bone);
   --color-foreground: var(--color-ink);

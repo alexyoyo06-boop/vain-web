@@ -75,7 +75,7 @@
     "heading": "Política de envío",
     "blocks": [
       { "h2": "Listo para enviar" },
-      { "p": "Todos nuestros productos están hechos y en stock: esto no es una preventa. Preparamos tu pedido y lo enviamos en 24 a 72 horas laborables desde la compra." },
+      { "p": "Todos nuestros productos están hechos y en stock: esto no es una preventa. Preparamos tu pedido y lo enviamos el siguiente día laborable." },
       { "p": "Te enviaremos un número de seguimiento por email en cuanto tu pedido salga." },
       { "h2": "Tiempos de envío (tras despacho)" },
       { "ul": [
@@ -87,6 +87,9 @@
       { "p": "Trabajamos con Correos o SEUR según el destino." },
       { "h2": "Coste de envío" },
       { "p": "El coste se calcula en el checkout en función de tu dirección de entrega." },
+      { "h2": "Aduanas e impuestos de importación" },
+      { "p": "Todos los pedidos salen desde España (Unión Europea). Dentro de la UE no hay trámites de aduana ni costes extra: el precio que ves ya incluye los impuestos aplicables." },
+      { "p": "En envíos fuera de la Unión Europea, el pedido puede estar sujeto a aranceles, IVA de importación y gastos de gestión del transportista. Esos importes los cobra la aduana del país de destino y **corren a cargo del comprador**, que figura como importador. VAIN no los cobra ni los reembolsa. Si rechazas el paquete para no pagar esos cargos, los gastos de devolución se descontarán del reembolso." },
       { "h2": "Seguimiento" },
       { "p": "Recibirás un número de seguimiento por email cuando tu pedido salga." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Este sitio está operado por VAIN. Al realizar un pedido, aceptas las siguientes condiciones:" },
       { "ul": [
-        "Todos los productos están en stock y listos para enviar. Preparamos y enviamos tu pedido en 24 a 72 horas laborables.",
+        "Todos los productos están en stock y listos para enviar. Preparamos y enviamos tu pedido el siguiente día laborable.",
         "Nos reservamos el derecho de cambiar precios, productos o políticas en cualquier momento.",
         "Todos los precios están en euros (€) e incluyen los impuestos aplicables.",
         "Podemos cancelar pedidos por causas razonables (sin stock, errores de precio, etc.)."

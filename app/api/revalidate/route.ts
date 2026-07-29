@@ -14,28 +14,13 @@
 // URL de destino: https://<tu-dominio>/api/revalidate
 
 import { revalidateTag } from "next/cache";
-import crypto from "node:crypto";
-
-const SECRET = process.env.SHOPIFY_WEBHOOK_SECRET ?? "";
-
-function verifyHmac(rawBody: string, header: string | null): boolean {
-  if (!SECRET || !header) return false;
-  const digest = crypto
-    .createHmac("sha256", SECRET)
-    .update(rawBody, "utf8")
-    .digest("base64");
-  // timingSafeEqual requiere buffers de igual longitud
-  const a = Buffer.from(digest);
-  const b = Buffer.from(header);
-  if (a.length !== b.length) return false;
-  return crypto.timingSafeEqual(a, b);
-}
+import { verifyShopifyWebhook } from "@/lib/shopify/webhook";
 
 export async function POST(req: Request) {
   const raw = await req.text();
   const hmacHeader = req.headers.get("x-shopify-hmac-sha256");
 
-  if (!verifyHmac(raw, hmacHeader)) {
+  if (!verifyShopifyWebhook(raw, hmacHeader)) {
     return new Response("invalid signature", { status: 401 });
   }
 

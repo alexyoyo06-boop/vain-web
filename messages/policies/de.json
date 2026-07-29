@@ -74,9 +74,9 @@
     "title": "Versandbedingungen",
     "heading": "Versandbedingungen",
     "blocks": [
-      { "h2": "Vorbestellung" },
-      { "p": "Alle unsere Produkte werden als Vorbestellung verkauft. Das heißt, wir haben zum Kaufzeitpunkt keine versandfertige Ware auf Lager. Sobald das Vorbestellfenster schließt, starten wir die Produktion und versenden anschließend deine Bestellung." },
-      { "p": "Geschätzte Lieferzeit: 30 bis 45 Tage ab Ende der Vorbestellung. Wir benachrichtigen dich per E-Mail, sobald deine Bestellung rausgeht." },
+      { "h2": "Versandfertig" },
+      { "p": "Alle unsere Produkte sind fertig und auf Lager – das ist keine Vorbestellung. Wir packen deine Bestellung und versenden sie am nächsten Werktag." },
+      { "p": "Sobald deine Bestellung rausgeht, schicken wir dir per E-Mail eine Sendungsnummer." },
       { "h2": "Versandzeiten (nach Versand)" },
       { "ul": [
         "Spanien (Festland): 2 bis 5 Werktage",
@@ -87,6 +87,9 @@
       { "p": "Wir arbeiten je nach Ziel mit Correos oder SEUR." },
       { "h2": "Versandkosten" },
       { "p": "Die Kosten werden an der Kasse anhand deiner Lieferadresse berechnet." },
+      { "h2": "Zoll und Einfuhrsteuern" },
+      { "p": "Alle Bestellungen werden aus Spanien (Europäische Union) versendet. Innerhalb der EU gibt es keine Zollformalitäten und keine Zusatzkosten: Der angezeigte Preis enthält bereits die anfallenden Steuern." },
+      { "p": "Bei Sendungen außerhalb der Europäischen Union können Zölle, Einfuhrumsatzsteuer und Bearbeitungsgebühren des Transportunternehmens anfallen. Diese werden vom Zoll des Ziellandes erhoben und **gehen zulasten des Käufers**, der als Importeur gilt. VAIN erhebt sie nicht und erstattet sie nicht. Wenn du das Paket ablehnst, statt diese Gebühren zu zahlen, werden die Rücksendekosten von der Erstattung abgezogen." },
       { "h2": "Sendungsverfolgung" },
       { "p": "Du erhältst per E-Mail eine Sendungsnummer, sobald deine Bestellung rausgeht." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Diese Website wird von VAIN betrieben. Mit einer Bestellung akzeptierst du die folgenden Bedingungen:" },
       { "ul": [
-        "Alle Produkte werden als Vorbestellung verkauft. Mit deiner Bestellung akzeptierst du, dass die Lieferung ab Ende der Vorbestellung 30 bis 45 Tage dauern kann.",
+        "Alle Produkte sind auf Lager und versandfertig. Wir packen und versenden deine Bestellung am nächsten Werktag.",
         "Wir behalten uns das Recht vor, Preise, Produkte oder Richtlinien jederzeit zu ändern.",
         "Alle Preise sind in Euro (€) und enthalten die anfallenden Steuern.",
         "Wir können Bestellungen aus nachvollziehbaren Gründen stornieren (nicht vorrätig, Preisfehler usw.)."

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Truck } from "lucide-react";
 import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
 import ShareButton from "./ShareButton";
@@ -319,6 +319,12 @@ export default function ProductDetail({ product }: Props) {
                 </motion.button>
               </MagneticButton>
 
+              {/* Justo debajo del botón: es la duda que frena la compra. */}
+              <p className="flex items-center justify-center gap-2 text-xs text-ink-soft/80">
+                <Truck className="size-3.5 shrink-0" strokeWidth={2} aria-hidden />
+                {t.product.shipsIn}
+              </p>
+
               {product.modelHeight && product.modelSize && (
                 <p className="text-xs text-ink-soft/70 text-center">
                   {tpl(t.product.modelInfo, {
@@ -380,6 +386,7 @@ export default function ProductDetail({ product }: Props) {
                     <li>{t.product.shippingSpain}</li>
                     <li>{t.product.shippingEurope}</li>
                   </ul>
+                  <p>{t.product.shippingCustoms}</p>
                   <p className="text-xs">
                     {t.product.shippingMore}{" "}
                     <Link

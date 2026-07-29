@@ -74,9 +74,9 @@
     "title": "Politique d'expédition",
     "heading": "Politique d'expédition",
     "blocks": [
-      { "h2": "Précommande" },
-      { "p": "Tous nos produits sont vendus en précommande. Cela signifie que nous n'avons pas de stock prêt à expédier au moment de l'achat. Une fois la fenêtre de précommande fermée, nous lançons la production puis expédions votre commande." },
-      { "p": "Délai de livraison estimé : 30 à 45 jours à compter de la clôture de la précommande. Nous vous préviendrons par e-mail au départ de votre commande." },
+      { "h2": "Prêt à expédier" },
+      { "p": "Tous nos produits sont fabriqués et en stock : ce n'est pas une précommande. Nous préparons ta commande et l'expédions le jour ouvré suivant." },
+      { "p": "Nous t'enverrons un numéro de suivi par e-mail dès que ta commande partira." },
       { "h2": "Délais d'expédition (après envoi)" },
       { "ul": [
         "Espagne (péninsule) : 2 à 5 jours ouvrables",
@@ -87,6 +87,9 @@
       { "p": "Nous travaillons avec Correos ou SEUR selon la destination." },
       { "h2": "Frais d'expédition" },
       { "p": "Les frais sont calculés au moment du paiement en fonction de votre adresse de livraison." },
+      { "h2": "Douanes et taxes à l'importation" },
+      { "p": "Toutes les commandes partent d'Espagne (Union européenne). Au sein de l'UE, il n'y a aucune formalité douanière ni frais supplémentaires : le prix affiché inclut déjà les taxes applicables." },
+      { "p": "Pour les envois hors Union européenne, la commande peut être soumise à des droits de douane, à la TVA à l'importation et à des frais de gestion du transporteur. Ces montants sont perçus par la douane du pays de destination et sont **à la charge de l'acheteur**, qui figure comme importateur. VAIN ne les perçoit pas et ne les rembourse pas. Si tu refuses le colis pour ne pas payer ces frais, les frais de retour seront déduits du remboursement." },
       { "h2": "Suivi" },
       { "p": "Vous recevrez un numéro de suivi par e-mail au départ de votre commande." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Ce site est exploité par VAIN. En passant commande, vous acceptez les conditions suivantes :" },
       { "ul": [
-        "Tous les produits sont vendus en précommande. En passant commande, vous acceptez que la livraison puisse prendre 30 à 45 jours à compter de la clôture de la précommande.",
+        "Tous les produits sont en stock et prêts à expédier. Nous préparons et expédions ta commande le jour ouvré suivant.",
         "Nous nous réservons le droit de modifier les prix, produits ou politiques à tout moment.",
         "Tous les prix sont en euros (€) et incluent les taxes applicables.",
         "Nous pouvons annuler des commandes pour des motifs raisonnables (rupture de stock, erreurs de prix, etc.)."

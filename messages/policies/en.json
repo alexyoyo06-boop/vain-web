@@ -75,7 +75,7 @@
     "heading": "Shipping policy",
     "blocks": [
       { "h2": "Ready to ship" },
-      { "p": "All our products are made and in stock — this is not a pre-order. We prepare your order and ship it within 24 to 72 working hours of purchase." },
+      { "p": "All our products are made and in stock — this is not a pre-order. We prepare your order and ship it the next weekday." },
       { "p": "We will email you a tracking number as soon as your order leaves." },
       { "h2": "Shipping times (after dispatch)" },
       { "ul": [
@@ -87,6 +87,9 @@
       { "p": "We work with Correos or SEUR depending on the destination." },
       { "h2": "Shipping cost" },
       { "p": "The cost is calculated at checkout based on your delivery address." },
+      { "h2": "Customs and import taxes" },
+      { "p": "All orders ship from Spain (European Union). Within the EU there are no customs formalities or extra costs: the price you see already includes any applicable taxes." },
+      { "p": "For shipments outside the European Union, your order may be subject to customs duties, import VAT and carrier handling fees. These are charged by the customs authority of the destination country and are **the buyer's responsibility**, as the buyer is the importer of record. VAIN does not collect or refund them. If you refuse the parcel rather than pay these charges, return costs will be deducted from your refund." },
       { "h2": "Tracking" },
       { "p": "You will receive a tracking number by email when your order ships." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "This site is operated by VAIN. By placing an order, you accept the following terms:" },
       { "ul": [
-        "All products are in stock and ready to ship. We prepare and ship your order within 24 to 72 working hours.",
+        "All products are in stock and ready to ship. We prepare and ship your order the next weekday.",
         "We reserve the right to change prices, products or policies at any time.",
         "All prices are in euros (€) and include applicable taxes.",
         "We may cancel orders for reasonable causes (out of stock, pricing errors, etc.)."

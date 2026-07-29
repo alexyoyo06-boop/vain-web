@@ -207,6 +207,10 @@ export default async function Image({
             <div
               style={{
                 display: "flex",
+                // "Envío el siguiente laborable" es bastante más largo que el
+                // "24–72h" de antes, y en alemán o ruso más todavía: sin wrap
+                // se saldría de la columna en vez de bajar de línea.
+                flexWrap: "wrap",
                 gap: 22,
                 fontSize: 18,
                 color: inkSoft,

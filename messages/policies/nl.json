@@ -74,9 +74,9 @@
     "title": "Verzendbeleid",
     "heading": "Verzendbeleid",
     "blocks": [
-      { "h2": "Pre-order" },
-      { "p": "Al onze producten worden als pre-order verkocht. Dat betekent dat we op het moment van aankoop geen voorraad klaar hebben liggen. Zodra het pre-ordervenster sluit, starten we de productie en verzenden we daarna je bestelling." },
-      { "p": "Geschatte levertijd: 30 tot 45 dagen na sluiting van de pre-order. We laten het je per e-mail weten zodra je bestelling onderweg is." },
+      { "h2": "Klaar om te verzenden" },
+      { "p": "Al onze producten zijn gemaakt en op voorraad: dit is geen pre-order. We maken je bestelling klaar en verzenden hem de eerstvolgende werkdag." },
+      { "p": "Je krijgt een trackingnummer per e-mail zodra je bestelling onderweg is." },
       { "h2": "Verzendtijden (na verzending)" },
       { "ul": [
         "Spanje (vasteland): 2 tot 5 werkdagen",
@@ -87,6 +87,9 @@
       { "p": "We werken met Correos of SEUR, afhankelijk van de bestemming." },
       { "h2": "Verzendkosten" },
       { "p": "De kosten worden bij het afrekenen berekend op basis van je bezorgadres." },
+      { "h2": "Douane en invoerbelastingen" },
+      { "p": "Alle bestellingen worden verzonden vanuit Spanje (Europese Unie). Binnen de EU zijn er geen douaneformaliteiten of extra kosten: de prijs die je ziet is inclusief de toepasselijke belastingen." },
+      { "p": "Bij zendingen buiten de Europese Unie kunnen douanerechten, invoer-btw en administratiekosten van de vervoerder van toepassing zijn. Deze worden geheven door de douane van het land van bestemming en **komen voor rekening van de koper**, die als importeur geldt. VAIN int of vergoedt deze niet. Weiger je het pakket om deze kosten niet te betalen, dan worden de retourkosten van de terugbetaling afgetrokken." },
       { "h2": "Track & trace" },
       { "p": "Je ontvangt per e-mail een trackingnummer zodra je bestelling onderweg is." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Deze site wordt beheerd door VAIN. Door een bestelling te plaatsen ga je akkoord met de volgende voorwaarden:" },
       { "ul": [
-        "Alle producten worden als pre-order verkocht. Door te bestellen accepteer je dat levering 30 tot 45 dagen kan duren vanaf de sluiting van de pre-order.",
+        "Alle producten zijn op voorraad en klaar om te verzenden. We maken je bestelling klaar en verzenden hem de eerstvolgende werkdag.",
         "We behouden ons het recht voor prijzen, producten of beleid op elk moment te wijzigen.",
         "Alle prijzen zijn in euro's (€) en inclusief de van toepassing zijnde belastingen.",
         "We kunnen bestellingen annuleren om redelijke redenen (niet op voorraad, prijsfouten, enz.)."

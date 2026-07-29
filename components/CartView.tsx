@@ -3,7 +3,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Lock, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Lock,
+  Minus,
+  Plus,
+  ShoppingBag,
+  Trash2,
+  Truck,
+} from "lucide-react";
 import { useCartUI } from "@/lib/cart-ui";
 import { useMenuUI } from "@/lib/menu-ui";
 import RevealText from "./RevealText";
@@ -216,7 +225,7 @@ export default function CartView() {
                   <span className="text-2xl tabular-nums">{fmt(subtotal)}</span>
                 </div>
                 <p className="text-xs text-ink-soft/70 -mt-1">
-                  {t.cart.taxesNote}
+                  {t.cart.taxesNote} {t.cart.dutiesNote}
                 </p>
               </div>
 
@@ -239,9 +248,21 @@ export default function CartView() {
                 />
               </motion.a>
 
-              <div className="flex items-center justify-center gap-2 text-xs text-ink-soft/80">
-                <Lock className="size-3.5" strokeWidth={2} />
-                {t.cart.securePay}
+              <div className="flex flex-col items-center gap-2 text-xs text-ink-soft/80">
+                <span className="flex items-center gap-2">
+                  <Lock className="size-3.5 shrink-0" strokeWidth={2} />
+                  {t.cart.securePay}
+                </span>
+                {/* El texto va en su propio span: suelto, al centrarse dejaba
+                    el camión descolgado en el borde izquierdo de la tarjeta. */}
+                <span className="flex items-start justify-center gap-2 text-center">
+                  <Truck
+                    className="size-3.5 shrink-0 mt-0.5"
+                    strokeWidth={2}
+                    aria-hidden
+                  />
+                  <span>{t.cart.shippingNextDay}</span>
+                </span>
               </div>
 
               <button

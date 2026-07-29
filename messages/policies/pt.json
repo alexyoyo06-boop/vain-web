@@ -74,9 +74,9 @@
     "title": "Política de envio",
     "heading": "Política de envio",
     "blocks": [
-      { "h2": "Pré-venda" },
-      { "p": "Todos os nossos produtos são vendidos em pré-venda. Isto significa que não temos stock pronto a enviar no momento da compra. Depois de fechada a janela de pré-venda, iniciamos a produção e só então enviamos a tua encomenda." },
-      { "p": "Tempo estimado de entrega: 30 a 45 dias a contar do fecho da pré-venda. Avisamos-te por e-mail quando a encomenda sair." },
+      { "h2": "Pronto a enviar" },
+      { "p": "Todos os nossos produtos estão feitos e em stock: isto não é uma pré-venda. Preparamos a tua encomenda e enviamo-la no dia útil seguinte." },
+      { "p": "Enviamos-te um número de seguimento por email assim que a tua encomenda sair." },
       { "h2": "Prazos de envio (após expedição)" },
       { "ul": [
         "Espanha (península): 2 a 5 dias úteis",
@@ -87,6 +87,9 @@
       { "p": "Trabalhamos com a Correos ou a SEUR consoante o destino." },
       { "h2": "Custo de envio" },
       { "p": "O custo é calculado no checkout em função da tua morada de entrega." },
+      { "h2": "Alfândega e impostos de importação" },
+      { "p": "Todas as encomendas saem de Espanha (União Europeia). Dentro da UE não há formalidades aduaneiras nem custos extra: o preço que vês já inclui os impostos aplicáveis." },
+      { "p": "Em envios para fora da União Europeia, a encomenda pode estar sujeita a direitos aduaneiros, IVA de importação e taxas de processamento da transportadora. Estes valores são cobrados pela alfândega do país de destino e **são da responsabilidade do comprador**, que consta como importador. A VAIN não os cobra nem os reembolsa. Se recusares a encomenda para não pagar esses encargos, os custos de devolução serão descontados do reembolso." },
       { "h2": "Seguimento" },
       { "p": "Receberás um número de seguimento por e-mail quando a tua encomenda sair." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Este site é operado pela VAIN. Ao fazeres uma encomenda, aceitas as seguintes condições:" },
       { "ul": [
-        "Todos os produtos são vendidos em pré-venda. Ao fazeres uma encomenda, aceitas que a entrega pode demorar 30 a 45 dias a contar do fecho da pré-venda.",
+        "Todos os produtos estão em stock e prontos a enviar. Preparamos e enviamos a tua encomenda no dia útil seguinte.",
         "Reservamo-nos o direito de alterar preços, produtos ou políticas a qualquer momento.",
         "Todos os preços estão em euros (€) e incluem os impostos aplicáveis.",
         "Podemos cancelar encomendas por causas razoáveis (falta de stock, erros de preço, etc.)."

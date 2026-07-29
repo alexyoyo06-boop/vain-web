@@ -74,9 +74,9 @@
     "title": "Zasady wysyłki",
     "heading": "Zasady wysyłki",
     "blocks": [
-      { "h2": "Przedsprzedaż" },
-      { "p": "Wszystkie nasze produkty sprzedajemy w przedsprzedaży. Oznacza to, że w chwili zakupu nie mamy towaru gotowego do wysyłki. Po zamknięciu okna przedsprzedaży rozpoczynamy produkcję, a następnie wysyłamy Twoje zamówienie." },
-      { "p": "Szacowany czas dostawy: 30 do 45 dni od zamknięcia przedsprzedaży. Powiadomimy Cię e-mailem, gdy zamówienie zostanie nadane." },
+      { "h2": "Gotowe do wysyłki" },
+      { "p": "Wszystkie nasze produkty są uszyte i dostępne na stanie: to nie jest przedsprzedaż. Kompletujemy Twoje zamówienie i wysyłamy je następnego dnia roboczego." },
+      { "p": "Numer do śledzenia przesyłki wyślemy Ci e-mailem, gdy tylko zamówienie opuści magazyn." },
       { "h2": "Czas wysyłki (po nadaniu)" },
       { "ul": [
         "Hiszpania (część kontynentalna): 2 do 5 dni roboczych",
@@ -87,6 +87,9 @@
       { "p": "Współpracujemy z Correos lub SEUR w zależności od miejsca docelowego." },
       { "h2": "Koszt wysyłki" },
       { "p": "Koszt jest wyliczany przy finalizacji zamówienia na podstawie adresu dostawy." },
+      { "h2": "Cło i podatki importowe" },
+      { "p": "Wszystkie zamówienia wysyłamy z Hiszpanii (Unia Europejska). Na terenie UE nie ma formalności celnych ani dodatkowych kosztów: widoczna cena zawiera już należne podatki." },
+      { "p": "W przypadku wysyłek poza Unię Europejską zamówienie może podlegać cłu, podatkowi VAT od importu oraz opłatom manipulacyjnym przewoźnika. Kwoty te pobiera urząd celny kraju docelowego i **pokrywa je kupujący**, który występuje jako importer. VAIN ich nie pobiera ani nie zwraca. Jeśli odmówisz przyjęcia paczki, aby nie płacić tych opłat, koszty zwrotu zostaną potrącone ze zwracanej kwoty." },
       { "h2": "Śledzenie przesyłki" },
       { "p": "Otrzymasz numer do śledzenia e-mailem, gdy zamówienie zostanie nadane." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Tę witrynę prowadzi VAIN. Składając zamówienie, akceptujesz następujące warunki:" },
       { "ul": [
-        "Wszystkie produkty sprzedawane są w przedsprzedaży. Składając zamówienie akceptujesz, że dostawa może potrwać 30 do 45 dni od zamknięcia przedsprzedaży.",
+        "Wszystkie produkty są dostępne na stanie i gotowe do wysyłki. Kompletujemy i wysyłamy Twoje zamówienie następnego dnia roboczego.",
         "Zastrzegamy sobie prawo do zmiany cen, produktów lub zasad w dowolnym momencie.",
         "Wszystkie ceny podane są w euro (€) i zawierają obowiązujące podatki.",
         "Możemy anulować zamówienia z uzasadnionych przyczyn (brak towaru, błędy cenowe itp.)."

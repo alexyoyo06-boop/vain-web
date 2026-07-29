@@ -74,9 +74,9 @@
     "title": "Politica di spedizione",
     "heading": "Politica di spedizione",
     "blocks": [
-      { "h2": "Preordine" },
-      { "p": "Tutti i nostri prodotti sono venduti in preordine. Significa che al momento dell'acquisto non abbiamo scorte pronte per la spedizione. Chiusa la finestra di preordine, avviamo la produzione e poi spediamo il tuo ordine." },
-      { "p": "Tempo di consegna stimato: 30-45 giorni dalla chiusura del preordine. Ti avviseremo via e-mail quando l'ordine partirà." },
+      { "h2": "Pronto per la spedizione" },
+      { "p": "Tutti i nostri prodotti sono realizzati e disponibili: non è un preordine. Prepariamo il tuo ordine e lo spediamo il giorno lavorativo successivo." },
+      { "p": "Ti invieremo un numero di tracking via email non appena il tuo ordine parte." },
       { "h2": "Tempi di spedizione (dopo la partenza)" },
       { "ul": [
         "Spagna (penisola): 2-5 giorni lavorativi",
@@ -87,6 +87,9 @@
       { "p": "Lavoriamo con Correos o SEUR a seconda della destinazione." },
       { "h2": "Costo di spedizione" },
       { "p": "Il costo viene calcolato al checkout in base al tuo indirizzo di consegna." },
+      { "h2": "Dogana e tasse d'importazione" },
+      { "p": "Tutti gli ordini partono dalla Spagna (Unione Europea). All'interno dell'UE non ci sono formalità doganali né costi aggiuntivi: il prezzo che vedi include già le imposte applicabili." },
+      { "p": "Per le spedizioni fuori dall'Unione Europea, l'ordine può essere soggetto a dazi doganali, IVA all'importazione e spese di gestione del corriere. Questi importi vengono riscossi dalla dogana del Paese di destinazione e sono **a carico dell'acquirente**, che risulta importatore. VAIN non li incassa né li rimborsa. Se rifiuti il pacco per non pagare tali spese, i costi di reso verranno detratti dal rimborso." },
       { "h2": "Tracciamento" },
       { "p": "Riceverai un numero di tracciamento via e-mail quando l'ordine partirà." }
     ]
@@ -111,7 +114,7 @@
     "blocks": [
       { "p": "Questo sito è gestito da VAIN. Effettuando un ordine, accetti le seguenti condizioni:" },
       { "ul": [
-        "Tutti i prodotti sono venduti in preordine. Effettuando un ordine accetti che la consegna possa richiedere 30-45 giorni dalla chiusura del preordine.",
+        "Tutti i prodotti sono disponibili e pronti per la spedizione. Prepariamo e spediamo il tuo ordine il giorno lavorativo successivo.",
         "Ci riserviamo il diritto di modificare prezzi, prodotti o politiche in qualsiasi momento.",
         "Tutti i prezzi sono in euro (€) e includono le imposte applicabili.",
         "Possiamo annullare ordini per cause ragionevoli (esaurimento scorte, errori di prezzo, ecc.)."
