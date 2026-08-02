@@ -23,6 +23,13 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
+      // media-src: SIN esta línea el vídeo del banner no se ve. Los .mp4 viven
+      // en el CDN de Shopify (ver lib/media.ts) y, al no haber regla propia,
+      // caían en `default-src 'self'` → el navegador ni siquiera los pedía
+      // ("Media load rejected by URL safety check"). Se ponía el póster fijo y
+      // parecía que el vídeo simplemente no arrancaba. Solo se abre a Shopify,
+      // no a cualquier origen.
+      "media-src 'self' https://cdn.shopify.com",
       // gstatic = decoder Draco (logo 3D coming-soon).
       // worker-src blob: → React Three Fiber crea workers en blob URLs.
       "connect-src 'self' https://www.gstatic.com",
