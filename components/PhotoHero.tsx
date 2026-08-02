@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getT } from "@/lib/i18n/server";
+import { HERO_POSTER, HERO_VIDEO } from "@/lib/media";
 
 /**
  * Banner de portada: vídeo a sangre de lado a lado con el título, una línea de
@@ -7,16 +8,17 @@ import { getT } from "@/lib/i18n/server";
  * entrar. En móvil es una franja apaisada corta (no ocupa toda la pantalla);
  * en escritorio ocupa casi todo el alto.
  *
- * PARA CAMBIAR EL VÍDEO: súbelo a `public/hero/` y cambia VIDEO. Tiene que ser
- * **apaisado** (16:9, p. ej. 1280x720) porque es el mismo en móvil y
- * escritorio. La mitad izquierda tiene que estar despejada y no ser blanca:
- * ahí van el texto y el botón, y si no, no se leen. Va sin sonido, en bucle y
- * arranca solo (así lo permiten los navegadores en móvil).
+ * PARA CAMBIAR EL VÍDEO: se sube al CDN de Shopify y se cambia la URL en
+ * `lib/media.ts` (ahí están las instrucciones y el motivo de no tenerlo en
+ * public/). Tiene que ser **apaisado** (16:9, p. ej. 1280x720) porque es el
+ * mismo en móvil y escritorio. La mitad izquierda tiene que estar despejada y
+ * no ser blanca: ahí van el texto y el botón, y si no, no se leen. Va sin
+ * sonido, en bucle y arranca solo (así lo permiten los navegadores en móvil).
  *
  * POSTER = imagen fija que se ve mientras carga el vídeo (y si no reproduce).
  */
-const VIDEO = "/hero/videobanner.mp4";
-const POSTER = "/hero/banner-1.jpg";
+const VIDEO = HERO_VIDEO;
+const POSTER = HERO_POSTER;
 
 export default async function PhotoHero({
   video = VIDEO,

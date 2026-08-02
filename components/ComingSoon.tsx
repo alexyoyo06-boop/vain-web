@@ -24,6 +24,7 @@ import {
   type UnlockFormState,
 } from "@/app/actions/early-access";
 import { useT } from "@/lib/i18n/client";
+import { WALL_MEDIA } from "@/lib/media";
 
 // Portada de "cerrado": UN solo vídeo de fondo (los 4 clips ya vienen apilados
 // dentro del propio archivo). Antes eran 4 <video> autoplay a la vez, pero
@@ -33,16 +34,8 @@ import { useT } from "@/lib/i18n/client";
 // ve al instante (y si el autoplay estuviera bloqueado no queda negro).
 //   - móvil: los 4 clips apilados (720×1620)
 //   - escritorio: 2 clips apilados a lo ancho (960×1080)
-const WALL = {
-  mobile: {
-    src: "/coming/wall-mobile.mp4",
-    poster: "/coming/wall-mobile.jpg",
-  },
-  desktop: {
-    src: "/coming/wall-desktop.mp4",
-    poster: "/coming/wall-desktop.jpg",
-  },
-} as const;
+// Los archivos viven en el CDN de Shopify, no en public/ — ver lib/media.ts.
+const WALL = WALL_MEDIA;
 
 export default function ComingSoon() {
   const t = useT();

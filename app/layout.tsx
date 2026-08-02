@@ -9,6 +9,7 @@ import CartToast from "@/components/CartToast";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import LocaleBanner from "@/components/LocaleBanner";
 import RouteMemory from "@/components/RouteMemory";
+import ResourceHints from "@/components/ResourceHints";
 import OnlineBeacon from "@/components/OnlineBeacon";
 import { getT } from "@/lib/i18n/server";
 import { LocaleProvider } from "@/lib/i18n/client";
@@ -123,6 +124,9 @@ export default async function RootLayout({
         }`}
       >
         <LocaleProvider locale={locale} dict={t}>
+          {/* Abre la conexión con el CDN de Shopify (vídeo del banner y fotos
+              de producto) antes de que se necesite. No pinta nada. */}
+          <ResourceHints />
           <RouteMemory />
           {/* Latido de presencia: alimenta el contador de "gente online" del
               panel de admin. No pinta nada. */}
