@@ -94,8 +94,8 @@ export default function AdminPanel({
         </h2>
         <p className="text-sm text-ink-soft mb-5">
           {comingSoonMode
-            ? "Ahora mismo solo pueden entrar visitantes con la contraseña. Pulsa para reabrir el acceso público."
-            : "Ahora mismo todo el mundo puede entrar. Pulsa para cerrar la web (solo con contraseña)."}
+            ? "Ahora mismo solo pueden entrar visitantes con la contraseña. Pulsa para reabrir el acceso público (tarda menos de 1 min en aplicarse)."
+            : "Ahora mismo todo el mundo puede entrar. Pulsa para cerrar la web (solo con contraseña). Tarda hasta 15 min en aplicarse a todos los visitantes."}
         </p>
         <form action={toggleAction}>
           <input

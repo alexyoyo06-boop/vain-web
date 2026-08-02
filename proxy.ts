@@ -34,16 +34,44 @@ function isSocialCrawler(request: NextRequest): boolean {
   return SOCIAL_CRAWLER_RE.test(ua);
 }
 
+// Caché en memoria del flag de coming soon.
+//
+// Sin esto, CADA visita de alguien sin cookie de acceso es una lectura de Edge
+// Config ("Global Config Reads": 50.000/mes gratis). Con el tráfico real de la
+// web eso se come la cuota — Vercel avisó al 75% el 1 ago 2026 — y al 100% el
+// proyecto se pausa, o sea la tienda cae. El flag sólo cambia cuando alguien
+// le da al botón en /admin, así que no hace falta preguntarlo por visita.
+//
+// TTL asimétrico a propósito:
+//   - ABIERTA: 15 min. Es el estado normal y el que se lleva todo el tráfico,
+//     así que aquí está el ahorro. Coste: cerrar la web tarda hasta 15 min en
+//     aplicarse en todas las instancias.
+//   - CERRADA: 30 s. Con la web cerrada hay poco tráfico (pocas lecturas
+//     igualmente) y lo que urge es que al abrir se note ya.
+const OPEN_TTL_MS = 15 * 60_000;
+const CLOSED_TTL_MS = 30_000;
+
+let modeCache: { value: boolean; expiresAt: number } | null = null;
+
 async function isClosed(): Promise<boolean> {
   const envFallback =
     (process.env.EARLY_ACCESS_MODE ?? "off").toLowerCase() === "on";
 
   if (!process.env.EDGE_CONFIG) return envFallback;
 
+  const now = Date.now();
+  if (modeCache && now < modeCache.expiresAt) return modeCache.value;
+
   try {
-    const mode = await get<boolean>("comingSoonMode");
-    return mode ?? envFallback;
+    const value = (await get<boolean>("comingSoonMode")) ?? envFallback;
+    modeCache = {
+      value,
+      expiresAt: now + (value ? CLOSED_TTL_MS : OPEN_TTL_MS),
+    };
+    return value;
   } catch {
+    // Edge Config caído o cuota agotada: seguimos con el valor de env var y no
+    // cacheamos, para reintentar en la siguiente request.
     return envFallback;
   }
 }
