@@ -127,6 +127,28 @@ const nextConfig: NextConfig = {
         destination: `https://${SHOPIFY_DOMAIN}/a/:path*`,
         permanent: false,
       },
+      // Más rutas que sirve Shopify desde el dominio principal y que aquí eran
+      // 404. Salieron de Vercel Analytics (visitas reales de clientes, 31 días):
+      //   /o/{hash}/a/{token}  → enlace CORTO de las notificaciones. Es el que
+      //     va en el SMS de confirmación/envío (el del número de seguimiento).
+      //     En Shopify hace 302 a account.v4in.com/orders/{hash}/authenticate.
+      //     Sin esta regla, quien compra dejando solo el móvil pincha el SMS y
+      //     se come un 404 en vez de ver su pedido.
+      //   /customer_authentication/*  → login de la cuenta de cliente (redirect,
+      //     sso_hint). Era el 404 más visitado de todos.
+      //   /customer_identity/*        → logout de esa misma cuenta.
+      //   /payment_providers/*        → vuelta del proveedor de pago tras pagar
+      //     (visto con Klarna vía Stripe). 404 aquí = pago que parece fallido.
+      //   /wallets/*, /gift_cards/*   → Shop Pay y tarjetas regalo, mismo caso.
+      // Ninguna choca con rutas nuestras. Las variantes con idioma delante
+      // (/en/o/…) las resuelve el proxy, que quita el prefijo y vuelve a pasar
+      // por aquí.
+      {
+        source:
+          "/:shopifyRoute(o|customer_authentication|customer_identity|payment_providers|wallets|gift_cards)/:path*",
+        destination: `https://${SHOPIFY_DOMAIN}/:shopifyRoute/:path*`,
+        permanent: false,
+      },
       // Cuenta de cliente Shopify (subdominio nuevo account.v4in.com; incl.
       // autoservicio de devolución/desistimiento). Atajo por si algo enlaza a /account.
       {
