@@ -2,8 +2,9 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { ArrowRight, Check, KeyRound, X } from "lucide-react";
+import AutoVideo from "./AutoVideo";
 import LangSwitcher from "./LangSwitcher";
 // ── LOGO (guardado para cuando volvamos a cerrar la web) ───────────────────
 // El logo 3D se ha quitado a propósito: ahora la portada de "cerrado" son los
@@ -62,52 +63,16 @@ export default function ComingSoon() {
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  // Arranque robusto del vídeo de fondo. iOS solo hace autoplay si el elemento
-  // tiene la PROPIEDAD muted puesta (no basta el atributo), así que la forzamos.
-  // Reintenta al poder reproducir, al primer toque/click (por si el autoplay
-  // está bloqueado) y al volver de segundo plano.
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = true;
-    const tryPlay = () => {
-      v.play().catch(() => {});
-    };
-    tryPlay();
-    v.addEventListener("canplay", tryPlay);
-    const kick = () => tryPlay();
-    document.addEventListener("touchstart", kick, { once: true, passive: true });
-    document.addEventListener("click", kick, { once: true });
-    const onVis = () => {
-      if (!document.hidden) tryPlay();
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => {
-      v.removeEventListener("canplay", tryPlay);
-      document.removeEventListener("touchstart", kick);
-      document.removeEventListener("click", kick);
-      document.removeEventListener("visibilitychange", onVis);
-    };
-  }, [variant]);
-
   return (
     <main className="relative min-h-[100dvh] overflow-hidden bg-ink text-bone flex flex-col">
       {/* Muro de vídeo: un único archivo con los clips ya apilados dentro
           (móvil: 4 · escritorio: 2). object-cover para llenar sin franjas
           negras. El póster cubre el instante de carga (nunca queda en negro). */}
       <div className="absolute inset-0 z-0">
-        <video
+        <AutoVideo
           key={variant}
-          ref={videoRef}
           src={WALL[variant].src}
           poster={WALL[variant].poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden
           className="w-full h-full object-cover"
         />
       </div>

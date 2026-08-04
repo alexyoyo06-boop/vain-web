@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AutoVideo from "@/components/AutoVideo";
 import { getT } from "@/lib/i18n/server";
 import { HERO_POSTER, HERO_VIDEO } from "@/lib/media";
 
@@ -16,6 +17,8 @@ import { HERO_POSTER, HERO_VIDEO } from "@/lib/media";
  * sonido, en bucle y arranca solo (así lo permiten los navegadores en móvil).
  *
  * POSTER = imagen fija que se ve mientras carga el vídeo (y si no reproduce).
+ * El arranque lo lleva AutoVideo, que reintenta cuando el navegador de dentro
+ * de TikTok o Instagram bloquea el autoplay (si no, se quedaba en el póster).
  */
 const VIDEO = HERO_VIDEO;
 const POSTER = HERO_POSTER;
@@ -34,15 +37,9 @@ export default async function PhotoHero({
     // 100 en escritorio) para que la barra flote encima y se funda con él.
     // Si cambia el alto de la barra en Nav.tsx, hay que cambiarlo aquí.
     <section className="relative w-full -mt-[84px] md:-mt-[100px] h-[calc(56.25vw+84px)] md:h-[80svh] md:min-h-[560px] overflow-hidden bg-ink">
-      <video
+      <AutoVideo
         src={video}
         poster={poster}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden
         className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
       />
 
