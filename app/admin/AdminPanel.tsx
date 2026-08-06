@@ -6,7 +6,6 @@ import { Check, LogOut, Lock, AlertTriangle, Eye } from "lucide-react";
 import {
   adminLogoutAction,
   previewSiteAction,
-  setComingSoonAction,
   setEarlyAccessPasswordAction,
   type AdminActionState,
 } from "@/app/actions/admin";
@@ -24,11 +23,6 @@ export default function AdminPanel({
   source,
   writesReady,
 }: Props) {
-  const [toggleState, toggleAction, togglePending] = useActionState<
-    AdminActionState,
-    FormData
-  >(setComingSoonAction, null);
-
   const [passwordState, passwordAction, passwordPending] = useActionState<
     AdminActionState,
     FormData
@@ -81,60 +75,29 @@ export default function AdminPanel({
         </section>
       )}
 
-      {/* Toggle cerrar / abrir */}
+      {/* Antes había aquí un botón de abrir/cerrar la web. Se quitó el 6 ago
+          2026: para saber si estaba cerrada había que preguntárselo a Edge
+          Config en cada visita, y eso agotó la cuota gratis (al pasarse,
+          Vercel pausa el proyecto entero y la tienda se cae). */}
       <section className="rounded-3xl bg-bone-dim/60 p-6 md:p-8">
         <p className="text-xs uppercase tracking-widest text-ink-soft mb-2">
           Modo coming soon
         </p>
         <h2
-          className="font-display uppercase tracking-tighter leading-none mb-5"
+          className="font-display uppercase tracking-tighter leading-none mb-3"
           style={{ fontSize: "clamp(1.25rem, 4vw, 1.75rem)" }}
         >
-          {comingSoonMode ? "Abrir la web" : "Cerrar la web"}
+          {comingSoonMode ? "Cerrar la web" : "Abrir y cerrar la web"}
         </h2>
-        <p className="text-sm text-ink-soft mb-5">
-          {comingSoonMode
-            ? "Ahora mismo solo pueden entrar visitantes con la contraseña. Pulsa para reabrir el acceso público (tarda menos de 1 min en aplicarse)."
-            : "Ahora mismo todo el mundo puede entrar. Pulsa para cerrar la web (solo con contraseña). Tarda hasta 15 min en aplicarse a todos los visitantes."}
+        <p className="text-sm text-ink-soft">
+          El botón ya no está aquí: preguntar en cada visita si la web estaba
+          cerrada se comía la cuota gratis de Vercel, y al agotarse la tienda se
+          apaga. Ahora se cambia la variable{" "}
+          <code className="font-mono">EARLY_ACCESS_MODE</code> (
+          <span className="font-mono">on</span> = cerrada,{" "}
+          <span className="font-mono">off</span> = abierta) en Vercel y se
+          redespliega. Son 2 minutos — díselo a Alex y lo hace.
         </p>
-        <form action={toggleAction}>
-          <input
-            type="hidden"
-            name="value"
-            value={comingSoonMode ? "false" : "true"}
-          />
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            whileHover={{ scale: 1.01 }}
-            type="submit"
-            disabled={togglePending}
-            className={`w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full text-base disabled:opacity-60 ${
-              comingSoonMode
-                ? "bg-emerald-600 text-white"
-                : "bg-ink text-bone"
-            }`}
-          >
-            {togglePending
-              ? "Aplicando…"
-              : comingSoonMode
-                ? "Abrir web"
-                : "Cerrar web"}
-          </motion.button>
-        </form>
-        {toggleState && (
-          <p
-            className={`mt-3 text-sm text-center ${toggleState.ok ? "text-ink-soft" : "text-blood"}`}
-          >
-            {toggleState.ok ? (
-              <span className="inline-flex items-center gap-1.5 justify-center">
-                <Check className="size-4" strokeWidth={2.25} />
-                {toggleState.message}
-              </span>
-            ) : (
-              toggleState.message
-            )}
-          </p>
-        )}
       </section>
 
       {/* Previsualizar la web */}

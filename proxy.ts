@@ -10,7 +10,6 @@
 //      así que el primer render ya sale en el idioma correcto.
 
 import { NextResponse, type NextRequest } from "next/server";
-import { get } from "@vercel/edge-config";
 import { LOCALE_COOKIE, isLocale, pickLocale } from "@/lib/i18n/config";
 
 const LOCALE_COOKIE_OPTS = {
@@ -34,46 +33,23 @@ function isSocialCrawler(request: NextRequest): boolean {
   return SOCIAL_CRAWLER_RE.test(ua);
 }
 
-// Caché en memoria del flag de coming soon.
+// El flag de coming soon sale de una env var. CERO lecturas de red.
 //
-// Sin esto, CADA visita de alguien sin cookie de acceso es una lectura de Edge
-// Config ("Global Config Reads": 50.000/mes gratis). Con el tráfico real de la
-// web eso se come la cuota — Vercel avisó al 75% el 1 ago 2026 — y al 100% el
-// proyecto se pausa, o sea la tienda cae. El flag sólo cambia cuando alguien
-// le da al botón en /admin, así que no hace falta preguntarlo por visita.
+// Historia, para que no se repita: esto leía "comingSoonMode" de Edge Config en
+// cada visita (1 visita = 1 "Global Config Read"; el plan gratis da 50.000/mes
+// y al pasarse Vercel PAUSA el proyecto, o sea la tienda cae). El 2 ago 2026 se
+// metió una caché en memoria con TTL de 15 min, y aun así el 6 ago se llegó al
+// 100% de la cuota. Motivo: la caché vive dentro del isolate que atiende la
+// request, y los isolates del proxy son efímeros y hay muchos a la vez (varias
+// regiones, arranques en frío). Con tráfico repartido, casi cada visita cae en
+// un isolate nuevo con la caché vacía → volvía a leer. Una caché en memoria NO
+// arregla una cuota en un runtime así.
 //
-// TTL asimétrico a propósito:
-//   - ABIERTA: 15 min. Es el estado normal y el que se lleva todo el tráfico,
-//     así que aquí está el ahorro. Coste: cerrar la web tarda hasta 15 min en
-//     aplicarse en todas las instancias.
-//   - CERRADA: 30 s. Con la web cerrada hay poco tráfico (pocas lecturas
-//     igualmente) y lo que urge es que al abrir se note ya.
-const OPEN_TTL_MS = 15 * 60_000;
-const CLOSED_TTL_MS = 30_000;
-
-let modeCache: { value: boolean; expiresAt: number } | null = null;
-
-async function isClosed(): Promise<boolean> {
-  const envFallback =
-    (process.env.EARLY_ACCESS_MODE ?? "off").toLowerCase() === "on";
-
-  if (!process.env.EDGE_CONFIG) return envFallback;
-
-  const now = Date.now();
-  if (modeCache && now < modeCache.expiresAt) return modeCache.value;
-
-  try {
-    const value = (await get<boolean>("comingSoonMode")) ?? envFallback;
-    modeCache = {
-      value,
-      expiresAt: now + (value ? CLOSED_TTL_MS : OPEN_TTL_MS),
-    };
-    return value;
-  } catch {
-    // Edge Config caído o cuota agotada: seguimos con el valor de env var y no
-    // cacheamos, para reintentar en la siguiente request.
-    return envFallback;
-  }
+// Coste de esto: cerrar la web ya no es un botón en /admin — hay que cambiar
+// EARLY_ACCESS_MODE a "on" en Vercel y redesplegar (~2 min). Se cierra la web
+// una vez cada varios meses; la cuota se gasta cada día.
+function isClosed(): boolean {
+  return (process.env.EARLY_ACCESS_MODE ?? "off").toLowerCase() === "on";
 }
 
 function ensureLocaleCookie(
@@ -156,7 +132,7 @@ export async function proxy(request: NextRequest) {
     return res;
   }
 
-  if (!(await isClosed())) {
+  if (!isClosed()) {
     const res = NextResponse.next();
     ensureLocaleCookie(request, res);
     return res;

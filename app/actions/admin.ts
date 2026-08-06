@@ -11,10 +11,7 @@ import {
 } from "@/lib/admin-auth";
 import { EARLY_ACCESS_COOKIE } from "@/lib/early-access";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import {
-  setComingSoonMode,
-  setEarlyAccessPassword,
-} from "@/lib/site-state";
+import { setEarlyAccessPassword } from "@/lib/site-state";
 
 export type AdminLoginState = { error: string } | null;
 
@@ -106,25 +103,9 @@ export type AdminActionState = {
   message: string;
 } | null;
 
-export async function setComingSoonAction(
-  _prev: AdminActionState,
-  fd: FormData,
-): Promise<AdminActionState> {
-  if (!(await isAdmin())) {
-    return { ok: false, message: "No autorizado." };
-  }
-  const value = String(fd.get("value") ?? "") === "true";
-  const result = await setComingSoonMode(value);
-  if (!result.ok) {
-    return { ok: false, message: result.error };
-  }
-  return {
-    ok: true,
-    message: value
-      ? "Web cerrada. Solo se entra con contraseña."
-      : "Web abierta. Acceso libre.",
-  };
-}
+// El botón de abrir/cerrar la web se quitó del panel (6 ago 2026): preguntar
+// el flag por visita agotaba la cuota gratis de Edge Config y Vercel pausa el
+// proyecto al pasarse. Ahora se hace con la env var EARLY_ACCESS_MODE.
 
 export async function setEarlyAccessPasswordAction(
   _prev: AdminActionState,

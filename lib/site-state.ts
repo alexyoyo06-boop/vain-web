@@ -28,35 +28,34 @@ export type SiteState = {
   source: "edge-config" | "env";
 };
 
+/**
+ * Abierta/cerrada sale SIEMPRE de la env var, nunca de Edge Config: el proxy
+ * decide con esta misma variable (ver proxy.ts) y el panel tiene que enseñar
+ * lo que de verdad está pasando, no otra fuente que podría no coincidir.
+ */
+export function isComingSoonMode(): boolean {
+  return (process.env.EARLY_ACCESS_MODE ?? "off").toLowerCase() === "on";
+}
+
 export async function getSiteState(): Promise<SiteState> {
-  const envMode =
-    (process.env.EARLY_ACCESS_MODE ?? "off").toLowerCase() === "on";
   const envPassword = process.env.EARLY_ACCESS_PASSWORD ?? "";
+  const comingSoonMode = isComingSoonMode();
 
   if (!EDGE_CONFIG_READY) {
-    return {
-      comingSoonMode: envMode,
-      earlyAccessPassword: envPassword,
-      source: "env",
-    };
+    return { comingSoonMode, earlyAccessPassword: envPassword, source: "env" };
   }
 
+  // Sólo la password. Esto se lee al canjearla en el muro y al abrir /admin:
+  // decenas de lecturas al mes, no decenas de miles.
   try {
-    const [mode, password] = await Promise.all([
-      get<boolean>("comingSoonMode"),
-      get<string>("earlyAccessPassword"),
-    ]);
+    const password = await get<string>("earlyAccessPassword");
     return {
-      comingSoonMode: mode ?? envMode,
+      comingSoonMode,
       earlyAccessPassword: password ?? envPassword,
       source: "edge-config",
     };
   } catch {
-    return {
-      comingSoonMode: envMode,
-      earlyAccessPassword: envPassword,
-      source: "env",
-    };
+    return { comingSoonMode, earlyAccessPassword: envPassword, source: "env" };
   }
 }
 
@@ -107,11 +106,9 @@ async function patchEdgeConfig(items: ItemOp[]): Promise<WriteResult> {
   }
 }
 
-export async function setComingSoonMode(value: boolean): Promise<WriteResult> {
-  return patchEdgeConfig([
-    { operation: "upsert", key: "comingSoonMode", value },
-  ]);
-}
+// Ya no hay setComingSoonMode(): abrir/cerrar la web se hace cambiando la env
+// var EARLY_ACCESS_MODE en Vercel + redeploy. Escribir el flag aquí no serviría
+// de nada, porque el proxy ya no lo lee (ver el comentario largo en proxy.ts).
 
 export async function setEarlyAccessPassword(
   value: string,
