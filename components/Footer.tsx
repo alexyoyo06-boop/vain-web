@@ -20,6 +20,20 @@ function TikTokIcon() {
   );
 }
 
+/**
+ * Todos los enlaces internos van con `prefetch={false}`.
+ *
+ * Por defecto Next precarga cada <Link> en cuanto entra en pantalla, y estas
+ * rutas se renderizan en el servidor: precargarlas es una invocación de función
+ * cada una. Como el footer va en TODAS las páginas, bajar hasta abajo disparaba
+ * ~20 peticiones al servidor de páginas que el visitante no ha abierto — por
+ * eso /policies/legal-notice salía en Vercel con tantas invocaciones como la
+ * home. Y se paga en Active CPU (4 h/mes en el plan gratis).
+ *
+ * A cambio no se pierde nada: nadie espera que el aviso legal se abra al
+ * instante. Los enlaces del menú de Nav sí conservan el prefetch — ahí el
+ * visitante está a punto de navegar de verdad.
+ */
 export default function Footer() {
   const t = useT();
   return (
@@ -27,9 +41,9 @@ export default function Footer() {
       <div className="flex flex-col items-center gap-6 px-6 py-10 md:py-12 max-w-3xl mx-auto text-center">
         {/* Tienda */}
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
-          <Link href="/nuevo-drop" className="hover:text-bone text-bone/80 transition-colors">{t.nav.newDrop}</Link>
-          <Link href="/todo" className="hover:text-bone text-bone/80 transition-colors">{t.nav.all}</Link>
-          <Link href="/archivo" className="hover:text-bone text-bone/80 transition-colors">{t.nav.archive}</Link>
+          <Link href="/nuevo-drop" prefetch={false} className="hover:text-bone text-bone/80 transition-colors">{t.nav.newDrop}</Link>
+          <Link href="/todo" prefetch={false} className="hover:text-bone text-bone/80 transition-colors">{t.nav.all}</Link>
+          <Link href="/archivo" prefetch={false} className="hover:text-bone text-bone/80 transition-colors">{t.nav.archive}</Link>
         </nav>
 
         {/* Social — logos centrados */}
@@ -56,13 +70,13 @@ export default function Footer() {
 
         {/* Legal */}
         <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs text-bone/50">
-          <Link href="/policies/privacy-policy" className="hover:text-bone transition-colors">{t.footer.policyPrivacy}</Link>
-          <Link href="/policies/shipping-policy" className="hover:text-bone transition-colors">{t.footer.policyShipping}</Link>
-          <Link href="/policies/refund-policy" className="hover:text-bone transition-colors">{t.footer.policyRefund}</Link>
-          <Link href="/policies/terms-of-service" className="hover:text-bone transition-colors">{t.footer.policyTerms}</Link>
-          <Link href="/policies/legal-notice" className="hover:text-bone transition-colors">{t.footer.policyLegalNotice}</Link>
-          <Link href="/policies/contact-information" className="hover:text-bone transition-colors">{t.footer.policyContact}</Link>
-          <Link href="/policies/withdrawal" className="hover:text-bone transition-colors">{t.footer.policyWithdrawal}</Link>
+          <Link href="/policies/privacy-policy" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyPrivacy}</Link>
+          <Link href="/policies/shipping-policy" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyShipping}</Link>
+          <Link href="/policies/refund-policy" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyRefund}</Link>
+          <Link href="/policies/terms-of-service" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyTerms}</Link>
+          <Link href="/policies/legal-notice" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyLegalNotice}</Link>
+          <Link href="/policies/contact-information" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyContact}</Link>
+          <Link href="/policies/withdrawal" prefetch={false} className="hover:text-bone transition-colors">{t.footer.policyWithdrawal}</Link>
         </nav>
       </div>
 

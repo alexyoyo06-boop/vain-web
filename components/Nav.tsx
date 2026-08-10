@@ -192,6 +192,13 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
             <motion.div whileTap={{ scale: 0.94 }}>
               <Link
                 href="/cart"
+                // Sin prefetch: este enlace va en la cabecera de TODAS las
+                // páginas, así que entra en pantalla en cada visita y Next lo
+                // precargaba siempre — una invocación de servidor por página
+                // vista, para una ruta que además nunca se puede cachear
+                // (depende del carrito de cada uno). Al carrito se va a
+                // propósito, con un clic; no hace falta adelantarlo.
+                prefetch={false}
                 aria-label={tpl(t.nav.viewCartAria, {
                   count,
                   label: count === 1 ? t.nav.item : t.nav.items,
