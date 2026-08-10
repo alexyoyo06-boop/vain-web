@@ -40,10 +40,15 @@ const jetbrains = JetBrains_Mono({
 
 const siteUrl = getSiteUrl();
 
-// El layout decide si mostrar el LocaleBanner según headers/cookies del
-// request. Forzar dinámico para garantizar que se evalúa por request y no
-// se cachea una versión sin/con banner para todos los visitantes.
-export const dynamic = "force-dynamic";
+// SIN `force-dynamic` a propósito. El layout ya llama a cookies() y headers()
+// (idioma y LocaleBanner), y eso por sí solo obliga a render por request: cada
+// visitante recibe su versión, nunca una cacheada. `force-dynamic` no añadía
+// nada de eso y sí traía un efecto secundario caro: equivale a poner
+// `cache: "no-store"` en TODOS los fetch del árbol, así que anulaba el
+// `revalidate: 60` + tags de lib/shopify/client.ts. Resultado: cada visita
+// volvía a pedir y a mapear el catálogo entero de Shopify, y eso se paga en
+// Active CPU (el plan gratis da 4 h/mes). Con el flag fuera, el catálogo se
+// cachea de verdad y `/api/revalidate` lo sigue invalidando por tag.
 
 // og:locale espera formato idioma_TERRITORIO; cubrimos los 11 idiomas.
 const OG_LOCALE: Record<Locale, string> = {

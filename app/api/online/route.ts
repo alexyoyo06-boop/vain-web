@@ -25,9 +25,9 @@ function country(req: Request): string | undefined {
 export async function POST(req: Request) {
   const ip = await getClientIp();
 
-  // Cada pestaña late 3 veces por minuto. 40/min por IP deja sitio de sobra a
+  // Cada pestaña late una vez por minuto. 15/min por IP deja sitio de sobra a
   // una casa con varios dispositivos y corta el spam al endpoint.
-  if (!checkRateLimit(`online:${ip}`, 40, 60_000).ok) {
+  if (!checkRateLimit(`online:${ip}`, 15, 60_000).ok) {
     return new Response(null, { status: 429 });
   }
 
