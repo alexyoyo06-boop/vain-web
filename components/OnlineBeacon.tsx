@@ -8,11 +8,18 @@ import { useEffect } from "react";
  * que el panel de admin pueda enseñar cuánta gente hay ahora mismo en la web
  * (ver lib/online-presence.ts).
  *
- * Es una petición mínima cada 20 s y solo mientras la pestaña está a la vista:
- * quien deja la web abierta en segundo plano no cuenta ni gasta invocaciones.
+ * Es una petición mínima cada minuto y solo mientras la pestaña está a la
+ * vista: quien deja la web abierta en segundo plano no cuenta ni gasta
+ * invocaciones.
+ *
+ * Antes latía cada 20 s. Bajarlo a uno por minuto es x3 menos invocaciones por
+ * visitante, y cada una no es barata: el POST lee, recorre y reescribe el mapa
+ * entero de presencia (ver lib/online-presence.ts). Con la ventana en 3 min
+ * (ONLINE_WINDOW_MS) al visitante le siguen sobrando dos latidos de margen
+ * antes de desaparecer del contador.
  */
 
-const HEARTBEAT_MS = 20_000;
+const HEARTBEAT_MS = 60_000;
 const STORAGE_KEY = "vain_online_id";
 
 let fallbackId = "";

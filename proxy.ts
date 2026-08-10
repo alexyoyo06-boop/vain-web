@@ -165,7 +165,17 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Todo excepto API, _next, archivos estáticos
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    // Todo excepto API, _next y cualquier archivo con extensión.
+    //
+    // Antes solo se excluían `_next/static` y `_next/image`, así que CADA foto
+    // y CADA vídeo de public/ (que en esta web son muchos) invocaba el proxy
+    // para acabar cayendo en el allowlist de abajo y no hacer nada. Una función
+    // por asset, y esta web sirve varias decenas por página. Excluirlos en el
+    // matcher es gratis: no se ejecuta nada.
+    //
+    // La cookie de idioma no se pierde por esto: las páginas HTML no llevan
+    // extensión, siguen pasando por el proxy y son las que la ponen. Los assets
+    // se piden siempre DESPUÉS del HTML.
+    "/((?!api|_next|.*\\.[a-z0-9]+$).*)",
   ],
 };

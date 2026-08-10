@@ -2,7 +2,6 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import { getLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/dictionary";
 
 export const alt = "VAIN";
@@ -11,10 +10,17 @@ export const size = { width: 1200, height: 630 };
 // Telegram no llegan a cargar previews tan pesadas. En JPEG baja a ~150 KB.
 export const contentType = "image/jpeg";
 
-// La fuente por defecto de satori solo cubre alfabeto latino. Para idiomas con
-// otro script (griego, ruso, árabe) caemos a EN en la imagen para no ver tofu.
-// El texto del <head> (meta og) sí va traducido en cada idioma.
-const LATIN_OG = new Set(["es", "en", "fr", "it", "de", "pt", "nl", "pl"]);
+// Idioma FIJO, sin getLocale(). Igual que en la OG de producto (ver el porqué
+// largo en app/[category]/[slug]/opengraph-image.tsx): quien pide esta imagen
+// es el crawler, que no trae el idioma del visitante, y leer cookies obligaba a
+// rasterizarla en CADA petición — sharp + satori es de lo más caro que corre
+// aquí y se paga en Active CPU. Sin APIs de request, Next la prerenderiza en el
+// build y se sirve cacheada.
+//
+// Tiene que ser de script latino: la fuente por defecto de satori no cubre
+// griego, cirílico ni árabe (saldría tofu). El texto del <head> (meta og) sí
+// va traducido en cada idioma.
+const OG_LOCALE = "en" as const;
 
 // La misma foto del banner de portada: al compartir el enlace se ve lo mismo
 // que al entrar en la web. Si cambias la foto en PhotoHero, cambia esta.
@@ -63,8 +69,7 @@ async function whiteLogoDataUrl(height: number) {
 }
 
 export default async function Image() {
-  const locale = await getLocale();
-  const t = await getDictionary(LATIN_OG.has(locale) ? locale : "en");
+  const t = await getDictionary(OG_LOCALE);
   const [photo, logo] = await Promise.all([
     bannerDataUrl(),
     whiteLogoDataUrl(64),

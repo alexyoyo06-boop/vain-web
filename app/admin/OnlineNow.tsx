@@ -1,54 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useLiveData } from "./live-store";
 
 /**
  * "Hay N personas ahora mismo en la web", con el punto verde latiendo como en
- * el panel de Vercel. El número lo sirve /api/online (solo admin) y se refresca
- * cada 10 s mientras el panel esté a la vista.
+ * el panel de Vercel. El número sale del poller compartido del panel (ver
+ * live-store.ts), que pide /api/online una vez cada 30 s para todo el panel.
  *
  * El valor inicial llega ya renderizado desde el servidor: nada de guiones ni
- * saltos al abrir el panel.
+ * saltos al abrir el panel. En cuanto entra la primera respuesta manda esa.
  */
 
-const REFRESH_MS = 10_000;
 const NUM = new Intl.NumberFormat("es-ES");
 
 export default function OnlineNow({ initial }: { initial: number }) {
-  const [online, setOnline] = useState(initial);
-  const [lost, setLost] = useState(false);
-
-  const load = useCallback(async () => {
-    if (document.visibilityState !== "visible") return;
-    try {
-      const res = await fetch("/api/online", { cache: "no-store" });
-      if (!res.ok) throw new Error(String(res.status));
-      const data: unknown = await res.json();
-      const value =
-        data && typeof data === "object" && "online" in data
-          ? (data as { online: unknown }).online
-          : null;
-      if (typeof value !== "number") throw new Error("respuesta rara");
-      setOnline(value);
-      setLost(false);
-    } catch {
-      // Sin conexión (o sesión caducada): se congela el último número y el
-      // punto se apaga, para no enseñar un dato que ya no es de ahora.
-      setLost(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    // También al montar: el valor que trae el servidor es solo para que el
-    // hueco no salga vacío. El bueno es siempre el de la API.
-    void load();
-    const timer = setInterval(load, REFRESH_MS);
-    document.addEventListener("visibilitychange", load);
-    return () => {
-      clearInterval(timer);
-      document.removeEventListener("visibilitychange", load);
-    };
-  }, [load]);
+  const { data, lost, loaded } = useLiveData();
+  // Sin conexión (o sesión caducada): se congela el último número y el punto
+  // se apaga, para no enseñar un dato que ya no es de ahora.
+  const online = loaded ? data.online : initial;
 
   const live = !lost && online > 0;
 

@@ -18,15 +18,15 @@ import { getCache } from "@vercel/functions";
  * Map en memoria del proceso: sigue funcionando, solo que puede quedarse corto.
  *
  * Nadie identificable queda guardado: la clave es hash(IP) + un id aleatorio de
- * la pestaña, y todo caduca en un minuto.
+ * la pestaña, y todo caduca en unos minutos.
  */
 
-/** Se considera "online" a quien ha dado señales en el último minuto. */
-export const ONLINE_WINDOW_MS = 60_000;
+/** Se considera "online" a quien ha dado señales en los últimos 3 minutos. */
+export const ONLINE_WINDOW_MS = 180_000;
 
 /** Cada cuánto late el navegador. Bastante menor que la ventana: si un latido
  *  se pierde, al visitante le quedan dos más antes de desaparecer del contador. */
-export const HEARTBEAT_MS = 20_000;
+export const HEARTBEAT_MS = 60_000;
 
 const CACHE_KEY = "online-visitors";
 /** TTL holgado: la ventana real la marca ONLINE_WINDOW_MS al contar. */

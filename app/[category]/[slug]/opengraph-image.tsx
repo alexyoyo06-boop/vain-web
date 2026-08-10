@@ -4,16 +4,31 @@ import path from "node:path";
 import sharp from "sharp";
 import { formatPrice } from "@/lib/products";
 import { getAvailableProducts, getProduct } from "@/lib/products-server";
-import { getLocale } from "@/lib/i18n/server";
 import { getDictionary } from "@/lib/i18n/dictionary";
 
 export const alt = "VAIN — DRESS THE NOISE";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Script latino: la fuente de satori solo cubre latín. Para otros (el/ru/ar)
-// caemos a EN en la imagen para evitar tofu.
-const LATIN_OG = new Set(["es", "en", "fr", "it", "de", "pt", "nl", "pl"]);
+// Idioma FIJO, sin getLocale(). Dos motivos:
+//
+//   1) Quien pide esta imagen es el crawler de WhatsApp/X/Discord, no la
+//      persona: no manda la cookie de idioma ni un accept-language suyo, así
+//      que getLocale() acababa resolviendo por la IP del bot (casi siempre EE.
+//      UU. → inglés). Traducir por el idioma del bot no traducía nada útil.
+//   2) Leer cookies es una API de request: obligaba a rasterizar la imagen en
+//      CADA petición. Y esto no es barato — sharp decodifica, redimensiona y
+//      re-codifica, y encima satori pinta 1200x630. Es de lo más caro que corre
+//      en esta web, y se paga en Active CPU (4 h/mes en el plan gratis).
+//      Sin APIs de request, Next la prerenderiza en el build (una por producto,
+//      vía generateStaticParams) y a partir de ahí se sirve desde caché: cero
+//      CPU por cada vez que alguien comparte el enlace.
+//
+// El texto traducido de verdad (og:title, og:description) sí sigue saliendo en
+// el idioma del visitante — eso va en el <head>, que se renderiza por request.
+// Nota: la fuente por defecto de satori solo cubre alfabeto latino, así que
+// este idioma tiene que ser de script latino.
+const OG_LOCALE = "en" as const;
 
 export async function generateStaticParams() {
   const products = await getAvailableProducts();
@@ -68,8 +83,7 @@ export default async function Image({
     return new ImageResponse(<div>Not found</div>, size);
   }
 
-  const locale = await getLocale();
-  const t = await getDictionary(LATIN_OG.has(locale) ? locale : "en");
+  const t = await getDictionary(OG_LOCALE);
 
   // Las fotos de Shopify son URLs absolutas (CDN). Si es absoluto, fetch;
   // si es relativo (asset local legacy), leemos de disk.

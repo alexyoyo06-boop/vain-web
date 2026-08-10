@@ -1,10 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Globe2 } from "lucide-react";
 import GlobeErrorBoundary from "./GlobeErrorBoundary";
-import { EMPTY, parseGlobeData, type GlobeData, type GlobePoint } from "./globe-data";
+import { useLiveData } from "./live-store";
+import { type GlobePoint } from "./globe-data";
 
 /**
  * De dónde vienen los pedidos, sobre un globo que gira — la idea es la misma
@@ -26,8 +27,6 @@ const GlobeCanvas = dynamic(() => import("./GlobeCanvas"), {
   loading: () => <div className="w-full aspect-square" />,
 });
 
-const REFRESH_MS = 10_000;
-const FRESH_MS = 5 * 60_000;
 const NUM = new Intl.NumberFormat("es-ES");
 const REGION = new Intl.DisplayNames(["es"], { type: "region" });
 
@@ -50,37 +49,11 @@ function rankOrders(orders: GlobePoint[]): { code: string; n: number }[] {
 }
 
 export default function AdminGlobe({ initialOnline }: { initialOnline: number }) {
-  const [data, setData] = useState<GlobeData>({ ...EMPTY, online: initialOnline });
-  const [lost, setLost] = useState(false);
-  // Cuántos pedidos son de hace nada. Se calcula al recibir los datos y no al
-  // pintar: mirar el reloj durante el render no es puro (y lo canta el linter).
-  const [fresh, setFresh] = useState(0);
-
-  const load = useCallback(async () => {
-    if (document.visibilityState !== "visible") return;
-    try {
-      const res = await fetch("/api/online", { cache: "no-store" });
-      if (!res.ok) throw new Error(String(res.status));
-      const parsed = parseGlobeData(await res.json());
-      const now = Date.now();
-      setData(parsed);
-      setFresh(parsed.orders.filter((o) => now - o.t < FRESH_MS).length);
-      setLost(false);
-    } catch {
-      // Sesión caducada o red caída: se congela lo último que se supo.
-      setLost(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    void load();
-    const timer = setInterval(load, REFRESH_MS);
-    document.addEventListener("visibilitychange", load);
-    return () => {
-      clearInterval(timer);
-      document.removeEventListener("visibilitychange", load);
-    };
-  }, [load]);
+  // Datos del poller compartido del panel (ver live-store.ts). Si la petición
+  // falla, `lost` avisa y se queda congelado lo último que se supo.
+  const { data, fresh, lost, loaded } = useLiveData();
+  // Hasta que llega la primera respuesta manda el número que pintó el servidor.
+  const online = loaded ? data.online : initialOnline;
 
   const ranking = useMemo(() => rankOrders(data.orders), [data.orders]);
 
@@ -139,7 +112,7 @@ export default function AdminGlobe({ initialOnline }: { initialOnline: number })
         <div className="inline-flex items-center gap-2">
           <span className="size-2.5 rounded-full bg-ink" aria-hidden />
           <dt className="text-ink-soft">Ahora en la web</dt>
-          <dd className="tabular-nums font-semibold">{NUM.format(data.online)}</dd>
+          <dd className="tabular-nums font-semibold">{NUM.format(online)}</dd>
         </div>
         <div className="inline-flex items-center gap-2">
           <span className="size-2.5 rounded-full bg-online" aria-hidden />
