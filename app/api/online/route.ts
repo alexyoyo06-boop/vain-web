@@ -9,7 +9,12 @@
 import { isAdmin } from "@/lib/admin-auth";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { getOnlineSnapshot, hashIp, recordPresence } from "@/lib/online-presence";
-import { getOrderPings, type OrderPing } from "@/lib/orders-geo";
+import { getOrderStats } from "@/lib/orders-geo";
+import {
+  DEFAULT_ORDER_RANGE,
+  isOrderRange,
+  orderRangeCutoff,
+} from "@/lib/order-ranges";
 
 /** El id lo genera el navegador con crypto.randomUUID() sin guiones. */
 const ID_RE = /^[a-f0-9]{32}$/;
@@ -47,29 +52,19 @@ export async function POST(req: Request) {
   return new Response(null, { status: 204 });
 }
 
-// Los pedidos van a un blob y cambian a lo sumo unas decenas de veces al día,
-// pero el globo pregunta cada 10 s. Con esta caché en memoria el almacén se
-// consulta un tercio de las veces, sin que un pedido tarde en aparecer más de
-// lo que uno aguanta mirando el globo (esto es una vista "en vivo").
-const ORDERS_TTL_MS = 20_000;
-let ordersCache: { at: number; pings: OrderPing[] } | null = null;
-
-async function cachedOrders(): Promise<OrderPing[]> {
-  const now = Date.now();
-  if (ordersCache && now - ordersCache.at < ORDERS_TTL_MS) {
-    return ordersCache.pings;
-  }
-  const pings = await getOrderPings(30);
-  ordersCache = { at: now, pings };
-  return pings;
-}
-
-export async function GET() {
+// El rango de fechas llega por query (?rango=hoy|7d|30d|90d|anio|todo). La
+// caché de los pedidos vive en lib/orders-geo: allí se barre el store UNA vez
+// y se filtra en memoria, así que cambiar de rango en el panel no dispara otro
+// barrido.
+export async function GET(req: Request) {
   if (!(await isAdmin())) return new Response(null, { status: 401 });
 
-  const [presence, orders] = await Promise.all([
+  const raw = new URL(req.url).searchParams.get("rango") ?? "";
+  const range = isOrderRange(raw) ? raw : DEFAULT_ORDER_RANGE;
+
+  const [presence, stats] = await Promise.all([
     getOnlineSnapshot(),
-    cachedOrders(),
+    getOrderStats(orderRangeCutoff(range)),
   ]);
 
   return Response.json(
@@ -77,7 +72,14 @@ export async function GET() {
       online: presence.online,
       // ISO-2 → pestañas abiertas ahora mismo desde ese país.
       visitors: presence.countries,
-      orders,
+      // Puntos ya agrupados por ciudad; `weight` dice cuántos pedidos hay.
+      orders: stats.points,
+      range,
+      // Pedidos reales del rango, sin agrupar ni recortar.
+      ordersTotal: stats.total,
+      ordersByCountry: stats.byCountry,
+      // Desde cuándo hay datos guardados, para avisar en el panel.
+      ordersSince: stats.since,
     },
     { headers: { "cache-control": "no-store" } },
   );
