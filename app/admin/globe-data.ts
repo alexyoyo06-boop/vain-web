@@ -20,10 +20,25 @@ export type GlobePoint = {
 export type GlobeData = {
   online: number;
   visitors: GlobePoint[];
+  /** Puntos de pedidos YA AGRUPADOS por ciudad: `weight` es cuántos hay. */
   orders: GlobePoint[];
+  /** Pedidos reales del rango. No es `orders.length`: eso son sitios, no
+   *  pedidos, y además viene recortado si hay demasiados puntos distintos. */
+  ordersTotal: number;
+  /** Ranking por país con todos los pedidos contados, no solo los pintados. */
+  ordersByCountry: { code: string; n: number }[];
+  /** Epoch del pedido más antiguo guardado, o null si no hay ninguno. */
+  ordersSince: number | null;
 };
 
-export const EMPTY: GlobeData = { online: 0, visitors: [], orders: [] };
+export const EMPTY: GlobeData = {
+  online: 0,
+  visitors: [],
+  orders: [],
+  ordersTotal: 0,
+  ordersByCountry: [],
+  ordersSince: null,
+};
 
 /**
  * La respuesta de la API es JSON sin tipar: se valida campo a campo. Cualquier
@@ -60,9 +75,33 @@ export function parseGlobeData(raw: unknown): GlobeData {
       ) {
         continue;
       }
-      orders.push({ code: o.code, lat: o.lat, lng: o.lng, weight: 1, t: o.t });
+      // `weight` es nuevo: un punto puede valer por varios pedidos de la misma
+      // ciudad. Si no viene (respuesta de una versión anterior servida desde
+      // una pestaña vieja), vale 1 y el globo se ve igual que antes.
+      const weight =
+        typeof o.weight === "number" && o.weight >= 1 ? Math.floor(o.weight) : 1;
+      orders.push({ code: o.code, lat: o.lat, lng: o.lng, weight, t: o.t });
     }
   }
 
-  return { online, visitors, orders };
+  const ordersByCountry: { code: string; n: number }[] = [];
+  if (Array.isArray(body.ordersByCountry)) {
+    for (const item of body.ordersByCountry) {
+      if (!item || typeof item !== "object") continue;
+      const r = item as Record<string, unknown>;
+      if (typeof r.code !== "string" || typeof r.n !== "number") continue;
+      ordersByCountry.push({ code: r.code, n: r.n });
+    }
+  }
+
+  const ordersTotal =
+    typeof body.ordersTotal === "number"
+      ? body.ordersTotal
+      : // Respaldo para respuestas sin el campo: sumar los pesos pintados.
+        orders.reduce((n, o) => n + o.weight, 0);
+
+  const ordersSince =
+    typeof body.ordersSince === "number" ? body.ordersSince : null;
+
+  return { online, visitors, orders, ordersTotal, ordersByCountry, ordersSince };
 }

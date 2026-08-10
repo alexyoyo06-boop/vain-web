@@ -142,9 +142,14 @@ export default function GlobeCanvas({
 
       // Pedidos: verde. Los de los últimos minutos laten y sueltan un arco
       // desde España; los viejos se quedan como punto fijo.
+      //
+      // El tamaño crece con los pedidos de ESA ciudad (los puntos vienen ya
+      // agrupados, ver lib/orders-geo.ts), con tope, igual que con las visitas:
+      // sin tope, mirando el histórico entero, Madrid se comería la esfera.
       for (const o of data.current.orders) {
+        const size = Math.min(0.05 + (o.weight - 1) * 0.006, 0.085);
         if (now - o.t < FRESH_MS) {
-          const pulse = 0.055 + 0.025 * (1 + Math.sin(now / 320));
+          const pulse = size + 0.025 * (1 + Math.sin(now / 320));
           markers.push({ location: [o.lat, o.lng], size: pulse, color: GREEN });
           if (Math.hypot(ORIGIN[0] - o.lat, ORIGIN[1] - o.lng) > MIN_ARC_DEG) {
             arcs.push({
@@ -154,7 +159,7 @@ export default function GlobeCanvas({
             });
           }
         } else {
-          markers.push({ location: [o.lat, o.lng], size: 0.05, color: GREEN });
+          markers.push({ location: [o.lat, o.lng], size, color: GREEN });
         }
       }
 

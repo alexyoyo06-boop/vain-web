@@ -17,6 +17,7 @@
 
 import { useSyncExternalStore } from "react";
 import { EMPTY, parseGlobeData, type GlobeData } from "./globe-data";
+import { DEFAULT_ORDER_RANGE, type OrderRangeId } from "@/lib/order-ranges";
 
 const REFRESH_MS = 30_000;
 /** Un pedido es "de hace nada" si entró en los últimos 5 minutos. */
@@ -24,6 +25,10 @@ const FRESH_MS = 5 * 60_000;
 
 export type LiveSnapshot = {
   data: GlobeData;
+  /** Rango de fechas que corresponde a los pedidos de `data`. */
+  range: OrderRangeId;
+  /** Se ha pedido otro rango y todavía no ha llegado. */
+  loadingRange: boolean;
   /** Pedidos recientes. Se cuenta al recibir los datos y no al pintar: mirar
    *  el reloj durante el render no es puro (y lo canta el linter). */
   fresh: number;
@@ -36,6 +41,8 @@ export type LiveSnapshot = {
 
 const INITIAL: LiveSnapshot = {
   data: EMPTY,
+  range: DEFAULT_ORDER_RANGE,
+  loadingRange: false,
   fresh: 0,
   lost: false,
   loaded: false,
@@ -45,6 +52,9 @@ let snapshot: LiveSnapshot = INITIAL;
 const listeners = new Set<() => void>();
 let timer: ReturnType<typeof setInterval> | null = null;
 let inFlight: Promise<void> | null = null;
+
+/** Rango pedido. Puede ir por delante del de `snapshot` mientras carga. */
+let wanted: OrderRangeId = DEFAULT_ORDER_RANGE;
 
 function emit(next: LiveSnapshot) {
   snapshot = next;
@@ -57,27 +67,45 @@ async function load(): Promise<void> {
   // pestaña a la vez), esperamos a esa en vez de lanzar otra.
   if (inFlight) return inFlight;
 
+  const asked = wanted;
+
   inFlight = (async () => {
     try {
-      const res = await fetch("/api/online", { cache: "no-store" });
+      const res = await fetch(`/api/online?rango=${asked}`, { cache: "no-store" });
       if (!res.ok) throw new Error(String(res.status));
       const data = parseGlobeData(await res.json());
       const now = Date.now();
       emit({
         data,
+        range: asked,
+        // Si mientras cargaba se pidió otro rango, seguimos "cargando": lo que
+        // acaba de llegar ya no es lo que el panel está enseñando como elegido.
+        loadingRange: wanted !== asked,
+        // Cuenta los SITIOS con un pedido reciente, que es lo que late en el
+        // globo. Un punto agrupado de una ciudad cuenta como uno.
         fresh: data.orders.filter((o) => now - o.t < FRESH_MS).length,
         lost: false,
         loaded: true,
       });
     } catch {
       // Se congela lo último que se supo y se avisa de que no está fresco.
-      emit({ ...snapshot, lost: true });
+      emit({ ...snapshot, loadingRange: false, lost: true });
     } finally {
       inFlight = null;
     }
+    // El rango cambió a mitad de la petición: hay que ir a por el bueno.
+    if (wanted !== asked) void load();
   })();
 
   return inFlight;
+}
+
+/** Cambiar el filtro de fechas: se pide ya, sin esperar al siguiente tick. */
+export function setOrderRange(range: OrderRangeId): void {
+  if (range === wanted) return;
+  wanted = range;
+  emit({ ...snapshot, loadingRange: true });
+  void load();
 }
 
 function onVisibilityChange() {
