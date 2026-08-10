@@ -280,12 +280,22 @@ export default function ProductDetail({ product }: Props) {
                         disabled={!isAvail}
                         aria-disabled={!isAvail}
                         title={isAvail ? undefined : t.product.outOfStock}
+                        // OJO AL ORDEN: "agotada" manda sobre "seleccionada".
+                        // Al revés (que es como estaba) una talla sin stock que
+                        // resultara ser la seleccionada se pintaba como píldora
+                        // negra y sin tachar, o sea con pinta de comprable. Pasa
+                        // siempre que se agota el producto entero: sin ninguna
+                        // talla disponible, la de por defecto cae en la del
+                        // medio (ver `defaultSize`) y esa salía como elegida.
+                        // El botón sí estaba desactivado, así que no se podía
+                        // comprar — pero el cliente veía "M" en negro y creía
+                        // que quedaban.
                         className={`min-w-[52px] px-4 py-3 rounded-full text-sm transition-all ${
-                          isSelected
-                            ? "bg-ink text-bone"
-                            : isAvail
-                              ? "bg-ink/5 hover:bg-ink/10"
-                              : "bg-ink/[0.03] text-ink-soft/40 line-through cursor-not-allowed"
+                          !isAvail
+                            ? "bg-ink/[0.03] text-ink-soft/40 line-through cursor-not-allowed"
+                            : isSelected
+                              ? "bg-ink text-bone"
+                              : "bg-ink/5 hover:bg-ink/10"
                         }`}
                       >
                         {s}
