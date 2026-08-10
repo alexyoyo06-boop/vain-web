@@ -220,12 +220,16 @@ export default function ProductShowcase({ product, reverse = false }: Props) {
                     disabled={!isAvail}
                     aria-disabled={!isAvail}
                     title={isAvail ? undefined : t.product.outOfStock}
+                    // "Agotada" manda sobre "seleccionada" — ver el porqué
+                    // largo en components/ProductDetail.tsx. Al revés, una
+                    // talla sin stock que fuera la seleccionada se pintaba en
+                    // negro y sin tachar, con pinta de comprable.
                     className={`min-w-[52px] px-4 py-3 rounded-full text-sm transition-all ${
-                      isSelected
-                        ? "bg-ink text-bone"
-                        : isAvail
-                          ? "bg-ink/5 hover:bg-ink/10"
-                          : "bg-ink/[0.03] text-ink-soft/40 line-through cursor-not-allowed"
+                      !isAvail
+                        ? "bg-ink/[0.03] text-ink-soft/40 line-through cursor-not-allowed"
+                        : isSelected
+                          ? "bg-ink text-bone"
+                          : "bg-ink/5 hover:bg-ink/10"
                     }`}
                   >
                     {s}
