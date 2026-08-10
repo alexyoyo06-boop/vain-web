@@ -27,7 +27,7 @@ export default function OnlineNow({ initial }: { initial: number }) {
       title={
         lost
           ? "No se ha podido actualizar el número de gente online."
-          : "Gente con la web abierta en el último minuto. Se actualiza sola."
+          : "Gente con la web abierta en los últimos minutos. Se actualiza sola."
       }
     >
       <span className="relative flex size-2.5 shrink-0">
