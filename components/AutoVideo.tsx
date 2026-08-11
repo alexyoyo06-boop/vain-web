@@ -52,9 +52,12 @@ export default function AutoVideo({
     v.defaultMuted = true;
 
     let started = false;
+    // El navegador ha demostrado que solo sabe reproducir a pantalla completa.
+    // Una vez marcado, no se vuelve a intentar en toda la visita.
+    let rendido = false;
 
     const tryPlay = () => {
-      if (started) return;
+      if (started || rendido) return;
       // play() devuelve una promesa que se rompe si el navegador lo bloquea.
       // No pasa nada: seguimos escuchando gestos y eventos del vídeo.
       void v.play().catch(() => {});
@@ -88,14 +91,17 @@ export default function AutoVideo({
 
     // Si el sistema lo pausa (bajo consumo al bajar la batería, llamada
     // entrante, cambio de app), volvemos a armar los gestos para que el
-    // siguiente toque lo reanude.
+    // siguiente toque lo reanude. Salvo que nos hayamos rendido: ahí el
+    // pause lo hemos provocado nosotros al salir de pantalla completa, y
+    // rearmar montaría un bucle (toque → pantalla completa → salir → toque…).
     const onPause = () => {
+      if (rendido) return;
       started = false;
       attachGestures();
     };
 
     const onVisibility = () => {
-      if (document.hidden) return;
+      if (document.hidden || rendido) return;
       if (v.paused) {
         started = false;
         attachGestures();
@@ -103,8 +109,47 @@ export default function AutoVideo({
       }
     };
 
+    /**
+     * PANTALLA COMPLETA: el bug de entrar desde TikTok.
+     *
+     * El navegador de dentro de TikTok (y el de Instagram, y iOS con ciertos
+     * ajustes) no permite vídeo incrustado: cuando la app anfitriona no activa
+     * la reproducción en línea, `playsinline` se ignora y CUALQUIER play() que
+     * prospere abre el vídeo a pantalla completa, tapando la tienda entera.
+     *
+     * Antes esto se veía poco porque el arranque casi nunca prosperaba. Al
+     * hacer que reintente con cada gesto, empezó a prosperar siempre — y con
+     * él la pantalla completa. Así que aquí se detecta, se sale, y se deja de
+     * intentar para el resto de la visita: es preferible el póster fijo (la
+     * foto de los pantalones) a secuestrarle la pantalla a quien venía a
+     * comprar.
+     */
+    const enPantallaCompleta = (): boolean => {
+      const el = v as HTMLVideoElement & { webkitDisplayingFullscreen?: boolean };
+      return Boolean(el.webkitDisplayingFullscreen) || document.fullscreenElement === v;
+    };
+
+    const onFullscreen = () => {
+      if (!enPantallaCompleta()) return;
+      rendido = true;
+      detachGestures();
+      const el = v as HTMLVideoElement & { webkitExitFullscreen?: () => void };
+      try {
+        el.webkitExitFullscreen?.();
+        if (document.fullscreenElement === v) void document.exitFullscreen?.();
+      } catch {
+        // Si no deja salir, al menos ya no se vuelve a lanzar.
+      }
+      v.pause();
+    };
+
     const MEDIA_EVENTS = ["loadeddata", "canplay", "canplaythrough"] as const;
+    // `webkitbeginfullscreen` es el de iOS/WebKit, que es donde pasa esto;
+    // `fullscreenchange` cubre el estándar por si acaso.
+    const FULLSCREEN_EVENTS = ["webkitbeginfullscreen", "fullscreenchange"] as const;
+
     for (const e of MEDIA_EVENTS) v.addEventListener(e, tryPlay);
+    for (const e of FULLSCREEN_EVENTS) v.addEventListener(e, onFullscreen);
     v.addEventListener("playing", onPlaying);
     v.addEventListener("pause", onPause);
     document.addEventListener("visibilitychange", onVisibility);
@@ -114,6 +159,7 @@ export default function AutoVideo({
 
     return () => {
       for (const e of MEDIA_EVENTS) v.removeEventListener(e, tryPlay);
+      for (const e of FULLSCREEN_EVENTS) v.removeEventListener(e, onFullscreen);
       v.removeEventListener("playing", onPlaying);
       v.removeEventListener("pause", onPause);
       document.removeEventListener("visibilitychange", onVisibility);
@@ -121,9 +167,19 @@ export default function AutoVideo({
     };
   }, [src]);
 
+  // Atributos que React no conoce pero que miran los WebViews para NO abrir el
+  // vídeo a pantalla completa: `webkit-playsinline` es el de iOS anterior a
+  // `playsinline`, y `x5-playsinline` el del motor X5 (WeChat, navegadores
+  // chinos). Van por spread porque el tipado de <video> no los contempla.
+  const inlineAttrs = {
+    "webkit-playsinline": "true",
+    "x5-playsinline": "true",
+  } as const;
+
   return (
     <video
       ref={videoRef}
+      {...inlineAttrs}
       src={src}
       poster={poster}
       autoPlay
