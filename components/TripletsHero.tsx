@@ -172,9 +172,18 @@ export default function TripletsHero({ products = [] }: Props) {
                       <span className="font-display uppercase tracking-tighter text-sm sm:text-base md:text-xl leading-none">
                         {p.name}
                       </span>
-                      <span className="text-xs md:text-sm text-ink-soft tabular-nums">
-                        {formatPrice(p.price, locale)}
-                      </span>
+                      {/* Agotado: se sigue enseñando la prenda (la foto es el
+                          escaparate del drop) pero con la etiqueta en vez del
+                          precio, para no hacer creer que se puede comprar. */}
+                      {p.available ? (
+                        <span className="text-xs md:text-sm text-ink-soft tabular-nums">
+                          {formatPrice(p.price, locale)}
+                        </span>
+                      ) : (
+                        <span className="text-xs md:text-sm text-ink-soft/70 uppercase tracking-wider">
+                          {t.common.soldOut}
+                        </span>
+                      )}
                     </div>
                   </Link>
                 ) : (
