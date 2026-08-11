@@ -44,6 +44,22 @@ export async function getAvailableProducts(): Promise<Product[]> {
   return all.filter((p) => p.available && !p.hidden);
 }
 
+/**
+ * Productos que se ENSEÑAN aunque estén agotados: solo se quitan los ocultos.
+ *
+ * `getAvailableProducts()` tira también los agotados, y para un listado general
+ * está bien. Pero en la portada no: los tres triplets son el escaparate del
+ * drop, y cuando uno se agota desaparecía de la lista, TripletsHero no lo
+ * encontraba y pintaba en su hueco el placeholder de "Pronto." con el logo.
+ * O sea que el pantalón que MÁS se ha vendido era el único que dejaba de
+ * enseñar su foto — justo al revés de lo que interesa. Agotado se enseña, con
+ * su foto y su etiqueta de "Agotado", que además crea urgencia en los otros.
+ */
+export async function getVisibleProducts(): Promise<Product[]> {
+  const all = await fetchAllProducts();
+  return all.filter((p) => !p.hidden);
+}
+
 export async function getProductsByCategory(
   category: ProductCategory,
 ): Promise<Product[]> {
