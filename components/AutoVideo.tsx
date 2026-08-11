@@ -56,6 +56,25 @@ export default function AutoVideo({
     // Una vez marcado, no se vuelve a intentar en toda la visita.
     let rendido = false;
 
+    /**
+     * Navegadores DENTRO de apps que no saben reproducir vídeo incrustado.
+     *
+     * En ellos no hay término medio: o pantalla completa, o nada. Como abrir la
+     * pantalla completa encima de la tienda no es aceptable, aquí NI SE INTENTA
+     * reproducir — se queda el póster, que es la foto de los pantalones, que es
+     * exactamente lo que veían estos visitantes antes de todo esto.
+     *
+     * El guardia de `onFullscreen` de abajo sigue puesto para el resto del
+     * mundo: esta lista solo evita el fogonazo de pantalla completa en los
+     * casos que ya sabemos rotos, en vez de abrirla y cerrarla al instante.
+     * Cualquier otro navegador que se porte igual cae en el guardia.
+     */
+    const SIN_VIDEO_INCRUSTADO =
+      /BytedanceWebview|musical_ly|TikTok|Instagram|FB_IAB|FBAN|FBAV/i;
+    if (SIN_VIDEO_INCRUSTADO.test(navigator.userAgent)) {
+      rendido = true;
+    }
+
     const tryPlay = () => {
       if (started || rendido) return;
       // play() devuelve una promesa que se rompe si el navegador lo bloquea.
@@ -148,14 +167,19 @@ export default function AutoVideo({
     // `fullscreenchange` cubre el estándar por si acaso.
     const FULLSCREEN_EVENTS = ["webkitbeginfullscreen", "fullscreenchange"] as const;
 
-    for (const e of MEDIA_EVENTS) v.addEventListener(e, tryPlay);
+    // El guardia de pantalla completa se pone SIEMPRE, incluso en los
+    // navegadores ya descartados: si alguno consigue abrirla por su cuenta,
+    // se cierra igual.
     for (const e of FULLSCREEN_EVENTS) v.addEventListener(e, onFullscreen);
-    v.addEventListener("playing", onPlaying);
-    v.addEventListener("pause", onPause);
-    document.addEventListener("visibilitychange", onVisibility);
-    attachGestures();
 
-    tryPlay();
+    if (!rendido) {
+      for (const e of MEDIA_EVENTS) v.addEventListener(e, tryPlay);
+      v.addEventListener("playing", onPlaying);
+      v.addEventListener("pause", onPause);
+      document.addEventListener("visibilitychange", onVisibility);
+      attachGestures();
+      tryPlay();
+    }
 
     return () => {
       for (const e of MEDIA_EVENTS) v.removeEventListener(e, tryPlay);
