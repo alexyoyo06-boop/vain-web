@@ -1,6 +1,12 @@
 import "server-only";
 import { del, list, put } from "@vercel/blob";
 import { countryCentroid, type LatLng } from "@/lib/geo/country-centroids";
+import {
+  PINGS_PREFIX,
+  decodePingPathname,
+  encodePingPathname,
+  orderCreatedAtMs,
+} from "@/lib/orders-pathname";
 
 /**
  * De dónde vienen los pedidos, para pintarlos en el globo del panel.
@@ -24,7 +30,7 @@ import { countryCentroid, type LatLng } from "@/lib/geo/country-centroids";
  * la ciudad sí, la casa no). Ni nombre, ni email, ni dirección, ni importe.
  */
 
-const PREFIX = "pings/";
+const PREFIX = PINGS_PREFIX;
 
 /**
  * Cuánto se guarda: DIEZ AÑOS, o sea "para siempre" en la práctica.
@@ -86,6 +92,9 @@ export type OrderInput = {
   lng?: number | null;
   /** Id del pedido: solo se usa para que un reintento de Shopify no duplique. */
   id: string;
+  /** `created_at` de Shopify (ISO-8601). Es la fecha que se guarda. Si falta,
+   *  se usa la de ahora. */
+  createdAt?: string | null;
 };
 
 /** ~11 km. Suficiente para clavar la ciudad en una esfera de 400 px. */
@@ -93,31 +102,10 @@ function coarse(n: number): number {
   return Math.round(n * 10) / 10;
 }
 
-/**
- * El nombre del blob es el registro: `pings/{idPedido}_{ISO2}_{lat}_{lng}.json`
- *
- * El id del pedido va primero y la hora NO va en el nombre: así el reintento
- * del mismo pedido escribe exactamente la misma ruta y se pisa a sí mismo en
- * vez de dibujar un segundo punto. La hora la da `uploadedAt` del `list()`.
- */
-function encodePathname(ping: OrderPing, id: string): string {
-  const safeId = id.replace(/[^a-zA-Z0-9]/g, "").slice(0, 32) || "x";
-  return `${PREFIX}${safeId}_${ping.code}_${ping.lat}_${ping.lng}.json`;
-}
-
+/** El nombre del fichero ES el registro. Ver lib/orders-pathname.ts. */
 function decodePathname(pathname: string, at: Date): OrderPing | null {
-  const name = pathname.slice(PREFIX.length).replace(/\.json$/, "");
-  const parts = name.split("_");
-  if (parts.length < 4) return null;
-
-  const code = parts[1];
-  const lat = Number(parts[2]);
-  const lng = Number(parts[3]);
-
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-  if (!/^[A-Z]{2}$/.test(code)) return null;
-
-  return { t: at.getTime(), code, lat, lng, weight: 1 };
+  const parts = decodePingPathname(pathname, at);
+  return parts ? { ...parts, weight: 1 } : null;
 }
 
 /**
@@ -157,7 +145,10 @@ export async function saveOrderPing(order: OrderInput): Promise<boolean> {
   if (!resolved) return false;
 
   const ping: OrderPing = {
-    t: Date.now(),
+    // La fecha del PEDIDO, no la de ahora: es la que hace que el histórico
+    // tenga sentido y la que mantiene idempotente el reintento de Shopify
+    // (ver lib/orders-pathname.ts).
+    t: orderCreatedAtMs(order.createdAt),
     code: resolved.code,
     lat: resolved.point[0],
     lng: resolved.point[1],
@@ -165,7 +156,7 @@ export async function saveOrderPing(order: OrderInput): Promise<boolean> {
   };
 
   try {
-    await put(encodePathname(ping, order.id), JSON.stringify(ping), {
+    await put(encodePingPathname(ping, order.id), JSON.stringify(ping), {
       // Store privado: aunque aquí solo hay país y una coordenada redondeada,
       // no hay motivo para que sea legible desde fuera con la URL.
       access: "private",

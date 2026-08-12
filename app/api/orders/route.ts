@@ -16,6 +16,8 @@ import { saveOrderPing } from "@/lib/orders-geo";
 /** Lo poco que nos interesa del payload de Shopify. */
 type ShopifyOrder = {
   id?: number | string;
+  /** ISO-8601. La fecha que se guarda: ver lib/orders-pathname.ts. */
+  created_at?: string | null;
   shipping_address?: {
     country_code?: string | null;
     city?: string | null;
@@ -64,6 +66,10 @@ export async function POST(req: Request) {
     city: ship?.city,
     lat: ship?.latitude,
     lng: ship?.longitude,
+    // La fecha del pedido, no la de ahora. Para un pedido que entra en vivo son
+    // casi lo mismo, pero es lo que permitirá importar el histórico de Shopify
+    // con cada pedido en su sitio del calendario.
+    createdAt: order.created_at,
   });
 
   return Response.json({ ok: true, saved });
