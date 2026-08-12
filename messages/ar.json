@@ -162,7 +162,8 @@
     "photoNext": "الصورة التالية",
     "photoAria": "الذهاب إلى الصورة {index}",
     "noProducts": "لا توجد منتجات متوفرة.",
-    "completeTrio": "أكمل ثلاثيّتك"
+    "completeTrio": "أكمل ثلاثيّتك",
+    "lowStock": "لم يتبقَّ سوى القليل!"
   },
   "cart": {
     "title": "سلتك",

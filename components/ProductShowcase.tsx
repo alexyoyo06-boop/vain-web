@@ -7,7 +7,13 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import FadeImage from "./FadeImage";
 import MagneticButton from "./MagneticButton";
 import { useCartUI } from "@/lib/cart-ui";
-import { formatPrice, productHref, type Product, type ProductSize } from "@/lib/products";
+import {
+  formatPrice,
+  isLowStock,
+  productHref,
+  type Product,
+  type ProductSize,
+} from "@/lib/products";
 import { tpl, useLocale, useT } from "@/lib/i18n/client";
 
 type Props = { product: Product; reverse?: boolean };
@@ -238,6 +244,12 @@ export default function ProductShowcase({ product, reverse = false }: Props) {
               })}
             </div>
           </div>
+
+          {/* Últimas unidades de la talla elegida. Igual que en la ficha: solo
+              sale si Shopify comparte el inventario. Ver isLowStock(). */}
+          {availableSet.has(size) && isLowStock(product, size) && (
+            <p className="text-xs text-blood mt-2">{t.product.lowStock}</p>
+          )}
 
           <MagneticButton className="w-full mt-3">
             <motion.button

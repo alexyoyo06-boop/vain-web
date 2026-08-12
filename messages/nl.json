@@ -162,7 +162,8 @@
     "photoNext": "Volgende foto",
     "photoAria": "Ga naar foto {index}",
     "noProducts": "Geen producten beschikbaar.",
-    "completeTrio": "Maak je trio compleet"
+    "completeTrio": "Maak je trio compleet",
+    "lowStock": "Nog maar enkele beschikbaar!"
   },
   "cart": {
     "title": "Je winkelwagen",

@@ -73,6 +73,16 @@ export async function storefront<T>(
       console.error(
         `[shopify] GraphQL errors: ${json.errors.map((e) => e.message).join(", ")}`,
       );
+      // OJO: se devuelven los datos IGUALMENTE si vienen.
+      //
+      // En GraphQL un error no es todo o nada: si falla un campo suelto — por
+      // ejemplo `quantityAvailable`, que necesita un permiso extra en Shopify —
+      // la respuesta trae el resto del producto con ese campo a null y el error
+      // aparte. Devolver null aquí tiraba el CATÁLOGO ENTERO por un campo
+      // secundario, y la web se quedaba sin productos.
+      //
+      // Solo se da por perdida la petición cuando no hay datos que rescatar.
+      if (json.data) return json.data;
       return null;
     }
 

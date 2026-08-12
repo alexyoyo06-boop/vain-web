@@ -48,6 +48,11 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
           id
           title
           availableForSale
+          # Unidades que quedan de esta talla. Necesita el permiso
+          # unauthenticated_read_product_inventory en el token de Storefront;
+          # sin él Shopify lo devuelve a null y la web simplemente no enseña el
+          # aviso de "quedan pocas" (el resto del producto llega igual).
+          quantityAvailable
           selectedOptions {
             name
             value

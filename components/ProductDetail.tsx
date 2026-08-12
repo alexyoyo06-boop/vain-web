@@ -9,7 +9,13 @@ import MagneticButton from "./MagneticButton";
 import ShareButton from "./ShareButton";
 import { usePrevRoute } from "./RouteMemory";
 import { useCartUI } from "@/lib/cart-ui";
-import { formatPrice, productHref, type Product, type ProductSize } from "@/lib/products";
+import {
+  formatPrice,
+  isLowStock,
+  productHref,
+  type Product,
+  type ProductSize,
+} from "@/lib/products";
 import { tripletColor, tripletTitleColor } from "@/lib/triplet-theme";
 import { tpl, useLocale, useT } from "@/lib/i18n/client";
 
@@ -305,6 +311,13 @@ export default function ProductDetail({ product }: Props) {
                 </div>
                 {!availableSet.has(size) && (
                   <p className="text-xs text-blood">{t.product.outOfStock}</p>
+                )}
+                {/* Aviso de últimas unidades, de la talla que está elegida.
+                    Solo sale si Shopify nos da el número: sin el permiso de
+                    inventario en el token, `sizeStock` viene vacío y aquí no
+                    se enseña nada, que es mejor que inventarse una urgencia. */}
+                {availableSet.has(size) && isLowStock(product, size) && (
+                  <p className="text-xs text-blood">{t.product.lowStock}</p>
                 )}
               </div>
 
