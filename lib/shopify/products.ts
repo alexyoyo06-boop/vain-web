@@ -37,6 +37,9 @@ type VariantNode = {
   id: string;
   title: string;
   availableForSale: boolean;
+  /** Unidades que quedan. `null` si Shopify no lo comparte (falta el permiso
+   *  de inventario en el token) o si esa variante no lleva stock controlado. */
+  quantityAvailable: number | null;
   selectedOptions: { name: string; value: string }[];
   price: Money;
   compareAtPrice: Money | null;
@@ -222,6 +225,40 @@ function inferAvailableSizes(p: ShopifyProduct): ProductSize[] {
   return out.sort((a, b) => VALID_SIZES.indexOf(a) - VALID_SIZES.indexOf(b));
 }
 
+/**
+ * Cuántas unidades quedan de cada talla.
+ *
+ * Solo entran las tallas que Shopify comparte de verdad: si el token no tiene
+ * el permiso de inventario, o esa variante no lleva el stock controlado,
+ * `quantityAvailable` viene a `null` y la talla NO aparece en el mapa. Eso es
+ * a propósito: es mejor no avisar de "quedan pocas" que inventarse un número.
+ *
+ * Tampoco entran las agotadas: para esas ya está el tachado, y un "quedan 0"
+ * en rojo al lado de una talla tachada sobra.
+ */
+function inferSizeStock(p: ShopifyProduct): Partial<Record<ProductSize, number>> {
+  const stock: Partial<Record<ProductSize, number>> = {};
+
+  for (const { node } of p.variants.edges) {
+    if (!node.availableForSale) continue;
+    const qty = node.quantityAvailable;
+    if (typeof qty !== "number" || !Number.isFinite(qty) || qty <= 0) continue;
+
+    const sizeOpt = node.selectedOptions.find((o) =>
+      SIZE_NAMES.has(o.name.toLowerCase()),
+    );
+    if (!sizeOpt) continue;
+    const norm = normalizeSize(sizeOpt.value);
+    if (!norm) continue;
+
+    // Si dos variantes comparten talla (color + talla, por ejemplo), se suman:
+    // lo que le importa a quien mira es cuántas puede comprar de esa talla.
+    stock[norm] = (stock[norm] ?? 0) + qty;
+  }
+
+  return stock;
+}
+
 function imageToPhoto(img: ImageNode, fallbackAlt: string): ProductPhoto {
   return {
     src: img.url,
@@ -310,6 +347,7 @@ export function mapShopifyProduct(p: ShopifyProduct): Product {
     descriptionHtml: sanitizeProductHtml(p.descriptionHtml),
     sizes: inferSizes(p),
     sizesAvailable: inferAvailableSizes(p),
+    sizeStock: inferSizeStock(p),
     primaryImage,
     hoverImage,
     photos,

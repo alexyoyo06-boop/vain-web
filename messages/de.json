@@ -162,7 +162,8 @@
     "photoNext": "Nächstes Foto",
     "photoAria": "Zu Foto {index} gehen",
     "noProducts": "Keine Produkte verfügbar.",
-    "completeTrio": "Vervollständige dein Trio"
+    "completeTrio": "Vervollständige dein Trio",
+    "lowStock": "Nur noch wenige verfügbar!"
   },
   "cart": {
     "title": "Dein Warenkorb",

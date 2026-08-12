@@ -33,6 +33,13 @@ export type Product = {
    * pinta tachada/disabled.
    */
   sizesAvailable: ProductSize[];
+  /**
+   * Unidades que quedan, por talla. Solo aparecen las tallas de las que
+   * Shopify nos da el dato: si falta el permiso de inventario en el token, o
+   * la variante no lleva stock controlado, esa talla no está aquí y la UI
+   * simplemente no avisa de "quedan pocas". Nunca se inventa un número.
+   */
+  sizeStock?: Partial<Record<ProductSize, number>>;
   primaryImage: string;
   hoverImage?: string;
   photos: ProductPhoto[];
@@ -95,4 +102,31 @@ export function isProductCategory(value: string): value is ProductCategory {
  */
 export function productHref(p: Pick<Product, "category" | "slug">): string {
   return `/${p.category}/${p.slug}`;
+}
+
+/**
+ * A partir de cuántas unidades se avisa de "quedan pocas".
+ *
+ * Tres es el punto donde el aviso todavía es verdad y sirve de empujón. Más
+ * alto y se convierte en ruido que nadie cree; más bajo y casi nunca sale.
+ * Si algún día el drop es de tiradas más grandes, se sube aquí y ya está.
+ */
+export const LOW_STOCK_THRESHOLD = 3;
+
+/**
+ * ¿Quedan pocas unidades de esta talla?
+ *
+ * Devuelve `false` cuando no se sabe: si Shopify no comparte el inventario
+ * (falta el permiso en el token) o esa talla no lleva stock controlado, el
+ * dato no existe y NO se avisa. Prefiero no decir nada a inventarme una
+ * urgencia — un "quedan pocas" falso se nota y quema la confianza.
+ */
+export function isLowStock(product: Product, size: ProductSize): boolean {
+  const quedan = product.sizeStock?.[size];
+  return (
+    typeof quedan === "number" &&
+    Number.isFinite(quedan) &&
+    quedan > 0 &&
+    quedan <= LOW_STOCK_THRESHOLD
+  );
 }

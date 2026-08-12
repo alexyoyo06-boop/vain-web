@@ -162,7 +162,8 @@
     "photoNext": "Foto siguiente",
     "photoAria": "Ir a foto {index}",
     "noProducts": "No hay productos disponibles.",
-    "completeTrio": "Completa tu trío"
+    "completeTrio": "Completa tu trío",
+    "lowStock": "¡Quedan pocas unidades!"
   },
   "cart": {
     "title": "Tu cesta",

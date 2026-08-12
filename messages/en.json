@@ -162,7 +162,8 @@
     "photoNext": "Next photo",
     "photoAria": "Go to photo {index}",
     "noProducts": "No products available.",
-    "completeTrio": "Complete your trio"
+    "completeTrio": "Complete your trio",
+    "lowStock": "Only a few left!"
   },
   "cart": {
     "title": "Your cart",
