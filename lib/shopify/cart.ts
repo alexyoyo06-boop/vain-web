@@ -5,7 +5,7 @@ import { storefront } from "./client";
 import { categoryFromType, normalizeSize } from "./products";
 import type { ProductCategory } from "../products";
 import { LOCALE_TO_SHOPIFY } from "../i18n/config";
-import { getLocale } from "../i18n/server";
+import { getRequestLocale } from "../i18n/server";
 import {
   CART_CREATE,
   CART_GET,
@@ -164,7 +164,7 @@ async function publishedLanguages(): Promise<{
  * mucho mejor que una en español); y si ni eso, el idioma de la tienda.
  */
 async function checkoutLanguage(): Promise<string> {
-  const locale = await getLocale();
+  const locale = await getRequestLocale();
   const wanted = LOCALE_TO_SHOPIFY[locale];
   const { available, shopDefault } = await publishedLanguages();
   if (available.includes(wanted)) return wanted;

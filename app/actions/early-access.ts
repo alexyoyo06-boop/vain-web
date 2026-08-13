@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { subscribeCustomer } from "@/lib/shopify/customer";
 import { EARLY_ACCESS_COOKIE } from "@/lib/early-access";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import { getT } from "@/lib/i18n/server";
+import { getRequestT } from "@/lib/i18n/server";
 import { tpl } from "@/lib/i18n/dictionary";
 import {
   getSiteState,
@@ -36,7 +36,7 @@ export async function subscribeEarlyAccessAction(
   _prev: SubscribeFormState,
   formData: FormData,
 ): Promise<SubscribeFormState> {
-  const { t } = await getT();
+  const { t } = await getRequestT();
 
   // Honeypot: campo invisible que solo bots rellenan. Devolvemos éxito
   // falso para no avisar al bot de que ha sido detectado — sigue creyendo
@@ -88,7 +88,7 @@ export async function unlockEarlyAccessAction(
   _prev: UnlockFormState,
   formData: FormData,
 ): Promise<UnlockFormState> {
-  const { t } = await getT();
+  const { t } = await getRequestT();
 
   const ip = await getClientIp();
   const rl = checkRateLimit(

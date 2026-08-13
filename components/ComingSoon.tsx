@@ -64,7 +64,18 @@ export default function ComingSoon() {
   }, []);
 
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden bg-ink text-bone flex flex-col">
+    // `data-vain-wall`: marca para que el popup del 10% sepa que está pintado
+    // el muro y no salte encima (el muro ya pide el email).
+    //
+    // Antes esto se sabía por una cabecera que ponía el proxy y leía el layout.
+    // Ya no: leer cabeceras vuelve dinámica la página y este refactor va justo
+    // de que dejen de serlo. Una marca en el DOM cuesta cero y funciona igual,
+    // porque el popup tarda 5 segundos en aparecer — para entonces el muro
+    // lleva pintado un buen rato.
+    <main
+      data-vain-wall=""
+      className="relative min-h-[100dvh] overflow-hidden bg-ink text-bone flex flex-col"
+    >
       {/* Muro de vídeo: un único archivo con los clips ya apilados dentro
           (móvil: 4 · escritorio: 2). object-cover para llenar sin franjas
           negras. El póster cubre el instante de carga (nunca queda en negro). */}

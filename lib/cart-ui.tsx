@@ -15,7 +15,7 @@ import {
   getCartAction,
   removeLineAction,
   updateLineAction,
-} from "@/app/cart/actions";
+} from "@/lib/cart-actions";
 import { productHref } from "@/lib/products";
 
 export type CartItem = {

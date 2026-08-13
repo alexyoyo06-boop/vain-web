@@ -85,7 +85,14 @@ export default function NewsletterPopup() {
       setSeen(true); // no reabrir solo, pero sí mostrar el círculo
       return;
     }
-    const id = setTimeout(openPopup, DELAY_MS);
+    const id = setTimeout(() => {
+      // Si lo que hay pintado es el muro de "web cerrada", no molestar: ya
+      // está pidiendo el email él. La URL no lo delata (el proxy sirve el muro
+      // por rewrite, así que el pathname sigue siendo "/"), por eso se mira la
+      // marca que deja ComingSoon en el DOM.
+      if (document.querySelector("[data-vain-wall]")) return;
+      openPopup();
+    }, DELAY_MS);
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hidden]);

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AutoVideo from "@/components/AutoVideo";
-import { getT } from "@/lib/i18n/server";
+import { getDictionary } from "@/lib/i18n/dictionary";
+import type { Locale } from "@/lib/i18n/config";
 import { HERO_POSTER, HERO_VIDEO } from "@/lib/media";
 
 /**
@@ -24,13 +25,17 @@ const VIDEO = HERO_VIDEO;
 const POSTER = HERO_POSTER;
 
 export default async function PhotoHero({
+  locale,
   video = VIDEO,
   poster = POSTER,
 }: {
+  // El idioma llega por prop desde la página. Antes lo leía él solo de la
+  // cookie, y eso volvía dinámica cualquier página que lo montara.
+  locale: Locale;
   video?: string;
   poster?: string;
 }) {
-  const { t } = await getT();
+  const t = await getDictionary(locale);
 
   return (
     // El margen negativo mete el vídeo por debajo de la barra (84px en móvil,

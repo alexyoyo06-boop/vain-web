@@ -1,21 +1,59 @@
 "use client";
 
-// Modal de sugerencia de idioma. Aparece centrado en pantalla con backdrop
-// cuando el país de la IP sugiere un idioma distinto al que se está
-// sirviendo. Una vez interactuado, se setea cookie de dismiss y no vuelve
-// a salir durante un año.
+// Modal de sugerencia de idioma. Aparece cuando el idioma del navegador no es
+// el que se está sirviendo. Una vez interactuado, se guarda una cookie y no
+// vuelve a salir durante un año.
+//
+// ANTES LO DECIDÍA EL SERVIDOR y por eso hubo que moverlo: comparaba el idioma
+// activo con el que sugerían las cabeceras de la request, y leer cabeceras
+// obliga a montar la página en cada visita — lo que hacía imposible tener las
+// páginas pre-generadas (ver app/l/[locale]/layout.tsx).
+//
+// Ahora lo decide el propio navegador, que sabe su idioma sin preguntarle a
+// nadie (`navigator.languages`). Se pierde una cosa: antes, si el idioma del
+// dispositivo no era ninguno de los 11, se caía al país de la IP. Ahora ese
+// caso no sugiere nada — que es lo correcto: sin señal fiable, mejor no
+// interrumpir a nadie con un modal.
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { dismissLocaleBannerAction, setLocaleAction } from "@/app/actions/locale";
 import { useT, tpl } from "@/lib/i18n/client";
-import { LOCALE_LABEL, LOCALE_NATIVE_NAME, type Locale } from "@/lib/i18n/config";
+import {
+  LOCALE_BANNER_DISMISS_COOKIE,
+  LOCALE_LABEL,
+  LOCALE_NATIVE_NAME,
+  localeFromAcceptLanguage,
+  type Locale,
+} from "@/lib/i18n/config";
 
-type Props = { suggestedLocale: Locale };
+type Props = { activeLocale: Locale };
 
-export default function LocaleBanner({ suggestedLocale }: Props) {
-  const langName = LOCALE_NATIVE_NAME[suggestedLocale];
+/** ¿Ya lo cerró en su día? La cookie no es httpOnly justo para poder mirarla. */
+function yaCerrado(): boolean {
+  return document.cookie
+    .split(";")
+    .some((c) => c.trim().startsWith(`${LOCALE_BANNER_DISMISS_COOKIE}=1`));
+}
+
+/**
+ * El idioma que sugiere el navegador, o null si no hay nada que sugerir.
+ * `navigator.languages` viene ordenado por preferencia, igual que la cabecera
+ * Accept-Language, así que se reaprovecha el mismo parser del servidor y las
+ * dos vías no pueden desincronizarse.
+ */
+function sugerido(activo: Locale): Locale | null {
+  const idiomas = navigator.languages?.length
+    ? navigator.languages.join(",")
+    : navigator.language;
+  const propuesto = localeFromAcceptLanguage(idiomas);
+  return propuesto && propuesto !== activo ? propuesto : null;
+}
+
+export default function LocaleBanner({ activeLocale }: Props) {
+  const [suggestedLocale, setSuggested] = useState<Locale | null>(null);
+  const langName = suggestedLocale ? LOCALE_NATIVE_NAME[suggestedLocale] : "";
   // El estado abre/cierra al instante en cliente — la server action se
   // dispara en background sin bloquear la UX. El modal arranca cerrado y
   // se abre tras un microdelay para que la animación de entrada se vea
@@ -24,9 +62,19 @@ export default function LocaleBanner({ suggestedLocale }: Props) {
   const t = useT();
 
   useEffect(() => {
-    const id = window.setTimeout(() => setOpen(true), 300);
+    if (yaCerrado()) return;
+    const propuesto = sugerido(activeLocale);
+    if (!propuesto) return;
+    // El estado se toca DENTRO del timeout y no en el cuerpo del efecto: así el
+    // primer render en cliente sale idéntico al HTML pre-generado (que no lleva
+    // banner) y no se encadena un render extra nada más cargar. El retardo
+    // además hace que se vea la animación de entrada.
+    const id = window.setTimeout(() => {
+      setSuggested(propuesto);
+      setOpen(true);
+    }, 300);
     return () => window.clearTimeout(id);
-  }, []);
+  }, [activeLocale]);
 
   // Bloquea scroll del body mientras el modal está abierto.
   useEffect(() => {
@@ -45,10 +93,14 @@ export default function LocaleBanner({ suggestedLocale }: Props) {
   // cookie cambiaría en el server pero el cliente seguiría viendo el HTML
   // antiguo hasta una recarga manual.
   const switchLocale = async () => {
+    if (!suggestedLocale) return;
     setOpen(false);
     const fd = new FormData();
     fd.set("locale", suggestedLocale);
     await setLocaleAction(fd);
+    // Recarga completa a propósito: qué copia de la página se sirve lo decide
+    // el proxy al leer la cookie, y eso solo pasa en una petición nueva.
+    window.location.reload();
   };
   const dismiss = async () => {
     setOpen(false);
@@ -57,7 +109,7 @@ export default function LocaleBanner({ suggestedLocale }: Props) {
 
   return (
     <AnimatePresence>
-      {open && (
+      {open && suggestedLocale && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -10,12 +10,34 @@ export const size = { width: 1200, height: 630 };
 // Telegram no llegan a cargar previews tan pesadas. En JPEG baja a ~150 KB.
 export const contentType = "image/jpeg";
 
-// Idioma FIJO, sin getLocale(). Igual que en la OG de producto (ver el porqué
-// largo en app/[category]/[slug]/opengraph-image.tsx): quien pide esta imagen
-// es el crawler, que no trae el idioma del visitante, y leer cookies obligaba a
-// rasterizarla en CADA petición — sharp + satori es de lo más caro que corre
-// aquí y se paga en Active CPU. Sin APIs de request, Next la prerenderiza en el
-// build y se sirve cacheada.
+/**
+ * ESTE FICHERO VIVE EN LA RAÍZ DE `app/`, FUERA DEL ÁRBOL DE IDIOMAS, A
+ * PROPÓSITO — y no es un descuido al mover las páginas a `app/l/[locale]/`.
+ *
+ * Dos motivos:
+ *
+ *   1. LA IMAGEN ES LA MISMA EN LOS 11 IDIOMAS. El texto que lleva dibujado va
+ *      en inglés fijo (ver OG_LOCALE abajo), así que dentro del árbol de
+ *      idiomas se pre-generaban 11 ficheros JPEG idénticos.
+ *
+ *   2. LA URL PÚBLICA SE MANTIENE. Aquí la imagen es `v4in.com/opengraph-image`,
+ *      que es donde apuntan los enlaces ya compartidos por WhatsApp, X o
+ *      TikTok. Dentro del árbol sería `/l/en/opengraph-image`, y las previews
+ *      viejas se habrían quedado sin foto. Y no se arregla desde el proxy: un
+ *      rewrite de `/opengraph-image` a la ruta interna NO resuelve (Next
+ *      resuelve las imágenes de metadata antes de aplicar rewrites; probado,
+ *      da 404).
+ *
+ * Next la asocia igual a todas las páginas: las imágenes de metadata se heredan
+ * hacia abajo, y `app/` es padre de `app/l/[locale]/`.
+ */
+
+// Idioma FIJO, sin leer la cookie del visitante. Igual que en la OG de producto
+// (ver el porqué largo en app/l/[locale]/[category]/[slug]/opengraph-image.tsx):
+// quien pide esta imagen es el crawler, que no trae el idioma del visitante, y
+// leer cookies obligaba a rasterizarla en CADA petición — sharp + satori es de
+// lo más caro que corre aquí y se paga en Active CPU. Sin APIs de request, Next
+// la prerenderiza en el build y se sirve cacheada.
 //
 // Tiene que ser de script latino: la fuente por defecto de satori no cubre
 // griego, cirílico ni árabe (saldría tofu). El texto del <head> (meta og) sí
