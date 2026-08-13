@@ -53,6 +53,17 @@ export async function generateMetadata({
   const description = `${product.shortDescription} ${formatPrice(product.price, locale)}.`;
   // Canónica = categoría REAL del producto, aunque se acceda por otra.
   const url = productHref(product);
+  // La foto que sale al compartir la ficha, con el producto y su precio. Se
+  // declara a mano (y no la detecta Next sola) porque el fichero que la dibuja
+  // vive fuera del árbol de idiomas — ver app/[category]/[slug]/opengraph-image
+  // .tsx. Cuelga de la canónica, así que la URL sale limpia: /pants/gris/…
+  const ogImage = {
+    url: `${url}/opengraph-image`,
+    width: 1200,
+    height: 630,
+    alt: product.name,
+    type: "image/png",
+  };
 
   return {
     title,
@@ -65,11 +76,13 @@ export async function generateMetadata({
       url,
       siteName: "VAIN",
       locale: locale === "en" ? "en_US" : "es_ES",
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogImage],
     },
   };
 }

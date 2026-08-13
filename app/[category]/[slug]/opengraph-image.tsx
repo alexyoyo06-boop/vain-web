@@ -5,11 +5,23 @@ import sharp from "sharp";
 import { formatPrice } from "@/lib/products";
 import { getAvailableProducts, getProduct } from "@/lib/products-server";
 import { getDictionary } from "@/lib/i18n/dictionary";
-import { LOCALES } from "@/lib/i18n/config";
 
 export const alt = "VAIN — DRESS THE NOISE";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+/**
+ * VIVE FUERA DEL ÁRBOL DE IDIOMAS a propósito, igual que la OG de la portada
+ * (ver app/opengraph-image.tsx, donde está el porqué completo). Resumen: el
+ * dibujo no depende del idioma — el texto que lleva va en inglés fijo, ver
+ * OG_LOCALE abajo — así que dentro del árbol se generaban 11 PNG idénticos POR
+ * PRODUCTO; y la URL pública se mantiene en `/pants/gris/opengraph-image`, que
+ * es a donde apuntan los enlaces de producto ya compartidos.
+ *
+ * Como Next solo engancha las imágenes de metadata del layout raíz hacia abajo
+ * y el layout raíz vive en `app/l/[locale]/`, la ficha de producto la declara a
+ * mano en su generateMetadata.
+ */
 
 // Idioma FIJO, sin getLocale(). Dos motivos:
 //
@@ -33,10 +45,9 @@ const OG_LOCALE = "en" as const;
 
 export async function generateStaticParams() {
   const products = await getAvailableProducts();
-  // Producto x idioma: la URL de la imagen lleva el segmento de idioma.
-  return LOCALES.flatMap((locale) =>
-    products.map((p) => ({ locale, category: p.category, slug: p.slug })),
-  );
+  // Una por producto. Sin esto la imagen se rasterizaría en CADA petición, que
+  // es justo lo caro (ver el comentario de arriba sobre sharp + satori).
+  return products.map((p) => ({ category: p.category, slug: p.slug }));
 }
 
 // satori (next/og) acepta PNG/JPEG nativos pero falla con webp/avif.
