@@ -48,11 +48,22 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
           id
           title
           availableForSale
-          # Unidades que quedan de esta talla. Necesita el permiso
-          # unauthenticated_read_product_inventory en el token de Storefront;
-          # sin él Shopify lo devuelve a null y la web simplemente no enseña el
-          # aviso de "quedan pocas" (el resto del producto llega igual).
-          quantityAvailable
+          # DESACTIVADO HASTA TENER EL PERMISO EN SHOPIFY.
+          #
+          # Este campo da las unidades que quedan de cada talla y es lo que
+          # enciende el aviso de "quedan pocas unidades". Necesita el permiso
+          # unauthenticated_read_product_inventory en el token de Storefront.
+          #
+          # Se pide SIN pedirlo todavía a propósito: no está confirmado qué
+          # responde Shopify cuando falta el permiso — si devuelve el producto
+          # con el campo a null (inofensivo) o si tumba la consulta entera. Lo
+          # segundo dejaría la tienda sin catálogo, y no es algo que se pueda
+          # descubrir en producción y sin nadie mirando.
+          #
+          # PARA ACTIVARLO: marca el permiso en Shopify y quita la almohadilla
+          # de la línea de abajo. No hace falta nada más: el resto del camino
+          # (mapeo por talla, umbral y aviso traducido) ya está puesto.
+          # quantityAvailable
           selectedOptions {
             name
             value
