@@ -1,6 +1,7 @@
 "use client";
 
 import Image, { type ImageProps } from "next/image";
+import imageLoader from "@/lib/image-loader";
 import { useState } from "react";
 
 export default function FadeImage(props: ImageProps) {
@@ -10,6 +11,7 @@ export default function FadeImage(props: ImageProps) {
 
   return (
     <Image
+      loader={imageLoader}
       {...rest}
       priority={priority}
       onLoad={(e) => {

@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import imageLoader from "@/lib/image-loader";
 import Link from "next/link";
 import { ArrowRight, Check, X } from "lucide-react";
 import { useCartUI } from "@/lib/cart-ui";
@@ -30,6 +31,7 @@ export default function CartToast() {
             <div className="flex items-center gap-3 p-3 pr-2">
               <div className="relative size-14 rounded-2xl overflow-hidden bg-bone-dim shrink-0">
                 <Image
+                  loader={imageLoader}
                   src={toast.image}
                   alt={toast.name}
                   fill
