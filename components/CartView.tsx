@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import imageLoader from "@/lib/image-loader";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -127,6 +128,7 @@ export default function CartView() {
                       className="relative size-24 sm:size-28 md:size-36 rounded-2xl md:rounded-3xl overflow-hidden bg-bone-dim shrink-0"
                     >
                       <Image
+                        loader={imageLoader}
                         src={it.image}
                         alt={it.name}
                         fill
@@ -200,6 +202,7 @@ export default function CartView() {
             <div className="lg:sticky lg:top-24 flex flex-col gap-5 p-6 md:p-7 rounded-3xl bg-bone-dim/60 overflow-hidden">
               <div className="relative mx-auto size-12 md:size-16 -mt-1">
                 <Image
+                  loader={imageLoader}
                   src="/logo_mono.png"
                   alt="VAIN"
                   fill

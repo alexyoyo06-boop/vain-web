@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import imageLoader from "@/lib/image-loader";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -161,6 +162,7 @@ export default function TripletsHero({ products = [] }: Props) {
                       style={{ scale: TRIPLET_PHOTO_SCALE[trip.slug] ?? 1 }}
                     >
                       <Image
+                        loader={imageLoader}
                         src={p.primaryImage}
                         alt={p.name}
                         fill

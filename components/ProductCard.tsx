@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import imageLoader from "@/lib/image-loader";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
@@ -91,6 +92,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
         >
           {photos.map((photo, i) => (
             <Image
+              loader={imageLoader}
               key={photo.src}
               src={photo.src}
               alt={photo.alt}
