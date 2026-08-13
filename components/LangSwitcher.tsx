@@ -85,7 +85,18 @@ export default function LangSwitcher({
             {LOCALES.map((loc) => {
               const active = loc === current;
               return (
-                <form key={loc} action={setLocaleAction}>
+                // Tras cambiar el idioma hay que recargar: qué copia
+                // pre-generada se sirve lo decide el proxy leyendo la cookie, y
+                // eso solo ocurre en una petición nueva. Antes bastaba con la
+                // server action porque la página se montaba entera en cada
+                // visita; ahora no.
+                <form
+                  key={loc}
+                  action={async (fd: FormData) => {
+                    await setLocaleAction(fd);
+                    window.location.reload();
+                  }}
+                >
                   <input type="hidden" name="locale" value={loc} />
                   <button
                     type="submit"

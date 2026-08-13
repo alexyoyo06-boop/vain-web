@@ -10,7 +10,20 @@
 //      así que el primer render ya sale en el idioma correcto.
 
 import { NextResponse, type NextRequest } from "next/server";
-import { LOCALE_COOKIE, isLocale, pickLocale } from "@/lib/i18n/config";
+import { LOCALE_COOKIE, isLocale, pickLocale, type Locale } from "@/lib/i18n/config";
+
+/**
+ * Prefijo interno del árbol de páginas. Las URLs públicas NO lo llevan: el
+ * proxy reescribe `/todo` → `/l/es/todo` por dentro y el visitante sigue
+ * viendo `v4in.com/todo`.
+ *
+ * POR QUÉ UNA LETRA Y NO `/es/` A SECAS: `/es/...` ya significa otra cosa aquí
+ * — el checkout de Shopify genera enlaces con prefijo de idioma y el proxy los
+ * redirige quitándolo (ver stripLocalePrefix). Si el árbol interno viviera en
+ * `/es/`, las dos reglas se pisarían. Una letra suelta no puede confundirse
+ * con un código de idioma, así que las dos conviven sin tocarse.
+ */
+const RENDER_PREFIX = "/l";
 
 const LOCALE_COOKIE_OPTS = {
   httpOnly: false,
@@ -95,16 +108,46 @@ function stripLocalePrefix(request: NextRequest): NextResponse | null {
   return res;
 }
 
+/** El idioma del visitante: su cookie si la tiene, si no lo que digan sus
+ *  cabeceras (idioma del dispositivo → país de la IP → inglés). */
+function localeOf(request: NextRequest): Locale {
+  const cookie = request.cookies.get(LOCALE_COOKIE)?.value;
+  if (cookie && isLocale(cookie)) return cookie;
+  return pickLocale(
+    request.headers.get("accept-language"),
+    request.headers.get("x-vercel-ip-country"),
+  );
+}
+
+/**
+ * Reescribe a la copia del idioma que toca. La URL de la barra no cambia.
+ * `extraPath` permite mandar a otra página (el muro) manteniendo la URL.
+ */
+function renderIn(
+  request: NextRequest,
+  locale: Locale,
+  extraPath?: string,
+): NextResponse {
+  const url = request.nextUrl.clone();
+  url.pathname = `${RENDER_PREFIX}/${locale}${extraPath ?? request.nextUrl.pathname}`;
+  return NextResponse.rewrite(url);
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Peticiones que YA vienen reescritas (o que alguien ha escrito a mano):
+  // se dejan pasar tal cual. Sin esto se reescribirían otra vez y saldría
+  // /l/es/l/es/todo.
+  if (pathname === RENDER_PREFIX || pathname.startsWith(`${RENDER_PREFIX}/`)) {
+    return NextResponse.next();
+  }
 
   const localeRedirect = stripLocalePrefix(request);
   if (localeRedirect) return localeRedirect;
 
-  // Permitir siempre estas rutas (no bloquear coming-soon)
+  // Rutas que NO son páginas traducidas: se dejan pasar sin reescribir.
   if (
-    pathname.startsWith("/coming-soon") ||
-    pathname.startsWith("/admin") ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/_next/") ||
     pathname === "/favicon.ico" ||
@@ -113,9 +156,13 @@ export async function proxy(request: NextRequest) {
     // Imágenes de metadata (opengraph-image, twitter-image, icon, apple-icon).
     // No llevan extensión en la URL (`/opengraph-image?<hash>`), así que el
     // check de estáticos de abajo no las pilla. Son assets públicos, NO páginas:
-    // hay que servir el PNG SIEMPRE, aunque la web esté cerrada y aunque la
+    // hay que servir el JPEG SIEMPRE, aunque la web esté cerrada y aunque la
     // petición de la imagen no traiga UA de bot — si no, el crawler la pide sin
     // UA social, el proxy la reescribe a /coming-soon y la preview sale sin foto.
+    //
+    // Se dejan pasar SIN reescribir porque viven fuera del árbol de idiomas
+    // (ver app/opengraph-image.tsx). Reescribirlas no funcionaría igualmente:
+    // Next resuelve las imágenes de metadata antes de aplicar los rewrites.
     /\/(opengraph-image|twitter-image|icon|apple-icon)$/.test(pathname) ||
     // archivos estáticos por extensión
     /\.[a-z0-9]+$/i.test(pathname)
@@ -125,40 +172,25 @@ export async function proxy(request: NextRequest) {
     return res;
   }
 
-  // Suscriptor con password ya canjeada pasa
-  if (request.cookies.get(ACCESS_COOKIE)?.value === "1") {
-    const res = NextResponse.next();
-    ensureLocaleCookie(request, res);
-    return res;
-  }
+  // A partir de aquí es una página, y toda página se sirve en su idioma.
+  const locale = localeOf(request);
 
-  if (!isClosed()) {
-    const res = NextResponse.next();
-    ensureLocaleCookie(request, res);
-    return res;
-  }
+  // ¿Pasa el muro? Suscriptor con acceso, web abierta, o bot de redes
+  // sociales (que necesita ver el HTML real para que la preview al compartir
+  // salga con su foto y no con el favicon).
+  const pasa =
+    request.cookies.get(ACCESS_COOKIE)?.value === "1" ||
+    !isClosed() ||
+    isSocialCrawler(request);
 
-  // Bots de redes sociales (WhatsApp, X, Discord, etc.): que vean el HTML
-  // real con la metadata correcta del producto. Necesario para que la
-  // preview al compartir muestre la OG image bonita en vez del favicon.
-  if (isSocialCrawler(request)) {
-    const res = NextResponse.next();
-    ensureLocaleCookie(request, res);
-    return res;
-  }
-
-  // Bloqueado → rewrite (mantiene la URL en la barra, sirve coming-soon).
-  // Como es un rewrite (no redirect), la URL del navegador sigue siendo "/",
-  // así que usePathname() en cliente NO ve "/coming-soon". Marcamos la request
-  // con una cabecera para que el layout sepa que está sirviendo el muro y NO
-  // monte el popup del 10% encima (si no, salta aunque la web esté cerrada).
-  const url = request.nextUrl.clone();
-  url.pathname = "/coming-soon";
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-vain-wall", "1");
-  const res = NextResponse.rewrite(url, {
-    request: { headers: requestHeaders },
-  });
+  // El muro también se sirve traducido, y como rewrite: la URL de la barra no
+  // cambia. Antes se marcaba la request con una cabecera para que el layout
+  // supiera que estaba pintando el muro y no montara el popup del 10% encima;
+  // ya no hace falta, porque leer cabeceras volvería dinámica la página. Ahora
+  // el propio ComingSoon monta lo suyo y el popup se controla por ruta.
+  const res = pasa
+    ? renderIn(request, locale)
+    : renderIn(request, locale, "/coming-soon");
   ensureLocaleCookie(request, res);
   return res;
 }

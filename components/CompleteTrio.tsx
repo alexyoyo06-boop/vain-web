@@ -7,13 +7,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import imageLoader from "@/lib/image-loader";
-import { getT } from "@/lib/i18n/server";
+import { getDictionary } from "@/lib/i18n/dictionary";
+import type { Locale } from "@/lib/i18n/config";
 import { formatPrice, productHref, type Product } from "@/lib/products";
 import { tripletTitleColor } from "@/lib/triplet-theme";
 
-export default async function CompleteTrio({ products }: { products: Product[] }) {
+export default async function CompleteTrio({
+  products,
+  locale,
+}: {
+  products: Product[];
+  // Por prop desde la página, no de la cookie: ver PhotoHero.
+  locale: Locale;
+}) {
   if (products.length === 0) return null;
-  const { locale, t } = await getT();
+  const t = await getDictionary(locale);
 
   return (
     <section className="bg-bone pb-14 md:pb-20">
