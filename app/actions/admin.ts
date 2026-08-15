@@ -16,9 +16,22 @@ import { setEarlyAccessPassword } from "@/lib/site-state";
 
 export type AdminLoginState = { error: string } | null;
 
-// 5 intentos por IP cada 15 minutos. Pensado para frenar brute force a la
-// pass de 6 dígitos (1M combinaciones). Con este límite, romperla a fuerza
-// bruta exige >5.5 años desde una IP fija.
+// 5 intentos por IP cada 15 minutos.
+//
+// ESTE LÍMITE NO AGUANTA LO QUE PARECE, Y ANTES AQUÍ PONÍA QUE SÍ. El
+// comentario viejo decía que romper la password a fuerza bruta exigía más de
+// 5 años desde una IP fija. Es falso: `checkRateLimit` cuenta en la memoria de
+// cada instancia de función (ver lib/rate-limit.ts), y Vercel reparte las
+// peticiones entre varias. Medido contra producción: 20 intentos seguidos
+// pasaron los 20, con el límite puesto en 15.
+//
+// Así que esto frena a un script tonto que martillea desde una IP, y poco más.
+// Lo que de verdad protege el panel es que la password sea larga: con 12
+// caracteres el número de combinaciones hace la fuerza bruta imposible aunque
+// el límite no frenara nada. Si algún día se acorta, esto se queda desnudo.
+//
+// Para que el límite fuera de verdad habría que llevar la cuenta en un sitio
+// compartido (la Runtime Cache que ya usa lib/online-presence.ts serviría).
 const ADMIN_LOGIN_MAX_ATTEMPTS = 5;
 const ADMIN_LOGIN_WINDOW_MS = 15 * 60 * 1000;
 
