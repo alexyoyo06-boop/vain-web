@@ -48,22 +48,21 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
           id
           title
           availableForSale
-          # DESACTIVADO HASTA TENER EL PERMISO EN SHOPIFY.
+          # Unidades que quedan de cada talla: es lo que enciende el aviso de
+          # "quedan pocas unidades" (ver isLowStock en lib/products.ts).
           #
-          # Este campo da las unidades que quedan de cada talla y es lo que
-          # enciende el aviso de "quedan pocas unidades". Necesita el permiso
-          # unauthenticated_read_product_inventory en el token de Storefront.
+          # NECESITA el permiso unauthenticated_read_product_inventory en la
+          # app de Shopify (Configuration -> Storefront API). Estuvo comentado
+          # hasta tenerlo, porque no estaba confirmado si al faltar el permiso
+          # Shopify devuelve el campo vacío o tumba la consulta entera — y lo
+          # segundo deja la tienda SIN CATÁLOGO.
           #
-          # Se pide SIN pedirlo todavía a propósito: no está confirmado qué
-          # responde Shopify cuando falta el permiso — si devuelve el producto
-          # con el campo a null (inofensivo) o si tumba la consulta entera. Lo
-          # segundo dejaría la tienda sin catálogo, y no es algo que se pueda
-          # descubrir en producción y sin nadie mirando.
-          #
-          # PARA ACTIVARLO: marca el permiso en Shopify y quita la almohadilla
-          # de la línea de abajo. No hace falta nada más: el resto del camino
-          # (mapeo por talla, umbral y aviso traducido) ya está puesto.
-          # quantityAvailable
+          # SI ALGUIEN QUITA ESE PERMISO EN SHOPIFY, esto es lo primero que hay
+          # que volver a comentar. La red de seguridad está puesta igualmente:
+          # storefront() devuelve los datos parciales cuando GraphQL da error
+          # pero manda producto (ver client.ts), y isLowStock() no avisa de
+          # nada cuando no sabe el número, en vez de inventárselo.
+          quantityAvailable
           selectedOptions {
             name
             value
