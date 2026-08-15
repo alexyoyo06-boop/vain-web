@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/site-url";
-import { getAvailableProducts } from "@/lib/products-server";
+import { getVisibleProducts } from "@/lib/products-server";
 import { productHref } from "@/lib/products";
 
 // Sitemap generado dinámicamente. Combina rutas estáticas públicas con la
@@ -24,7 +24,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let productRoutes: MetadataRoute.Sitemap = [];
   try {
-    const products = await getAvailableProducts();
+    // Los agotados también van al sitemap: su ficha sigue existiendo y
+    // enseñando el producto. Con `getAvailableProducts` desaparecían del índice
+    // en cuanto se agotaban, Google los desindexaba, y recuperar esa posición
+    // cuesta semanas — para un drop que se repone, es tirar el SEO.
+    const products = await getVisibleProducts();
     productRoutes = products.map((p) => ({
       url: `${base}${productHref(p)}`,
       lastModified: now,

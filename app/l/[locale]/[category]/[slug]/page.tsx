@@ -10,7 +10,7 @@ import {
   productHref,
   type Product,
 } from "@/lib/products";
-import { getAvailableProducts, getProduct } from "@/lib/products-server";
+import { getVisibleProducts, getProduct } from "@/lib/products-server";
 import { LOCALES } from "@/lib/i18n/config";
 import { TRIPLET_ORDER, tripletColor } from "@/lib/triplet-theme";
 import { localeParam } from "@/lib/i18n/params";
@@ -32,7 +32,7 @@ type Params = { locale: string; category: string; slug: string };
  * CPU de las funciones, que era la que se estaba agotando.
  */
 export async function generateStaticParams(): Promise<Params[]> {
-  const products = await getAvailableProducts();
+  const products = await getVisibleProducts();
   return LOCALES.flatMap((locale) =>
     products.map((p) => ({ locale, category: p.category, slug: p.slug })),
   );
