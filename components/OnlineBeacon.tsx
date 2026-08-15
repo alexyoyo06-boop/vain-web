@@ -12,14 +12,24 @@ import { useEffect } from "react";
  * vista: quien deja la web abierta en segundo plano no cuenta ni gasta
  * invocaciones.
  *
- * Antes latía cada 20 s. Bajarlo a uno por minuto es x3 menos invocaciones por
- * visitante, y cada una no es barata: el POST lee, recorre y reescribe el mapa
- * entero de presencia (ver lib/online-presence.ts). Con la ventana en 3 min
- * (ONLINE_WINDOW_MS) al visitante le siguen sobrando dos latidos de margen
- * antes de desaparecer del contador.
+ * Empezó latiendo cada 20 s, luego 60, ahora 120. Cada bajada es menos
+ * invocaciones por visitante, y ninguna es barata: el POST lee, recorre y
+ * reescribe el mapa entero de presencia (ver lib/online-presence.ts). Esto es
+ * lo único que queda en la web cuyo coste crece con las visitas, así que es lo
+ * primero que se dispara el día que un vídeo funciona — justo cuando NO
+ * interesa que Vercel pause el proyecto.
+ *
+ * Con la ventana en 5 min (ONLINE_WINDOW_MS) al visitante le siguen sobrando
+ * dos latidos de margen antes de desaparecer del contador. El precio es que el
+ * número del panel puede ir hasta 2 min por detrás de la realidad; para saber
+ * "cuánta gente hay ahora" da igual.
+ *
+ * OJO: este número está duplicado a propósito en lib/online-presence.ts. No se
+ * puede importar de allí porque ese fichero es server-only. Si tocas uno, toca
+ * el otro.
  */
 
-const HEARTBEAT_MS = 60_000;
+const HEARTBEAT_MS = 120_000;
 const STORAGE_KEY = "vain_online_id";
 
 let fallbackId = "";

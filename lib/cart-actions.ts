@@ -12,7 +12,30 @@ import {
   type Cart,
 } from "@/lib/shopify/cart";
 import { fetchVariantId } from "@/lib/shopify/products";
+import { ShopifyUnavailableError } from "@/lib/shopify/client";
 import type { ProductSize } from "@/lib/products";
+
+/**
+ * Aquí hay una persona esperando con el dedo en el botón, así que un fallo de
+ * Shopify NO puede convertirse en una pantalla de error: se devuelve `null`,
+ * que es lo que estas acciones ya usan para decir "no ha podido ser" y la UI
+ * traduce en un aviso.
+ *
+ * Es lo contrario de lo que interesa al pintar páginas: allí el error SÍ tiene
+ * que propagarse, para que Next no cachee una tienda vacía (ver el porqué largo
+ * en ShopifyUnavailableError).
+ */
+async function sinRomper<T>(fn: () => Promise<T | null>): Promise<T | null> {
+  try {
+    return await fn();
+  } catch (err) {
+    if (err instanceof ShopifyUnavailableError) {
+      console.error("[carrito] Shopify no responde:", err.message);
+      return null;
+    }
+    throw err;
+  }
+}
 
 export type AddToCartInput = {
   productHandle: string;
@@ -33,7 +56,7 @@ function clampQty(quantity: number): number {
 /** Lee el cart actual (si existe). Devuelve null si el cartId ya no es válido. */
 export async function getCartAction(cartId: string | null): Promise<Cart | null> {
   if (!cartId) return null;
-  return cartGet(cartId);
+  return sinRomper(() => cartGet(cartId));
 }
 
 /** Añade una línea. Crea cart si no había. Devuelve el cart actualizado. */
@@ -42,19 +65,21 @@ export async function addToCartAction(
   { productHandle, size, quantity = 1 }: AddToCartInput,
 ): Promise<Cart | null> {
   const qty = clampQty(quantity);
-  const variantId = await fetchVariantId(productHandle, size);
-  if (!variantId) return null;
+  return sinRomper(async () => {
+    const variantId = await fetchVariantId(productHandle, size);
+    if (!variantId) return null;
 
-  if (!cartId) {
+    if (!cartId) {
+      return cartCreate([{ merchandiseId: variantId, quantity: qty }]);
+    }
+
+    // Si el cart existe pero ya expiró, Shopify devuelve null → recreamos.
+    const updated = await cartLinesAdd(cartId, [
+      { merchandiseId: variantId, quantity: qty },
+    ]);
+    if (updated) return updated;
     return cartCreate([{ merchandiseId: variantId, quantity: qty }]);
-  }
-
-  // Si el cart existe pero ya expiró, Shopify devuelve null → recreamos.
-  const updated = await cartLinesAdd(cartId, [
-    { merchandiseId: variantId, quantity: qty },
-  ]);
-  if (updated) return updated;
-  return cartCreate([{ merchandiseId: variantId, quantity: qty }]);
+  });
 }
 
 export async function updateLineAction(
@@ -63,14 +88,16 @@ export async function updateLineAction(
   quantity: number,
 ): Promise<Cart | null> {
   if (quantity <= 0) {
-    return cartLinesRemove(cartId, [lineId]);
+    return sinRomper(() => cartLinesRemove(cartId, [lineId]));
   }
-  return cartLinesUpdate(cartId, [{ id: lineId, quantity: clampQty(quantity) }]);
+  return sinRomper(() =>
+    cartLinesUpdate(cartId, [{ id: lineId, quantity: clampQty(quantity) }]),
+  );
 }
 
 export async function removeLineAction(
   cartId: string,
   lineId: string,
 ): Promise<Cart | null> {
-  return cartLinesRemove(cartId, [lineId]);
+  return sinRomper(() => cartLinesRemove(cartId, [lineId]));
 }

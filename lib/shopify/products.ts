@@ -368,7 +368,7 @@ export async function fetchAllProducts(): Promise<Product[]> {
   const data = await storefront<ProductsResponse>(
     GET_PRODUCTS,
     { first: 50 },
-    { tags: ["shopify", "shopify:products"], revalidate: 60 },
+    { tags: ["shopify", "shopify:products"] },
   );
   if (!data?.products) return [];
   return data.products.edges.map(({ node }) => mapShopifyProduct(node));
@@ -382,7 +382,6 @@ export async function fetchProductByHandle(
     { handle },
     {
       tags: ["shopify", `shopify:product:${handle}`],
-      revalidate: 60,
     },
   );
   if (!data?.product) return null;
@@ -399,7 +398,6 @@ export async function fetchVariantId(
     { handle },
     {
       tags: ["shopify", `shopify:product:${handle}`],
-      revalidate: 60,
     },
   );
   if (!data?.product) return null;

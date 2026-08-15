@@ -53,7 +53,7 @@ export async function fetchCollections(): Promise<Collection[]> {
   const data = await storefront<CollectionsResponse>(
     GET_COLLECTIONS,
     { first: 30 },
-    { tags: ["shopify", "shopify:collections"], revalidate: 60 },
+    { tags: ["shopify", "shopify:collections"] },
   );
   if (!data?.collections) return [];
   return data.collections.edges.map(({ node }) => mapCollection(node));
@@ -67,7 +67,6 @@ export async function fetchCollectionByHandle(
     { handle },
     {
       tags: ["shopify", `shopify:collection:${handle}`],
-      revalidate: 60,
     },
   );
   if (!data?.collection) return null;

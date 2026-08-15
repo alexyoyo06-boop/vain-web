@@ -3,7 +3,6 @@
 // amigo crea / borra / renombra una colección en Shopify Admin.
 
 import { getCollections } from "@/lib/products-server";
-import { isAdmin } from "@/lib/admin-auth";
 import Nav from "./Nav";
 
 // Colecciones que NO aparecen como item adicional en el menú lateral.
@@ -21,14 +20,24 @@ const HIDDEN_COLLECTION_HANDLES = new Set([
   "archivo",
 ]);
 
+/**
+ * AQUÍ NO SE PUEDE LEER NINGUNA COOKIE. Este menú va en todas las páginas, así
+ * que cualquier API de request que se use aquí vuelve DINÁMICA la web entera y
+ * la obliga a montarse de nuevo en cada visita — que es exactamente lo que
+ * agotaba la cuota de CPU y hacía que Vercel pausara el proyecto.
+ *
+ * Pasó de verdad y costó encontrarlo: había un `isAdmin()` en esta misma
+ * función. En local no se notaba porque sin ADMIN_PASSWORD `isAdmin()` sale
+ * antes de tocar la cookie y todo se pre-generaba; en producción, con la
+ * variable puesta, sí la leía y no quedaba una sola página estática.
+ *
+ * Si el botón de Admin del menú hace falta, lo decide el navegador leyendo
+ * ADMIN_HINT_COOKIE (ver lib/admin-auth.ts).
+ */
 export default async function NavServer() {
-  const [collections, admin] = await Promise.all([
-    getCollections(),
-    isAdmin(),
-  ]);
+  const collections = await getCollections();
   return (
     <Nav
-      isAdmin={admin}
       collections={collections
         .filter((c) => !HIDDEN_COLLECTION_HANDLES.has(c.handle))
         .map((c) => ({
