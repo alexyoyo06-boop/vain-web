@@ -128,6 +128,7 @@ export default function ComingSoon() {
             >
               <Image
                 src="/logo_mono.png"
+                unoptimized
                 alt="VAIN"
                 fill
                 priority

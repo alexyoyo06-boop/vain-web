@@ -4,18 +4,46 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { ArrowUpRight, Lock, LogOut, ShoppingCart, User, X } from "lucide-react";
 import { useCartUI } from "@/lib/cart-ui";
 import { useMenuUI } from "@/lib/menu-ui";
 import { adminLogoutAction } from "@/app/actions/admin";
+import { ADMIN_HINT_COOKIE } from "@/lib/admin-auth-shared";
 import { tpl, useT } from "@/lib/i18n/client";
 import { collectionLabel } from "@/lib/collection-label";
 import LangSwitcher from "./LangSwitcher";
 
 type NavCollection = { handle: string; title: string };
 
-type NavProps = { collections?: NavCollection[]; isAdmin?: boolean };
+type NavProps = { collections?: NavCollection[] };
+
+/**
+ * ¿Pinto el botón de Admin? Lo decide el NAVEGADOR, no el servidor.
+ *
+ * Antes venía como prop desde NavServer, que lo resolvía con `isAdmin()`. Pero
+ * `isAdmin()` lee cookies, y leer cookies en un componente que va en todas las
+ * páginas volvía dinámica la web entera: cada visita montaba la página de cero
+ * en el servidor. Ver el comentario largo en lib/admin-auth-shared.ts.
+ */
+function useEsAdmin(): boolean {
+  return useSyncExternalStore(
+    // La cookie no cambia mientras la página está abierta (se pone al hacer
+    // login, que navega a /admin), así que no hay a qué suscribirse.
+    () => () => {},
+    () => leerMarcaAdmin(),
+    // Lo que vale al pre-generar el HTML: NUNCA admin. Así la copia cacheada es
+    // la misma para todo el mundo y el botón aparece solo en el navegador de
+    // quien tenga la marca, ya hidratado y sin desajuste.
+    () => false,
+  );
+}
+
+function leerMarcaAdmin(): boolean {
+  return document.cookie
+    .split(";")
+    .some((c) => c.trim().startsWith(`${ADMIN_HINT_COOKIE}=1`));
+}
 
 function InstagramIcon() {
   return (
@@ -33,7 +61,8 @@ function TikTokIcon() {
   );
 }
 
-export default function Nav({ collections = [], isAdmin = false }: NavProps) {
+export default function Nav({ collections = [] }: NavProps) {
+  const isAdmin = useEsAdmin();
   const [scrolled, setScrolled] = useState(false);
   const { isOpen: open, open: openMenu, close: closeMenu } = useMenuUI();
   const { count } = useCartUI();
@@ -138,8 +167,15 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
             {/* Mismo tamaño que el logo del menú abierto. Sobre la foto se
                 invierte: el PNG es la silueta negra, invertida sale blanca. */}
             <motion.div className="relative size-16 md:size-20 animate-coin-spin">
+              {/* `unoptimized` a propósito, aquí y en las otras 3 apariciones
+                  del logo (menú, carrito, muro): el PNG pesa 5,6 KB. Pasarlo
+                  por el optimizador de Vercel gasta una lectura de su cuota
+                  (300.000/mes, y ya llegó un aviso al 75%) para ahorrar un par
+                  de kilobytes — y este logo sale en TODAS las páginas, así que
+                  era la petición al optimizador más repetida de la web. */}
               <Image
                 src="/logo_mono.png"
+                unoptimized
                 alt="VAIN"
                 fill
                 priority
@@ -249,6 +285,7 @@ export default function Nav({ collections = [], isAdmin = false }: NavProps) {
                 <motion.div className="relative size-16 md:size-20 animate-coin-spin">
                   <Image
                     src="/logo_mono.png"
+                    unoptimized
                     alt="VAIN"
                     fill
                     sizes="80px"

@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   ADMIN_COOKIE,
+  ADMIN_HINT_COOKIE,
   getAdminPassword,
   isAdmin,
   mintAdminToken,
@@ -68,12 +69,23 @@ export async function adminLoginAction(
     // queda desatendido. El admin tendrá que re-loguearse una vez al día.
     maxAge: 60 * 60 * 24,
   });
+  // Gemela visible para el JS: solo sirve para que el menú pinte el botón de
+  // Admin sin que el servidor tenga que leer cookies al montar cada página.
+  // Ver ADMIN_HINT_COOKIE en lib/admin-auth.ts.
+  jar.set(ADMIN_HINT_COOKIE, "1", {
+    httpOnly: false,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24,
+  });
   redirect("/admin");
 }
 
 export async function adminLogoutAction() {
   const jar = await cookies();
   jar.delete(ADMIN_COOKIE);
+  jar.delete(ADMIN_HINT_COOKIE);
   redirect("/admin/login");
 }
 

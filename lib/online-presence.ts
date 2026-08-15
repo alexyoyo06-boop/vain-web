@@ -21,16 +21,23 @@ import { getCache } from "@vercel/functions";
  * la pestaña, y todo caduca en unos minutos.
  */
 
-/** Se considera "online" a quien ha dado señales en los últimos 3 minutos. */
-export const ONLINE_WINDOW_MS = 180_000;
+/** Se considera "online" a quien ha dado señales en los últimos 5 minutos. */
+export const ONLINE_WINDOW_MS = 300_000;
 
 /** Cada cuánto late el navegador. Bastante menor que la ventana: si un latido
- *  se pierde, al visitante le quedan dos más antes de desaparecer del contador. */
-export const HEARTBEAT_MS = 60_000;
+ *  se pierde, al visitante le quedan dos más antes de desaparecer del contador.
+ *  DUPLICADO en components/OnlineBeacon.tsx (que no puede importar de aquí,
+ *  esto es server-only). Si tocas uno, toca el otro. */
+export const HEARTBEAT_MS = 120_000;
 
 const CACHE_KEY = "online-visitors";
-/** TTL holgado: la ventana real la marca ONLINE_WINDOW_MS al contar. */
-const CACHE_TTL_S = 300;
+/**
+ * TTL holgado: la ventana real la marca ONLINE_WINDOW_MS al contar.
+ * TIENE QUE SER MAYOR QUE ESA VENTANA. Si fueran iguales, la caché compartida
+ * tiraría las entradas justo cuando todavía deberían contar y el número saldría
+ * corto sin motivo aparente.
+ */
+const CACHE_TTL_S = 600;
 
 /** Topes de seguridad: el endpoint del latido es público. */
 const MAX_ENTRIES = 3000;

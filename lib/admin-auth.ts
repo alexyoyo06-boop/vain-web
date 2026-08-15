@@ -11,6 +11,11 @@ import { cookies } from "next/headers";
 
 export const ADMIN_COOKIE = "vain_admin";
 
+// La marca visible para el navegador vive en un módulo aparte porque este
+// fichero es server-only. Se re-exporta para no tener que recordar de dónde
+// sale según el lado.
+export { ADMIN_HINT_COOKIE } from "./admin-auth-shared";
+
 export function getAdminPassword(): string {
   return process.env.ADMIN_PASSWORD ?? "";
 }

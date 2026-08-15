@@ -54,11 +54,20 @@ export async function subscribeCustomer(opts: {
     input.phone = phone;
   }
 
-  const data = await storefront<CustomerCreateResp>(
-    CUSTOMER_CREATE,
-    { input },
-    { revalidate: 0, tags: ["shopify:customer-create"] },
-  );
+  // Detrás de esto hay alguien esperando a que le digan si se ha suscrito, así
+  // que un fallo de Shopify se convierte en un mensaje, no en una pantalla
+  // rota. (Al pintar páginas es al revés: allí el error se propaga para no
+  // cachear una tienda vacía — ver ShopifyUnavailableError en client.ts.)
+  let data: CustomerCreateResp | null;
+  try {
+    data = await storefront<CustomerCreateResp>(
+      CUSTOMER_CREATE,
+      { input },
+      { revalidate: 0, tags: ["shopify:customer-create"] },
+    );
+  } catch {
+    return { ok: false, error: "No se pudo conectar con Shopify." };
+  }
 
   if (!data) {
     return { ok: false, error: "No se pudo conectar con Shopify." };

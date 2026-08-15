@@ -204,6 +204,7 @@ export default function CartView() {
                 <Image
                   loader={imageLoader}
                   src="/logo_mono.png"
+                  unoptimized
                   alt="VAIN"
                   fill
                   sizes="64px"
