@@ -1,7 +1,7 @@
 import Nav from "@/components/NavServer";
 import Footer from "@/components/Footer";
 import ProductsGrid from "@/components/ProductsGrid";
-import { getAvailableProducts } from "@/lib/products-server";
+import { getVisibleProducts } from "@/lib/products-server";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { localeParam } from "@/lib/i18n/params";
 
@@ -17,7 +17,12 @@ export async function generateMetadata({ params }: Params) {
 export default async function TodoPage({ params }: Params) {
   const locale = localeParam((await params).locale);
   const t = await getDictionary(locale);
-  const products = await getAvailableProducts();
+  // `getVisibleProducts` y no `getAvailableProducts`: en el catálogo los
+  // agotados TIENEN que seguir saliendo, con su foto y su etiqueta de
+  // "Agotado". Si no, el día que se agota el drop esta página se queda vacía y
+  // la tienda parece abandonada — que es justo lo que pasó en la portada con el
+  // pantalón gris (ver el porqué largo en lib/products-server.ts).
+  const products = await getVisibleProducts();
 
   return (
     <main className="flex flex-col min-h-screen">

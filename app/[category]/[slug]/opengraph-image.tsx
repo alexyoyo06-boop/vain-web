@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { formatPrice } from "@/lib/products";
-import { getAvailableProducts, getProduct } from "@/lib/products-server";
+import { getVisibleProducts, getProduct } from "@/lib/products-server";
 import { getDictionary } from "@/lib/i18n/dictionary";
 
 export const alt = "VAIN — DRESS THE NOISE";
@@ -44,7 +44,7 @@ export const contentType = "image/png";
 const OG_LOCALE = "en" as const;
 
 export async function generateStaticParams() {
-  const products = await getAvailableProducts();
+  const products = await getVisibleProducts();
   // Una por producto. Sin esto la imagen se rasterizaría en CADA petición, que
   // es justo lo caro (ver el comentario de arriba sobre sharp + satori).
   return products.map((p) => ({ category: p.category, slug: p.slug }));
